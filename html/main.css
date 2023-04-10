@@ -1,0 +1,49 @@
+.profile-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+  .profile-avatar img {
+    object-fit: contain;
+    width: 100%;
+  }
+  .story-header__item .avatar{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+
+  /* story */
+  .story-header{
+    border-radius: 10px;
+    background-color: antiquewhite;
+    padding: 10px 10px;
+  }
+  .story-header__item{
+    cursor: pointer;
+  }
+  .story-header__item .avatar.active{
+    border: 2px solid red;
+  }
+  .story-header__item img{
+    width: 100%;
+    object-fit: cover;
+  }
+  .story-header__item .friend-name{
+    font-size: 14px;
+
+  }
+
+  /* left content */
+  .profile-left .avatar{
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+  .profile-left .avatar img{
+    width: 100%;
+    object-fit: cover;
+  }
