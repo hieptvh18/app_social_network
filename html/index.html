@@ -14,6 +14,9 @@
       crossorigin="anonymous"
     />
 
+    <!-- fontawesome cnd -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <link rel="stylesheet" href="./main.css">
   </head>
   <body>
@@ -24,18 +27,18 @@
           <a href="">Instagram</a>
         </div>
         <ul class="nav-menu">
-          <li><a href="">Home</a></li>
-          <li><a href="">Search</a></li>
+          <li><a href=""><i class="fas fa-home-alt"></i>Home</a></li>
+          <li><a href=""><i class="fas fa-search"></i>Search</a></li>
           <li><a href="">Explore</a></li>
-          <li><a href="">Message</a></li>
-          <li><a href="">Notification</a></li>
-          <li><a href="">Profile</a></li>
+          <li><a href=""><i class="fab fa-facebook-messenger"></i>Message</a></li>
+          <li><a href=""><i class="far fa-heart"></i>Notification</a></li>
+          <li><a href="./profile.html">Profile</a></li>
         </ul>
       </aside>
       <!-- main content insta -->
-      <main class="page-content col-9">
-        <div class="row content">
-          <section id="main" class="content__left col-9">
+      <main class="page-content col-9" style="position: absolute; right: 0; top: 0;">
+        <div class="d-flex content">
+          <section id="main" class="content__left justify-content-end col-9">
             <div class="story-header d-flex mb-3">
               <div class="story-header__item mr-2">
                 <div class="avatar active">
@@ -178,7 +181,7 @@
           <section id="content__right" class="content__right col-3 p-2">
             <div class="content__right-profile row mb-3">
               <div class="profile-left col-9 d-flex align-items-center">
-                <a href="/profile" class="avatar mr-2">
+                <a href="./profile.html" class="avatar mr-2">
                     <img src="https://flxt.tmsimg.com/assets/194024_v9_bb.jpg" alt="">
                 </a>
                 <div class="switch">
