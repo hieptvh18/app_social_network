@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Instagram</title>
+
+    <!-- bootstrap cnd css -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+
+    <!-- fontawesome cnd -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="./main.css">
+    <link rel="stylesheet" href="./profile.css">
+  </head>
+  <body>
+    <div class="web-wrapper row">
+      <!-- sidebar menu -->
+      <aside class="sidebar-menu col-3 bg-info">
+        <div class="logo">
+          <a href="">Instagram</a>
+        </div>
+        <ul class="nav-menu">
+          <li><a href=""><i class="fas fa-home-alt"></i>Home</a></li>
+          <li><a href=""><i class="fas fa-search"></i>Search</a></li>
+          <li><a href="">Explore</a></li>
+          <li><a href=""><i class="fab fa-facebook-messenger"></i>Message</a></li>
+          <li><a href=""><i class="far fa-heart"></i>Notification</a></li>
+          <li><a href="./profile.html">Profile</a></li>
+        </ul>
+      </aside>
+      <!-- main content insta -->
+      <main class="page-content col-9" style="position: absolute; right: 0; top: 0;">
+            <div class="profile m-5">
+                <div class="content-profile d-flex align-items-center">
+                    <div class="content-profile__img">
+                        <img src="https://aem.dropbox.com/cms/content/dam/dropbox/warp/en-us/developers/tech-research-lab.svg" alt="">
+                    </div>
+                    <div class="content-profile-main ml-4">
+                        <div class="content-profile-top d-inline">
+                            <span class="name mr-3">tranvhh</span>
+
+                            <!-- status is following order button follow -->
+                            <button class="btn btn-light mr-3">Following</button>
+                            <button class="btn btn-light mr-3">Message</button>
+                            <button><i class="fa fa-cog"></i></button>
+                        </div>
+                        <div class="content-profile-count d-flex mb-3">
+                            <span class="count-post mr-3"><span class="font-weight-bold">1</span> post</span>
+                            <div class="count-follower mr-3"><span class="font-weight-bold">133</span> followers</div>
+                            <div class="count-following"><span class="font-weight-bold">133</span> following</div>
+                        </div>
+                        <div class="content-profile-fullname">
+                            <span>Tran Hoang Hiep</span>
+                            <span>hihi...</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-stories mt-5 pb-5">
+                    <div class="story-headers d-flex mb-3">
+                        <div class="story-headers__item mr-4">
+                          <div class="avatar active">
+                              <img src="https://upload.wikimedia.org/wikipedia/en/thumb/d/d6/Avatar_%282009_film%29_poster.jpg/220px-Avatar_%282009_film%29_poster.jpg" alt="">
+                          </div>
+                          <div class="story-name">thu_thao2</div>
+                        </div>
+          
+                        <div class="story-headers__item mr-4">
+                          <div class="avatar active">
+                              <img src="https://upload.wikimedia.org/wikipedia/en/thumb/d/d6/Avatar_%282009_film%29_poster.jpg/220px-Avatar_%282009_film%29_poster.jpg" alt="">
+                          </div>
+                          <div class="story-name">thu_thao2</div>
+                        </div>
+
+                        <!-- add new story -->
+                        <div class="story-headers__item text-center">
+                            <div class="avatar add-new d-flex justify-content-center align-items-center">
+                                <i class="fa-solid fa-plus"></i>
+                            </div>
+                            <div class="story-name font-weight-bold">new</div>
+                          </div>
+                        
+                      </div>
+                </div>
+                <div class="content-gallery">
+                    <div class="gallery__header">Posts</div>
+                    <div class="gallery__items d-flex">
+                        <div class="gallery__item">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQj0P5UaXPM-iOOHh9o9JrktCiqXnfpzlCsqA&usqp=CAU" alt="">
+                        </div>
+                        <div class="gallery__item">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQj0P5UaXPM-iOOHh9o9JrktCiqXnfpzlCsqA&usqp=CAU" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+      </main>
+    </div>
+
+    <!-- bootstrap script cnd -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
