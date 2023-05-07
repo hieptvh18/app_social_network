@@ -1,0 +1,41 @@
+.content-profile__img{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+}
+.content-profile__img img{
+    width: 100%;
+    object-fit: contain;
+}
+
+.story-headers__item .avatar{
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    overflow: hidden;
+
+}
+.story-headers__item .avatar.add-new{
+    border: 1px solid #ccc; 
+    cursor: pointer;
+}
+.content-stories{
+    border-bottom: 1px solid #ccc;
+}
+.story-headers__item img{
+    object-fit: cover;
+    width: 100%;
+}
+
+.gallery__items{
+    column-gap: 20px;
+}
+
+.gallery__item{
+    width:25% ;
+}
+.gallery__item img{
+    width: 100%;
+}

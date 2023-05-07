@@ -11,6 +11,7 @@
     },
     "dependencies": {
         "@vitejs/plugin-vue": "^4.2.1",
+        "ant-design-vue": "^3.2.20",
         "vue-axios": "^3.5.2",
         "vue-router": "^4.1.6",
         "watch": "^0.13.0"

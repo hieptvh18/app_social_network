@@ -27,6 +27,6 @@
     </div>
 
     {{-- script js link --}}
-    @include('blocks.head')
+    @include('blocks.script')
   </body>
 </html>
