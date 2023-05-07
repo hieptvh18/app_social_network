@@ -2,11 +2,17 @@
     "private": true,
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build --watch"
     },
     "devDependencies": {
         "axios": "^1.1.2",
         "laravel-vite-plugin": "^0.7.2",
         "vite": "^4.0.0"
+    },
+    "dependencies": {
+        "@vitejs/plugin-vue": "^4.2.1",
+        "vue-axios": "^3.5.2",
+        "vue-router": "^4.1.6",
+        "watch": "^0.13.0"
     }
 }
