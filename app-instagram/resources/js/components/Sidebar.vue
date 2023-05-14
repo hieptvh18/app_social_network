@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import ModalCreatePost from './ModalCreatePost.vue';
+import ModalCreatePost from './ModalCreatePost/index.vue';
 
 export default {
   components:{ModalCreatePost}
