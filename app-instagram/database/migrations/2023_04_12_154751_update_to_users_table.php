@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('bio')->nullable()->comment('Introduce personal infomation');
+            $table->string('username')->nullable(false)->unique();
             $table->string('phone')->nullable();
             $table->string('avatar')->nullable()->comment('avatar image');
             $table->string('google_id')->nullable();

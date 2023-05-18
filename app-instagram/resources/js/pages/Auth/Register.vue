@@ -2,7 +2,7 @@
     <main>
         <div class="page">
             <div class="header">
-              <h1 class="logo">Picturegram</h1>
+              <h1 class="logo"><router-link :to="{name:'homepage'}">Picturegram</router-link></h1>
               <p>Sign up to see photos and videos from your friends.</p>
               <button><i class="fab fa-facebook-square"></i> Log in with Facebook</button>
               <div>

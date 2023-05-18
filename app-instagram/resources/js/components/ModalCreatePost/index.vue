@@ -1,67 +1,83 @@
 <template>
-  <span class="" data-toggle="modal" data-target="#modalCreatePost">
+<span class="" data-toggle="modal" data-target="#modalCreatePost">
     Create Post
-  </span>
+</span>
 
-  <!-- Modal -->
-  <div class="modal fade" id="modalCreatePost" tabindex="-1" role="dialog" aria-labelledby="modalCreatePost" aria-hidden="true">
+<!-- Modal -->
+<div class="modal fade" id="modalCreatePost" tabindex="-1" role="dialog" aria-labelledby="modalCreatePost" aria-hidden="true">
     <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalCreatePost">Create new post</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          Drag photos and videos here
-          <!-- view photos uploading -->
-          <div id="uploading">
-            <input
-            type="file"
-            multiple
-            accept="image/jpeg"
-            @change="onFileChange"
-            />
-
-            <div v-for="(image, key) in images" :key="key">
-              <div>
-                <img class="preview" :ref="'image'" />
-                {{ image.name }}
-              </div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalCreatePost">Create new post</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-          </div>
-          
-          <!-- <div class="view-photos"></div>
-          <label for="apply">
-            <input type="file" name="" id="apply" accept="image/*,.pdf" multiple>
-            Upload
-          </label> -->
+            <div class="modal-body">
+                {{labelUpload }}
+                <!-- view photos preview when uploading -->
+                <div id="uploading">
+                    <input type="file" name="photos" multiple accept="image/*" @change="previewImgPhotos" />
+                    <div v-for="(image, key) in images" :key="key">
+                        <div>
+                            <img class="preview-img" :ref="'image'" />
+                            <!-- {{ image.name }} -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Next</button>
+            </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Next</button>
-        </div>
-      </div>
     </div>
-  </div>
+</div>
 </template>
+
 <script>
 // import Vue from 'vue';
 import Index from './index.css';
 
-
-
 export default {
-  name:'',
-  components:Index,
-  data(){
-    return{
-      onFileChange:function(e){
-          console.log('change input')
-      }
-    }
-  }
-};
+    name: '',
+    components: Index,
+    // return data to DOM
+    data() {
+        return {
+            labelUpload: "Upload Photos",
+            count: 1,
+            images: [],
 
+        }
+    },
+    // method is binding method to DOM
+    methods: {
+        previewImgPhotos(e) {
+            var selectedFiles = e.target.files;
+            for (let i = 0; i < selectedFiles.length; i++) {
+                this.images.push(selectedFiles[i]);
+            }
+
+            for (let i = 0; i < this.images.length; i++) {
+                let reader = new FileReader(); //instantiate a new file reader
+                reader.addEventListener('load', function () {
+                    this.$refs.image[parseInt(i)].src = reader.result;
+                }.bind(this), false); //add event listener
+
+                reader.readAsDataURL(this.images[i]);
+            }
+        },
+        uploadPhotos(){
+          
+        }
+    },
+    // component mounted 
+    mounted() {
+        console.log("count = " + this.count);
+    },
+    unmounted() {
+        console.log('un mount')
+    }
+};
 </script>

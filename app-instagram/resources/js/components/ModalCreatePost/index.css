@@ -9,7 +9,9 @@
 	line-height: 2.5em;
 	text-align: center;
 }
-
+.preview-img{
+	width: 100%;
+}
 #modalCreatePost label:hover {
 	background-color: cornflowerblue;
 }
@@ -18,7 +20,7 @@
 	background-color: mediumaquamarine;
 }
 
-#modalCreatePost input {
+#modalCreatePost input.uploading {
 	border: 0;
     clip: rect(1px, 1px, 1px, 1px);
     height: 1px; 
