@@ -23,6 +23,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 // api authen account
 Route::prefix('v1')->group(function(){
-    Route::post('accounts/register',[AuthController::class,'registerPost']);
-    Route::post('accounts/login',[AuthController::class,'loginUser']);
+    Route::post('accounts/register',[AuthController::class,'registerPost'])->middleware('guest');
+    Route::post('accounts/login',[AuthController::class,'loginUsername'])->middleware('guest');
+
+    Route::get('/user',[AuthController::class,'getUser'])->middleware('auth:sanctum');
 });

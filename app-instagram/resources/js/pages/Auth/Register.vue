@@ -60,10 +60,21 @@
 
 <script>
 import RegisterStyle from './register.css';
+import axios from 'axios';
 
 export default {
     components: {
         RegisterStyle
+    },
+    data(){
+      return{
+
+      }
+    },
+    methods:{
+      registerPost(e){
+          
+      }
     }
 }
 </script>
