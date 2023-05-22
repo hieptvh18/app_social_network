@@ -1,8 +1,10 @@
 <template>
     <main>
-        <div class="page">
+        <div class="page register-page">
             <div class="header">
-              <h1 class="logo"><router-link :to="{name:'homepage'}">Picturegram</router-link></h1>
+              <div class="box-logo">
+                <router-link :to="{name:'homepage'}"><img :src="'../../../../assets/images/in.png'" /></router-link>
+              </div>
               <p>Sign up to see photos and videos from your friends.</p>
               <button><i class="fab fa-facebook-square"></i> Log in with Facebook</button>
               <div>

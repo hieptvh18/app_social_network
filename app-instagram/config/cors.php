@@ -29,6 +29,6 @@ return [
 
     'max_age' => 0,
 
-    'supports_credentials' => true,
+    'supports_credentials' => true, // API Request includes an Authorization header or uses Credentials mode
 
 ];

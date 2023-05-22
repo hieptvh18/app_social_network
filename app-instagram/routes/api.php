@@ -27,4 +27,5 @@ Route::prefix('v1')->group(function(){
     Route::post('accounts/login',[AuthController::class,'loginUsername'])->middleware('guest');
 
     Route::get('/user',[AuthController::class,'getUser'])->middleware('auth:sanctum');
+    Route::get('/accounts/logout',[AuthController::class,'logout'])->middleware('auth:sanctum');
 });

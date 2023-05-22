@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use Throwable;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redis;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
@@ -18,7 +20,7 @@ class AuthController extends Controller
         try {
             $credentials = request(['email', 'password']);
             if(!Auth::attempt($credentials)){
-                return response()->json(['message'=>'Auth fail!'],Response::HTTP_UNAUTHORIZED);
+                return response()->json(['status'=>'fail','message'=>'Auth fail!','data'=>[]],Response::HTTP_UNAUTHORIZED);
             }
 
             // ok
@@ -30,12 +32,15 @@ class AuthController extends Controller
 
             return response()->json([
                 'status'=>'ok',
-                'token'=>$token,
+                'data'=>[
+                    'token' => $token,
+                    'data'=>$user
+                ],
                 'message'=>'Auth success!'
                 ],200)->withCookie($cookie);
         } catch (\Throwable $e) {
             report($e);
-            return response()->json(['status'=>'fail','error'=>$e->getMessage()]);
+            return response()->json(['status'=>'fail','message'=>$e->getMessage()]);
         }
     }
 
@@ -91,5 +96,11 @@ class AuthController extends Controller
     public function getUser(Request $request)
     {
         return Auth::user();
+    }
+
+    // logout
+    public function logout(Request $request){
+        $cookie = Cookie::forget('jwtlogin');
+        return response()->json(['status'=>'ok','message'=>'Logout success!'])->withCookie($cookie);
     }
 }

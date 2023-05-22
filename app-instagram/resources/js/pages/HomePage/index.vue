@@ -174,7 +174,7 @@
             >
           </div>
         </div>
-        <a href="" class="profile-switch col-3"> Switch </a>
+        <button @click="handleLogout" class="profile-switch col-3 btn"> Logout </button>
       </div>
       <div class="content__right-following mb-3">
         <div class="following-title row">
@@ -196,7 +196,29 @@
 
 <script>
     import Index from './index.css';
+    import axios from 'axios';
+    import {logout} from '../../api/auth';
+
     export default {
-      components:{Index}
+      components:{Index},
+      methods:{
+        handleLogout(e){
+          // get token login -> parse logout api
+          let token = '';
+
+          if(token){
+            logout()
+            .then(response=>{
+              if(response.status == 'ok'){
+                window.location.href = '/register';
+              }
+            })
+            .catch(err=>{});
+          }
+        }
+      },
+      data(){
+        return{}
+      }
     }
 </script>

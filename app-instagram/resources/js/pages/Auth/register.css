@@ -20,6 +20,15 @@
     align-items: center;
     padding-bottom: 30px;
   }
+
+  .register-page .header .box-logo{
+    height: 70px;
+    margin: 0 auto;
+  }
+
+  .register-page .header img{
+    width:64%;
+  }
   
   /* header style */
   .page .header{

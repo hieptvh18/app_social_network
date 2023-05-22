@@ -1,19 +1,36 @@
 <script setup>
+import LoginStyle from './login.css';
 import {ref} from 'vue';
 import axios from 'axios';
+import {getUser, loginUsername} from '../../api/auth';
 
 const form = ref({
     email:'',
     password:''
 });
 
+const error = {
+    message:''
+};
+
 const handleLogin = async (e) =>{
-    e.preventDefault();
-    
-    await axios.post('http://127.0.0.1:8000/api/v1/accounts/login',{
+    await loginUsername({
         email: form.value.email,
         password: form.value.password
     })
+    .then(response=>{
+        console.log(response);
+        if(response.data.status == 'ok'){
+            window.location.href = '/';
+        }
+    })
+    .catch(err=>{
+        console.log(err.response);
+        if(err.response.status == 401){
+            error.message = err.response.data.message
+            console.log(error.message);
+        }
+    });
 }
 </script>
 
@@ -21,17 +38,18 @@ const handleLogin = async (e) =>{
     <link href="https://fonts.googleapis.com/css?family=Indie+Flower|Overpass+Mono" rel="stylesheet">
 
     <div id="wrapper">
-        <div class="main-content">
+        <div class="login-page main-content">
             <div class="header">
-                <img src="https://i.imgur.com/zqpwkLQ.png" />
+                <img :src="'../../../../assets/images/in.png'" />
             </div>
             <div class="l-part">
-                <form @submit="handleLogin">
+                <form @submit.prevent="handleLogin">
                     <input v-model="form.email" type="email" placeholder="Email" name="email" class="input-1" />
                     <div class="overlap-text">
                         <input v-model="form.password" type="password" name="password" placeholder="Password" class="input-2" />
                         <a href="#">Forgot?</a>
                     </div>
+                    <div class="error text-danger" >{{ error.message }}</div>
                     <input type="submit" value="Log in" class="btn" />
                 </form>
             </div>
@@ -43,13 +61,3 @@ const handleLogin = async (e) =>{
         </div>
     </div>
 </template>
-
-<script>
-import LoginStyle from './login.css';
-
-export default {
-    components: {
-        LoginStyle
-    }
-}
-</script>
