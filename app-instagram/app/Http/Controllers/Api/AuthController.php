@@ -50,9 +50,10 @@ class AuthController extends Controller
     // register post
     public function registerPost(Request $request)
     {
+        return response()->json(['data'=>$request->all()]);
         $dataResponse = ['status' => true, 'data' => [], 'message' => ""];
 
-        if (!$request->username || !$request->email || !$request->password) {
+        if (!$request->username || !$request->name || !$request->email || !$request->password) {
             return response()->json([
                 'status' => false,
                 'message' => 'Data is not valid!',

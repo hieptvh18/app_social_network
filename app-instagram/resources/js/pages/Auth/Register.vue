@@ -14,12 +14,22 @@
               </div>
             </div>
             <div class="container">
-              <form action="{{route('registerPost')}}" method="POST">
-                <input type="email" name="email" placeholder="Email">
-                <input type="text" name="fullname" placeholder="Full Name">
-                <input type="text" name="username" placeholder="Username">
-                <input type="password" name="password" placeholder="Password">
-                <button>Sign up</button>
+              <form @submit.prevent="registerPost">
+                <span class="text-danger">{{ errors.server ?? errors.server }}</span>
+                <span class="text text-success">{{ messageSuccess ?? messageSuccess }}</span>
+                <input v-model="name" type="text" name="name" placeholder="Full Name">
+                <small class="text-danger">{{ errors.name ?? errors.name }}</small>
+
+                <input v-model="email" type="text" name="email" placeholder="Email">
+                <small class="text-danger">{{ errors.email ?? errors.email }}</small>
+
+                <input v-model="username" type="text" name="username" placeholder="Username">
+                <small class="text-danger">{{ errors.username ?? errors.username }}</small>
+
+                <input v-model="password" type="password" name="password" placeholder="Password">
+                <small class="text-danger">{{ errors.password ?? errors.password }}</small>
+
+                <button type="submit">Sign up</button>
               </form>
               
               <ul>
@@ -62,7 +72,7 @@
 
 <script>
 import RegisterStyle from './register.css';
-import axios from 'axios';
+import {register} from '../../api/auth';
 
 export default {
     components: {
@@ -70,13 +80,74 @@ export default {
     },
     data(){
       return{
-
+        messageSuccess:'',
+        errors:{},
+        name:'',
+        email:'',
+        username:'',
+        password:'',
       }
     },
     methods:{
-      registerPost(e){
-          
-      }
+      async registerPost(e){
+        console.log(this.validateForm());
+        console.log(this.errors);
+        console.log(Object.keys(this.errors).length);
+        if(this.validateForm()){
+          // handle call api submit form
+          const formData = JSON.stringify({name:this.name, email: this.email, username:this.username, password:this.password});
+          console.log(formData);
+          await register()
+          .then(response=>{
+            console.log(response);
+            if(response.data.status){
+                delete this.errors['server'];
+                this.messageSuccess = response.data.message;
+            }else{
+                this.errors.server = response.data.message;
+            }
+          }).
+          catch(error=>{
+            console.log(error);
+          })
+        }
+      },
+       
+      validateForm(){
+        delete this.errors['server'];
+        // fullname field
+        if(!this.name) this.errors.name = 'Fullname is required!';
+        else delete this.errors['name'];
+
+        // email field
+        if(!this.email) {
+          this.errors.email = 'Email is required!';
+        }else{
+          let emailPattern =/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+
+          if(!emailPattern.test(this.email)) this.errors.email = 'Email is not vaild!';
+          else delete this.errors['email'];
+        } 
+
+        // username
+        if(this.username){
+          let usernamePattern = /^\w{4,14}$/; // not space, 4-14 character
+
+          if(!usernamePattern.test(this.username)){
+            this.errors.username = 'Username is not valid!';
+          }else delete this.errors['username'];
+        }else this.errors.username = 'Username is required!';
+
+        // password
+        if(!this.password){
+          this.errors.password = '';
+        }else delete this.errors['password']
+
+        if(Object.keys(this.errors).length){
+          return false;
+        }        
+        return true;
+      },
     }
 }
 </script>
