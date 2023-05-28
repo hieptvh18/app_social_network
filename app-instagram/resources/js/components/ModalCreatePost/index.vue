@@ -17,9 +17,12 @@
                 {{labelUpload }}
                 <!-- view photos preview when uploading -->
                 <div id="uploading">
-                    <input type="file" name="photos" multiple accept="image/*" @change="previewImgPhotos" />
+                    <button class="btn btn-secondary" @click="triggerClickInptUpload">Choose Files...</button>
+                    <input type="file" name="photos" multiple accept="image/*" @change="previewImgPhotos" ref="inputUploadPhotos" style="display: none;" />
                     <div v-for="(image, key) in images" :key="key">
-                        <div>
+                        <div class="uploading-preview__item">
+                            <span class="removeImg"
+                            title="Remove" @click="removePhoto(key)"><i class="fa-solid fa-xmark"></i></span>
                             <img class="preview-img" :ref="'image'" />
                             <!-- {{ image.name }} -->
                         </div>
@@ -68,8 +71,17 @@ export default {
                 reader.readAsDataURL(this.images[i]);
             }
         },
+        removePhoto(key){
+            console.log('remove photo'+key);
+            console.log(this.images);
+            // delete this.images[key];
+            console.log(this.images);
+        },
         uploadPhotos(){
           
+        },
+        triggerClickInptUpload(){
+            this.$refs.inputUploadPhotos.click();
         }
     },
     // component mounted 

@@ -18,7 +18,7 @@ class AuthController extends Controller
     public function loginUsername(Request $request)
     {
         try {
-            $credentials = request(['email', 'password']);
+            $credentials = request(['username', 'password']);
             if(!Auth::attempt($credentials)){
                 return response()->json(['status'=>'fail','message'=>'Auth fail!','data'=>[]],Response::HTTP_UNAUTHORIZED);
             }
@@ -50,7 +50,6 @@ class AuthController extends Controller
     // register post
     public function registerPost(Request $request)
     {
-        return response()->json(['data'=>$request->all()]);
         $dataResponse = ['status' => true, 'data' => [], 'message' => ""];
 
         if (!$request->username || !$request->name || !$request->email || !$request->password) {

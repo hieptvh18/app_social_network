@@ -90,16 +90,12 @@ export default {
     },
     methods:{
       async registerPost(e){
-        console.log(this.validateForm());
-        console.log(this.errors);
-        console.log(Object.keys(this.errors).length);
         if(this.validateForm()){
           // handle call api submit form
-          const formData = JSON.stringify({name:this.name, email: this.email, username:this.username, password:this.password});
-          console.log(formData);
-          await register()
+          const formData = {name:this.name, email: this.email, username:this.username, password:this.password};
+          
+          await register(formData)
           .then(response=>{
-            console.log(response);
             if(response.data.status){
                 delete this.errors['server'];
                 this.messageSuccess = response.data.message;

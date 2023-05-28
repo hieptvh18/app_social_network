@@ -5,7 +5,7 @@ import axios from 'axios';
 import {getUser, loginUsername} from '../../api/auth';
 
 const form = ref({
-    email:'',
+    username:'',
     password:''
 });
 
@@ -15,7 +15,7 @@ const error = {
 
 const handleLogin = async (e) =>{
     await loginUsername({
-        email: form.value.email,
+        username: form.value.username,
         password: form.value.password
     })
     .then(response=>{
@@ -44,7 +44,7 @@ const handleLogin = async (e) =>{
             </div>
             <div class="l-part">
                 <form @submit.prevent="handleLogin">
-                    <input v-model="form.email" type="email" placeholder="Email" name="email" class="input-1" />
+                    <input v-model="form.username" type="text" placeholder="Username" name="username" class="input-1" />
                     <div class="overlap-text">
                         <input v-model="form.password" type="password" name="password" placeholder="Password" class="input-2" />
                         <a href="#">Forgot?</a>

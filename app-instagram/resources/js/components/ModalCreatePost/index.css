@@ -30,3 +30,17 @@
     position: absolute;
     width: 1px;
 }
+#uploading span.removeImg{
+	cursor: pointer;
+	position: absolute;
+	top: 0;
+	right: 0;
+	font-size: 20px;
+}
+#uploading span.removeImg:hover{
+	color: #ccc;
+}
+.uploading-preview__item{
+	position: relative;
+	margin-bottom: 10px;
+}
