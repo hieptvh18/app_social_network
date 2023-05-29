@@ -1,36 +1,64 @@
-<script setup>
+<script>
 import LoginStyle from './login.css';
 import {ref} from 'vue';
-import axios from 'axios';
 import {getUser, loginUsername} from '../../api/auth';
 
-const form = ref({
-    username:'',
-    password:''
-});
-
-const error = {
-    message:''
-};
-
-const handleLogin = async (e) =>{
-    await loginUsername({
-        username: form.value.username,
-        password: form.value.password
-    })
-    .then(response=>{
-        console.log(response);
-        if(response.data.status == 'ok'){
-            window.location.href = '/';
+export default {
+    data(){
+        return {
+            username:'',
+            password:'',
+            message:'',
+            errors:{}
         }
-    })
-    .catch(err=>{
-        console.log(err.response);
-        if(err.response.status == 401){
-            error.message = err.response.data.message
-            console.log(error.message);
+    },
+    methods:{
+        handleLogin(e){
+            if(this.validateForm()){
+                this.loginPost();
+            }
+        },
+        validateForm(){
+            if(!this.username){
+                this.errors.username = 'Username is required!';
+            }else{
+                let usernamePattern = /^\w{4,14}$/; // not space, 4-14 character
+                if(!usernamePattern.test(this.username)){
+                    this.errors.username = 'Username is not valid(4-14 charactor)!';
+                }else delete this.errors['username'];
+            }
+
+            // password
+            if(!this.password){
+            this.errors.password = 'Password is required';
+            }else delete this.errors['password']
+
+            if(Object.keys(this.errors).length){
+                return false;
+            }        
+            return true;
+        },
+        async loginPost(){
+            await loginUsername({
+                username: this.username,
+                password: this.password
+            })
+            .then(response=>{
+                console.log(response);
+                if(response.data.status == 'ok'){
+                    window.localStorage.setItem('tokenLogin',response.data.data.token);
+                    window.location.href = '/';
+                }
+            })
+            .catch(err=>{
+                console.log(err.response);
+                if(err.response.status == 401){
+                    this.message = err.response.data.message
+                    console.log(this.message);
+                }
+            });
         }
-    });
+    }
 }
 </script>
 
@@ -44,12 +72,14 @@ const handleLogin = async (e) =>{
             </div>
             <div class="l-part">
                 <form @submit.prevent="handleLogin">
-                    <input v-model="form.username" type="text" placeholder="Username" name="username" class="input-1" />
+                    <input v-model="username" type="text" placeholder="Username" name="username" class="input-1" />
+                    <small class="text text-danger">{{ errors.username ?? errors.username }}</small>
                     <div class="overlap-text">
-                        <input v-model="form.password" type="password" name="password" placeholder="Password" class="input-2" />
+                        <input v-model="password" type="password" name="password" placeholder="Password" class="input-2" />
                         <a href="#">Forgot?</a>
                     </div>
-                    <div class="error text-danger" >{{ error.message }}</div>
+                    <small class="text text-danger">{{ errors.password ?? errors.password }}</small>
+                    <div class="error text-danger" >{{ message }}</div>
                     <input type="submit" value="Log in" class="btn" />
                 </form>
             </div>

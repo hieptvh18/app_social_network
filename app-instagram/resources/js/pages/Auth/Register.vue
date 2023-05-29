@@ -136,7 +136,7 @@ export default {
 
         // password
         if(!this.password){
-          this.errors.password = '';
+          this.errors.password = 'Password is required';
         }else delete this.errors['password']
 
         if(Object.keys(this.errors).length){

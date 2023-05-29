@@ -22,7 +22,7 @@
                     <div v-for="(image, key) in images" :key="key">
                         <div class="uploading-preview__item">
                             <span class="removeImg"
-                            title="Remove" @click="removePhoto(key)"><i class="fa-solid fa-xmark"></i></span>
+                            title="Remove" @click="removePhoto(image,key)"><i class="fa-solid fa-xmark"></i></span>
                             <img class="preview-img" :ref="'image'" />
                             <!-- {{ image.name }} -->
                         </div>
@@ -71,10 +71,11 @@ export default {
                 reader.readAsDataURL(this.images[i]);
             }
         },
-        removePhoto(key){
+        removePhoto(image,key){
             console.log('remove photo'+key);
             console.log(this.images);
             // delete this.images[key];
+            this.images.splice(key,1)
             console.log(this.images);
         },
         uploadPhotos(){

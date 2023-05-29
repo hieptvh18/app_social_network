@@ -1,3 +1,4 @@
+import auth from '../middleware/auth';
 const home = [
     {
         path: "",
@@ -7,7 +8,10 @@ const home = [
             {
                 path: "", // lay path cua thg cha luon
                 name: "homepage",
-                component: () => import("../pages/HomePage/index.vue")
+                component: () => import("../pages/HomePage/index.vue"),
+                // meta:{
+                //     requiresAuth: true
+                // }
             },
         ],
     },
