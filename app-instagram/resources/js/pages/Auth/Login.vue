@@ -44,14 +44,12 @@ export default {
                 password: this.password
             })
             .then(response=>{
-                console.log(response);
                 if(response.data.status == 'ok'){
                     window.localStorage.setItem('tokenLogin',response.data.data.token);
                     window.location.href = '/';
                 }
             })
             .catch(err=>{
-                console.log(err.response);
                 if(err.response.status == 401){
                     this.message = err.response.data.message
                     console.log(this.message);
@@ -68,7 +66,9 @@ export default {
     <div id="wrapper">
         <div class="login-page main-content">
             <div class="header">
-                <img :src="'../../../../assets/images/in.png'" />
+                <router-link :to="{path:'home'}">
+                    <img :src="'../../../../assets/images/in.png'" />
+                </router-link>
             </div>
             <div class="l-part">
                 <form @submit.prevent="handleLogin">

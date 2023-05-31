@@ -174,7 +174,25 @@
             >
           </div>
         </div>
-        <button @click="handleLogout" class="profile-switch col-3 btn"> Logout </button>
+        <button data-toggle="modal" data-target="#exampleModalCenter" class="profile-switch col-3 btn"> Logout </button>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Logout Confirm?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button @click="handleLogout" type="button" class="btn btn-primary">Confirm</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
       <div class="content__right-following mb-3">
         <div class="following-title row">
@@ -201,24 +219,41 @@
 
     export default {
       components:{Index},
+      data(){
+        return{}
+      },
       methods:{
         handleLogout(e){
           // get token login -> parse logout api
-          let token = '';
+          const token = window.localStorage.getItem('tokenLogin');
 
           if(token){
-            logout()
+            const headers = {
+              'Authorization':'Bearer '+token,
+              'X-Requested-With':'XMLHttpRequest' 
+            };
+            const url = 'http://127.0.0.1:8000/api/v1/accounts/logout';
+            const axiosOptions = {
+              method: 'POST',
+              headers: headers,
+              data: {},
+              url:url
+            }
+
+            logout(axiosOptions)
             .then(response=>{
-              if(response.status == 'ok'){
-                window.location.href = '/register';
+              if(response.data.status == 'ok'){
+                window.localStorage.removeItem('tokenLogin');
+                window.location.href = 'accounts/login';
               }
+            }).catch(error=>{
+              console.log(error);
             })
-            .catch(err=>{});
+          }else{
+            window.location.href = '/login';
           }
         }
       },
-      data(){
-        return{}
-      }
+      
     }
 </script>

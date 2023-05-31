@@ -100,7 +100,13 @@ class AuthController extends Controller
 
     // logout
     public function logout(Request $request){
-        $cookie = Cookie::forget('jwtlogin');
-        return response()->json(['status'=>'ok','message'=>'Logout success!'])->withCookie($cookie);
+        try{
+            $cookie = Cookie::forget('jwtlogin');
+            $request->user()->currentAccessToken()->delete();    
+            return response()->json(['status'=>'ok','message'=>'Logout success!']);
+        }catch(Throwable $e){
+            report($e->getMessage());
+            return response()->json(['status'=>'fail','message'=>'Logout fail!']);
+        }
     }
 }

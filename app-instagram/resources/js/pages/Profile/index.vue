@@ -68,6 +68,15 @@
 <script>
     import Index from './index.css';
     export default {
-      components:{Index}
+      components:{Index},
+      data(){
+
+      },
+      computed:{
+
+      },
+      methods:{
+        
+      }
     }
 </script>

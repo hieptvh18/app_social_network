@@ -1,4 +1,5 @@
 import Instance from "./instance";
+import axios from "axios";
 
 export const getUser = () =>{
     const url = '/accounts/user';
@@ -15,7 +16,7 @@ export const register = (formData) =>{
     return Instance.post(url,formData);
 }
 
-export const logout = () =>{
-    let url = 'accounts/logout';
-    return Instance.get(url);
+export const logout = (options) =>{
+    let url = '/accounts/logout';
+    return axios(options);
 }
