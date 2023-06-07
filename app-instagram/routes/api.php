@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,6 +27,12 @@ Route::prefix('v1')->group(function(){
     Route::post('accounts/register',[AuthController::class,'registerPost'])->middleware('guest')->name('register');
     Route::post('accounts/login',[AuthController::class,'loginUsername'])->middleware('guest')->name('login');
 
-    Route::get('/user',[AuthController::class,'getUser'])->middleware('auth:sanctum')->name('getUser');
-    Route::post('/accounts/logout',[AuthController::class,'logout'])->middleware('auth:sanctum')->name('logout');
+    Route::middleware('auth:sanctum')->group(function(){
+        // get user data
+        Route::get('/accounts/user',[AuthController::class,'getUser'])->name('getUser');
+        // logout
+        Route::post('/accounts/logout',[AuthController::class,'logout'])->name('logout');
+
+        Route::post('/user/search',[UserController::class,'searchUser'])->name('searchUser');
+    });
 });

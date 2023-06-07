@@ -1,9 +1,18 @@
 import Instance from "./instance";
 import axios from "axios";
 
-export const getUser = () =>{
+const baseURLApi = 'http://127.0.0.1:8000/api/v1';
+
+export const getUser = (headers) =>{
     const url = '/accounts/user';
-    return Instance.get(url);
+    const options = {
+        method: 'GET',
+        headers: headers,
+        data: {},
+        url:baseURLApi+url
+    }
+   
+    return axios(options);
 }
 
 export const loginUsername = (formData)=>{
