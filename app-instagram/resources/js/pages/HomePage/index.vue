@@ -1,5 +1,6 @@
 
 <template>
+  <Suspense>
   <div class="d-flex content">
     <section id="main" class="content__left justify-content-end col-9">
       <div class="story-header d-flex mb-3">
@@ -20,8 +21,9 @@
         
       </div>
       <div class="list-post">
-        <div class="list-post__items">
-          <div class="item mb-2 bg-success">
+        <div v-for="(post, key) in postListing" class="list-post__items">
+        
+          <div class="item mb-2 bg-success" v-bind:key="key">
             <div class="item__top">
               <div
                 class="item-profile-box d-flex justify-content-between p-2 align-items-center"
@@ -29,12 +31,12 @@
                 <div class="item-profile d-flex align-items-center">
                   <div class="profile-avatar mr-2">
                     <img
-                      src="https://upload.wikimedia.org/wikipedia/en/thumb/d/d6/Avatar_%282009_film%29_poster.jpg/220px-Avatar_%282009_film%29_poster.jpg"
-                      alt=""
+                    :style="{width:'100%'}"
+                    :src="post.avatar"
                     />
                   </div>
                   <div class="profile-name">
-                    <a href="./profile-following.html">marchland_official</a>
+                    <a href="./profile-following.html">{{ post.username }}</a>
                   </div>
                 </div>
                 <div class="bars">...</div>
@@ -44,29 +46,31 @@
               <div class="content-photos">
                 <div class="photos__gallery">
                   <img
-                    width="100%"
-                    src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8&w=1000&q=80"
-                    alt=""
+                      :style="{width:'100%'}"
+                    :src="post.image"
+                    :alt="post.caption"
                   />
                 </div>
                 <div class="photos__content p-2">
                   <div class="photos__icon d-flex">
                     <div class="icon__likes mr-3">
                       <i class="far fa-heart"></i>
+                      <span v-if="post.likes">{{ post.likes }} likes</span>
                     </div>
                     <div class="icon-comment">
                       <i class="fa-regular fa-comment"></i>
+                      <span v-if="post.comments">{{ post.comments }} comments</span>
                     </div>
                   </div>
                   <div class="photos__caption">
                     <span class="font-weight-bold"
-                      >marchland_official</span
+                      >{{ post.username }}</span
                     >
-                    So beautiful...
+                    {{ post.caption ?? post.caption }}
                   </div>
                   <a href class="show-comment text-secondary">more</a>
                   <div class="photos__created-at text-secondary">
-                    2 days ago
+                    {{ post.created_at }}
                   </div>
 
                   <div class="photos__comment mt-3">
@@ -89,73 +93,6 @@
             <div class="item__footer"></div>
           </div>
 
-          <div class="item mb-2 bg-success">
-            <div class="item__top">
-              <div
-                class="item-profile-box d-flex justify-content-between p-2 align-items-center"
-              >
-                <div class="item-profile d-flex align-items-center">
-                  <div class="profile-avatar mr-2">
-                    <img
-                      src="https://upload.wikimedia.org/wikipedia/en/thumb/d/d6/Avatar_%282009_film%29_poster.jpg/220px-Avatar_%282009_film%29_poster.jpg"
-                      alt=""
-                    />
-                  </div>
-                  <div class="profile-name">
-                    <a href="">marchland_official</a>
-                  </div>
-                </div>
-                <div class="bars">...</div>
-              </div>
-            </div>
-            <div class="item__content">
-              <div class="content-photos">
-                <div class="photos__gallery">
-                  <img
-                    width="100%"
-                    src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8&w=1000&q=80"
-                    alt=""
-                  />
-                </div>
-                <div class="photos__content p-2">
-                  <div class="photos__icon d-flex">
-                    <div class="icon__likes mr-3">
-                      <i class="far fa-heart"></i>
-                    </div>
-                    <div class="icon-comment">
-                      <i class="fa-regular fa-comment"></i>
-                    </div>
-                  </div>
-                  <div class="photos__caption">
-                    <span class="font-weight-bold"
-                      >marchland_official</span
-                    >
-                    So beautiful...
-                  </div>
-                  <a href class="show-comment text-secondary">more</a>
-                  <div class="photos__created-at text-secondary">
-                    2 days ago
-                  </div>
-
-                  <div class="photos__comment mt-3">
-                    <form action="">
-                      <div class="form-group d-flex">
-                        <input
-                          type="text"
-                          placeholder="Add a comment..."
-                          name="comment"
-                          class="form-control"
-                          id=""
-                        />
-                        <button class="btn btn-light">Post</button>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="item__footer"></div>
-          </div>
         </div>
       </div>
     </section>
@@ -210,17 +147,56 @@
       <div class="copy-right text-secondary">© 2023 INSTAGRAM FROM META</div>
     </section>
   </div>
+</Suspense>
 </template>
+
+<script setup>
+  import axios from 'axios';
+  import { getUser } from '../../api/auth';
+  // handle call api->render data
+  const token = window.localStorage.getItem('tokenLogin'); 
+  console.log(token);
+  const headers = {
+    'Authorization': 'Bearer '+token,
+    'X-Requested-With':'XMLHttpRequest'
+  };
+  // const myUserData = await getUser(headers).then(response=>response.data).catch(err=>{});
+ 
+
+</script>
 
 <script>
     import Index from './index.css';
-    import axios from 'axios';
     import {logout} from '../../api/auth';
 
     export default {
       components:{Index},
       data(){
-        return{}
+        return{
+          postListing:[
+            {
+              username:'marchland_official',
+              avatar:'https://upload.wikimedia.org/wikipedia/en/thumb/d/d6/Avatar_%282009_film%29_poster.jpg/220px-Avatar_%282009_film%29_poster.jpg',
+              caption:'So beautiful...',
+              image:'https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8&w=1000&q=80',
+              likes:'100',
+              comments:'30000',
+              created_at:'2 day agos'
+            },
+            {
+              username:'Leo Messi',
+              avatar:'https://upload.wikimedia.org/wikipedia/en/thumb/d/d6/Avatar_%282009_film%29_poster.jpg/220px-Avatar_%282009_film%29_poster.jpg',
+              caption:'Welcome America...',
+              image:'https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8&w=1000&q=80',
+              likes:'100',
+              comments:'30000',
+              created_at:'2 day agos'
+            }
+          ]
+        }
+      },
+      setup(){
+
       },
       methods:{
         handleLogout(e){
@@ -254,6 +230,9 @@
           }
         }
       },
+      computed:{
+
+      }
       
     }
 </script>
