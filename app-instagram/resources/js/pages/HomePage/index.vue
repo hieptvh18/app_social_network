@@ -1,7 +1,6 @@
 
 <template>
-  <Suspense>
-  <div class="d-flex content">
+  <div class="d-flex content" v-if="!loading">
     <section id="main" class="content__left justify-content-end col-9">
       <div class="story-header d-flex mb-3">
         <div class="story-header__item mr-2">
@@ -96,18 +95,19 @@
         </div>
       </div>
     </section>
+    <!-- my profile user login -->
     <section id="content__right" class="content__right col-3 p-2">
       <div class="content__right-profile row mb-3">
         <div class="profile-left col-9 d-flex align-items-center">
-          <router-link :to="{name:'profile',params:{username:'tvhh'}}">
+          <router-link :to="{name:'profile',params:{username: userLoginData.username}}">
             <div class="avatar mr-2">
-              <img src="https://flxt.tmsimg.com/assets/194024_v9_bb.jpg" alt="">
+              <img :src="userLoginData.avatar" :alt="userLoginData.username">
           </div>
           </router-link>
           <div class="switch">
-            <div class="username">tranvhh</div>
+            <div class="username">{{userLoginData.username}}</div>
             <span class="fullname text-secondary"
-              >Tran Van Hoang Hiep</span
+              >{{ userLoginData.fullname }}</span
             >
           </div>
         </div>
@@ -147,56 +147,73 @@
       <div class="copy-right text-secondary">© 2023 INSTAGRAM FROM META</div>
     </section>
   </div>
-</Suspense>
+  <div class="loading" v-if="loading">Loading...</div>
 </template>
-
-<script setup>
-  import axios from 'axios';
-  import { getUser } from '../../api/auth';
-  // handle call api->render data
-  const token = window.localStorage.getItem('tokenLogin'); 
-  console.log(token);
-  const headers = {
-    'Authorization': 'Bearer '+token,
-    'X-Requested-With':'XMLHttpRequest'
-  };
-  // const myUserData = await getUser(headers).then(response=>response.data).catch(err=>{});
- 
-
-</script>
 
 <script>
     import Index from './index.css';
     import {logout} from '../../api/auth';
+    import {ref,computed} from 'vue';
+    import { getUser } from '../../api/auth';
+
 
     export default {
       components:{Index},
       data(){
         return{
-          postListing:[
-            {
-              username:'marchland_official',
-              avatar:'https://upload.wikimedia.org/wikipedia/en/thumb/d/d6/Avatar_%282009_film%29_poster.jpg/220px-Avatar_%282009_film%29_poster.jpg',
-              caption:'So beautiful...',
-              image:'https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8&w=1000&q=80',
-              likes:'100',
-              comments:'30000',
-              created_at:'2 day agos'
-            },
-            {
-              username:'Leo Messi',
-              avatar:'https://upload.wikimedia.org/wikipedia/en/thumb/d/d6/Avatar_%282009_film%29_poster.jpg/220px-Avatar_%282009_film%29_poster.jpg',
-              caption:'Welcome America...',
-              image:'https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8&w=1000&q=80',
-              likes:'100',
-              comments:'30000',
-              created_at:'2 day agos'
-            }
-          ]
+          
         }
       },
       setup(){
+        const loading = ref(true);
+        const postListing = ref([
+                  {
+                    username:'marchland_official',
+                    avatar:'https://upload.wikimedia.org/wikipedia/en/thumb/d/d6/Avatar_%282009_film%29_poster.jpg/220px-Avatar_%282009_film%29_poster.jpg',
+                    caption:'So beautiful...',
+                    image:'https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8&w=1000&q=80',
+                    likes:'100',
+                    comments:'30000',
+                    created_at:'2 day agos'
+                  },
+                  {
+                    username:'Leo Messi',
+                    avatar:'https://upload.wikimedia.org/wikipedia/en/thumb/d/d6/Avatar_%282009_film%29_poster.jpg/220px-Avatar_%282009_film%29_poster.jpg',
+                    caption:'Welcome America...',
+                    image:'https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8&w=1000&q=80',
+                    likes:'100',
+                    comments:'30000',
+                    created_at:'2 day agos'
+                  }
+                ]);
+        const userLoginData = ref(null);
 
+        // handle call api->render data
+        const token = window.localStorage.getItem('tokenLogin'); 
+        const headers = {
+          'Authorization': 'Bearer '+token,
+          'X-Requested-With':'XMLHttpRequest'
+        };
+
+        // fetch data user login
+        getUser(headers)
+                  .then(response=>{
+                    if(response.data.statusText = 'OK'){
+                      userLoginData.value = response.data;
+                    }
+                  })
+                  .catch(err=>{
+                    console.log('fetch error: '+err);
+                  })
+                  .then(()=>{
+                    loading.value = false;
+                  });
+
+        return {
+          loading,
+          userLoginData,
+          postListing
+        }
       },
       methods:{
         handleLogout(e){

@@ -3,7 +3,7 @@ import axios from "axios";
 
 const baseURLApi = 'http://127.0.0.1:8000/api/v1';
 
-export const getUser = (headers) =>{
+export const getUser = async (headers) =>{
     const url = '/accounts/user';
     const options = {
         method: 'GET',
@@ -12,7 +12,7 @@ export const getUser = (headers) =>{
         url:baseURLApi+url
     }
    
-    return axios(options);
+    return await axios(options);
 }
 
 export const loginUsername = (formData)=>{
