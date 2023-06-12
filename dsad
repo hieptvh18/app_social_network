@@ -1,0 +1,48 @@
+[1mdiff --git a/app-instagram/resources/js/api/auth.js b/app-instagram/resources/js/api/auth.js[m
+[1mindex 5ccb7ff..59bbce3 100644[m
+[1m--- a/app-instagram/resources/js/api/auth.js[m
+[1m+++ b/app-instagram/resources/js/api/auth.js[m
+[36m@@ -3,7 +3,15 @@[m [mimport axios from "axios";[m
+ [m
+ const baseURLApi = 'http://127.0.0.1:8000/api/v1';[m
+ [m
+[31m-export const getUser = async (headers) =>{[m
+[32m+[m[32m // get token login -> parse logout api[m
+[32m+[m[32mconst token = window.localStorage.getItem('tokenLogin');[m
+[32m+[m[32mconst headers = {[m
+[32m+[m[32m    'Authorization':'Bearer '+token,[m
+[32m+[m[32m    'X-Requested-With':'XMLHttpRequest'[m[41m [m
+[32m+[m[32m  };[m
+[32m+[m
+[32m+[m[32m// get data current user login[m
+[32m+[m[32mexport const getUser = async () =>{[m
+     const url = '/accounts/user';[m
+     const options = {[m
+         method: 'GET',[m
+[36m@@ -14,7 +22,7 @@[m [mexport const getUser = async (headers) =>{[m
+    [m
+     return await axios(options);[m
+ }[m
+[31m-[m
+[32m+[m[32m// login with username & password[m
+ export const loginUsername = (formData)=>{[m
+     let url = '/accounts/login' ;[m
+     return Instance.post(url,formData);[m
+[36m@@ -24,8 +32,14 @@[m [mexport const register = (formData) =>{[m
+     let url = 'accounts/register';[m
+     return Instance.post(url,formData);[m
+ }[m
+[31m-[m
+[31m-export const logout = (options) =>{[m
+[32m+[m[32m// api logout account[m
+[32m+[m[32mexport const logout = () =>{[m
+     let url = '/accounts/logout';[m
+[32m+[m[32m    let options = {[m
+[32m+[m[32m        method: 'POST',[m
+[32m+[m[32m        headers: headers,[m
+[32m+[m[32m        data: {},[m
+[32m+[m[32m      }[m
+[32m+[m[32m    options.url = baseURLApi + url;[m
+     return axios(options);[m
+ }[m
+\ No newline at end of file[m

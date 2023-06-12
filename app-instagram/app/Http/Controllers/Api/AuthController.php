@@ -95,7 +95,21 @@ class AuthController extends Controller
     // get info user logginIn
     public function getUser(Request $request)
     {
-        return Auth::user();
+        try{
+            $data = Auth::user();
+
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+                'message'=>"Get user data success!"
+            ]);
+        }catch(Throwable $e){
+            return response()->json([
+                'data' => [],
+                'success' => false,
+                'message'=>"Get user data fail! ".$er->getMessage()
+            ]);
+        }
     }
 
     // logout

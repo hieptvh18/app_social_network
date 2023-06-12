@@ -147,7 +147,7 @@
       <div class="copy-right text-secondary">© 2023 INSTAGRAM FROM META</div>
     </section>
   </div>
-  <div class="loading" v-if="loading">Loading...</div>
+  <ModalLoading v-if="loading" />
 </template>
 
 <script>
@@ -155,10 +155,10 @@
     import {logout} from '../../api/auth';
     import {ref,computed} from 'vue';
     import { getUser } from '../../api/auth';
-
+    import ModalLoading from '../../components/ModalLoading.vue';
 
     export default {
-      components:{Index},
+      components:{Index,ModalLoading},
       data(){
         return{
           
@@ -188,18 +188,12 @@
                 ]);
         const userLoginData = ref(null);
 
-        // handle call api->render data
-        const token = window.localStorage.getItem('tokenLogin'); 
-        const headers = {
-          'Authorization': 'Bearer '+token,
-          'X-Requested-With':'XMLHttpRequest'
-        };
-
         // fetch data user login
-        getUser(headers)
+        getUser()
                   .then(response=>{
+                    console.log(response);
                     if(response.data.statusText = 'OK'){
-                      userLoginData.value = response.data;
+                      userLoginData.value = response.data.data;
                     }
                   })
                   .catch(err=>{
@@ -217,23 +211,7 @@
       },
       methods:{
         handleLogout(e){
-          // get token login -> parse logout api
-          const token = window.localStorage.getItem('tokenLogin');
-
-          if(token){
-            const headers = {
-              'Authorization':'Bearer '+token,
-              'X-Requested-With':'XMLHttpRequest' 
-            };
-            const url = 'http://127.0.0.1:8000/api/v1/accounts/logout';
-            const axiosOptions = {
-              method: 'POST',
-              headers: headers,
-              data: {},
-              url:url
-            }
-
-            logout(axiosOptions)
+            logout()
             .then(response=>{
               if(response.data.status == 'ok'){
                 window.localStorage.removeItem('tokenLogin');
@@ -242,9 +220,6 @@
             }).catch(error=>{
               console.log(error);
             })
-          }else{
-            window.location.href = '/login';
-          }
         }
       },
       computed:{

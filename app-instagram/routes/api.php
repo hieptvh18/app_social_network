@@ -32,7 +32,10 @@ Route::prefix('v1')->group(function(){
         Route::get('/accounts/user',[AuthController::class,'getUser'])->name('getUser');
         // logout
         Route::post('/accounts/logout',[AuthController::class,'logout'])->name('logout');
+        // serahc user by username
+        Route::get('/user/search',[UserController::class,'searchUser'])->name('searchUser');
+        // get user by username
+        Route::get('/user/get-user',[UserController::class,'getUserByUsername'])->name('getUserByUsername');
 
-        Route::post('/user/search',[UserController::class,'searchUser'])->name('searchUser');
     });
 });

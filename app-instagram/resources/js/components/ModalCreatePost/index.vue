@@ -87,10 +87,10 @@ export default {
     },
     // component mounted 
     mounted() {
-        console.log("count = " + this.count);
+       
     },
     unmounted() {
-        console.log('un mount')
+        
     }
 };
 </script>

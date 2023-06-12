@@ -1,6 +1,7 @@
 
 <template>
-    <div>404 Not Found</div>
+    <div>User Not Found</div>
+    <router-link :to="{name:'homepage'}">Go to Homepage</router-link>
 </template>
 
 <script>

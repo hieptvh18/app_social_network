@@ -1,14 +1,14 @@
 
 <template>
- <div class="profile m-5">
+ <div v-if="!loading" class="profile m-5">
     <div class="content-profile d-flex align-items-center">
         <div class="content-profile__img">
             <img src="https://aem.dropbox.com/cms/content/dam/dropbox/warp/en-us/developers/tech-research-lab.svg" alt="">
         </div>
         <div class="content-profile-main ml-4">
             <div class="content-profile-top d-inline">
-                <span class="name mr-3">tranvhh</span>
-                <router-link :to="{name:'account-edit',params:{username:'tvhh'}}">
+                <span class="name mr-3">{{ userDataFromParam.username }}</span>
+                <router-link :to="{name:'account-edit',params:{username: userDataFromParam.username}}">
                     <button class="btn btn-light mr-3">Edit profile</button>
                 </router-link>
 
@@ -20,8 +20,8 @@
                 <div class="count-following"><span class="font-weight-bold">133</span> following</div>
             </div>
             <div class="content-profile-fullname">
-                <span>Tran Hoang Hiep</span>
-                <span>hihi...</span>
+                <span>{{ userDataFromParam.name }}</span>
+                <span>{{ userDataFromParam.bio ?? userDataFromParam.bio }}</span>
             </div>
         </div>
     </div>
@@ -63,14 +63,66 @@
         </div>
     </div>
 </div>
+    <ModalLoading v-if="loading" />
 </template>
 
 <script>
     import Index from './index.css';
+    import {useRoute} from 'vue-router';
+    import { getUser } from '../../api/auth';
+    import { getUserByUsername } from '../../api/user';
+    import { ref } from 'vue';
+    import ModalLoading from '../../components/ModalLoading.vue';
+
     export default {
-      components:{Index},
+      components:{Index,ModalLoading},
       data(){
 
+      },
+      setup(){
+        var userLoggin = ref({});
+        var userDataFromParam = ref({});
+        var loading = ref(true);
+        var myProfile = ref(true);
+
+        const route = useRoute();
+        let username = route.params.username;
+        
+        const getUserLoggin = getUser()
+            .then(response=>{
+                if(response.statusText == 'OK'){
+                    userLoggin = response.data.data;
+                }
+            })
+            .catch(err=>{
+                console.log(err);
+            })
+            // .then(()=> loading.value = false)
+
+        let formdata = new FormData();
+        formdata.username = username;
+        const getUserDataFromParam = getUserByUsername(formdata)
+            .then(response=>{
+                console.log(response);
+                if(response.data.success == true){
+                    userDataFromParam.value = response.data.data;
+                    // compare is my profile or guest profile
+                    if(response.data.data.id != userLoggin.id){
+                        myProfile.value = false;
+                    }
+                }else{
+                    window.location.href = '/404.html';
+                }
+            })
+            .catch(err=>{
+                console.log(err);
+            })
+            .then(()=>loading.value = false)
+
+        return {
+            userDataFromParam,
+            loading
+        }
       },
       computed:{
 

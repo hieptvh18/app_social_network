@@ -9,6 +9,31 @@ use Throwable;
 
 class UserController extends Controller
 {
+    // get user by username
+    public function getUserByUsername(Request $request){
+        try{
+            $user = User::where('username',$request->username)->first();
+            if($request->username && $user){
+                return response()->json([
+                    'data'=>$user,
+                    'message'=>'Get user data by username success',
+                    'success'=>true,
+                ]);
+            }
+            return response()->json([
+                'data'=>[],
+                'message'=>'User not found!',
+                'success'=>false,
+            ]);
+        }catch(Throwable $e){
+            return response()->json([
+                'data'=>[],
+                'message'=>'Get user by username fail!! '.$e->getMessage(),
+                'success'=>false,
+            ]);
+        }
+    }
+
     // update user profile
     public function update(Request $request){
 

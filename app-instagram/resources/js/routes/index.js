@@ -8,7 +8,7 @@ import auth from "./auth";
 import {getUser} from '../api/auth';
 
 //init routing
-const routes = [...home,...post,...profile,...auth];
+const routes = [...home,...post,...profile,...auth,...error];
 
 const router = createRouter({
     history:createWebHistory(),
