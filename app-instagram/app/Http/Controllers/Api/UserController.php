@@ -36,7 +36,36 @@ class UserController extends Controller
 
     // update user profile
     public function update(Request $request){
-
+        try{
+            if($request->username && User::where('username',$request->username)->exist()){
+                $user = User::where('username',$request->username)->first();
+                $user->fill($request->all());
+                $userSave = $user->save();
+                if($userSave){
+                    return response()->json([
+                        'success'=>true,
+                        'data'=>$userSave,
+                        'message'=>'Update profile success'
+                    ]);
+                }
+                return response()->json([
+                    'success'=>false,
+                    'data'=>[],
+                    'message'=>'User not found!'
+                ]);
+            }
+            return response()->json([
+                'success'=>false,
+                'data'=>[],
+                'message'=>'Params is invalid!'
+            ]);
+        }catch(Throwable $e){
+            return response()->json([
+                'success'=>false,
+                'data'=>[],
+                'message'=>'Update profile fail'
+            ]);
+        }
     }
 
     // search
