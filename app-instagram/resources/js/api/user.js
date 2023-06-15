@@ -19,7 +19,19 @@ export const getUserByUsername = async (formData) =>{
         params: formData,
         url:baseURLApi+url
     }
-    console.log(options);
+   
+    return await axios(options);
+}
+
+// search user by username
+export const searchUserByUsername = async (formData) =>{
+    const url = '/user/search';
+    const options = {
+        method: 'GET',
+        headers: headers,
+        params: formData,
+        url:baseURLApi+url
+    }
    
     return await axios(options);
 }

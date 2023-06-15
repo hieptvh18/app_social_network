@@ -19,7 +19,7 @@
         </div>
     </div>
 </template>
-<style>
+<style scoped>
     .loader {
         background: #000;
         background: radial-gradient(#222, #000);

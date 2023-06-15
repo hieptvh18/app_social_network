@@ -3,7 +3,7 @@
  <div v-if="!loading" class="profile m-5">
     <div class="content-profile d-flex align-items-center">
         <div class="content-profile__img">
-            <img src="https://aem.dropbox.com/cms/content/dam/dropbox/warp/en-us/developers/tech-research-lab.svg" alt="">
+            <img :src="userDataFromParam.avatar" :alt="userDataFromParam.name">
         </div>
         <div class="content-profile-main ml-4">
             <div class="content-profile-top d-inline">
