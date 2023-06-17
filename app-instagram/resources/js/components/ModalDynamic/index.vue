@@ -1,8 +1,8 @@
 
 <template>
     <transition name="modal-fade">
-       <div class="wrapper-modal-layout" style="max-width: 500px; max-height: 500px">
-           <div class="modal-container">
+       <div class="wrapper-modal-layout" style="max-width: 700px; max-height: 700px">
+           <div class="modal-layout__container md">
              <div
                class="modal-layout"
                role="dialog"
@@ -52,12 +52,19 @@
   };
 </script>
 <style scoped>
+
+.modal-layout{
+  width: 500px;
+  height: auto;
+}
+
 .wrapper-modal-layout{
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 10px;
+    transition: all ease-in-out .5s;
 }
   .modal-backdrop {
     position: fixed;

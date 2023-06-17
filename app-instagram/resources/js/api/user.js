@@ -35,3 +35,16 @@ export const searchUserByUsername = async (formData) =>{
    
     return await axios(options);
 }
+
+// update user info
+export const updateUser = async(formData)=>{
+    const url = '/user/update';
+    const options = {
+        method: 'PUT',
+        headers: headers,
+        params: formData,
+        url:baseURLApi+url
+    }
+   
+    return await axios(options);
+}

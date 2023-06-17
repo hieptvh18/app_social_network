@@ -150,21 +150,17 @@
   <ModalLoading v-if="loading" />
 </template>
 
+<style scoped src="./index.css"></style>
 <script>
-    import Index from './index.css';
     import {logout} from '../../api/auth';
     import {ref,computed} from 'vue';
     import { getUser } from '../../api/auth';
     import ModalLoading from '../../components/ModalLoading.vue';
 
     export default {
-      components:{Index,ModalLoading},
-      data(){
-        return{
-          
-        }
-      },
-      setup(){
+      components:{ModalLoading},
+      props:['userDataLogin'],
+      setup(props){
         const loading = ref(true);
         const postListing = ref([
                   {

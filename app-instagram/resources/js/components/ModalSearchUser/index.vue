@@ -32,9 +32,8 @@
 </div>
 </template>
 
+<style scoped src="./index.css"></style>
 <script>
-// import Vue from 'vue';
-import Index from './index.css';
 import LoaderResult from '../LoaderResult.vue';
 import {searchUserByUsername} from '../../api/user';
 import { ref } from 'vue';
@@ -42,7 +41,7 @@ import { ref } from 'vue';
 
 export default {
     name: '',
-    components: {Index,LoaderResult},
+    components: {LoaderResult},
 
     data() {
         return {

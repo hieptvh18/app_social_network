@@ -8,14 +8,14 @@
         <div class="content-profile-main ml-4">
             <div class="content-profile-top d-inline">
                 <span class="name mr-3">{{ userDataFromParam.username }}</span>
-                <router-link :to="{name:'account-edit',params:{username: userDataFromParam.username}}">
+                <router-link :to="{name:'account-edit'}">
                     <button class="btn btn-light mr-3">Edit profile</button>
                 </router-link>
 
                 <button><i class="fa fa-cog"></i></button>
             </div>
             <div class="content-profile-count d-flex mb-3">
-                <span class="count-post mr-3"><span class="font-weight-bold">1</span> post</span>
+                <span class="count-post mr-3"><span class="font-weight-bold">{{ userDataFromParam.posts.length ? userDataFromParam.posts.length : 0 }}</span> post</span>
                 <div class="count-follower mr-3"><span class="font-weight-bold">133</span> followers</div>
                 <div class="count-following"><span class="font-weight-bold">133</span> following</div>
             </div>
@@ -65,9 +65,8 @@
 </div>
     <ModalLoading v-if="loading" />
 </template>
-
+<style scoped src="./index.css"></style>
 <script>
-    import Index from './index.css';
     import {useRoute} from 'vue-router';
     import { getUser } from '../../api/auth';
     import { getUserByUsername } from '../../api/user';
@@ -75,9 +74,9 @@
     import ModalLoading from '../../components/ModalLoading.vue';
 
     export default {
-      components:{Index,ModalLoading},
+      components:{ModalLoading},
       data(){
-
+        return{}
       },
       setup(){
         var userLoggin = ref({});

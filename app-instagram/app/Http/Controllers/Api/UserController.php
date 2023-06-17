@@ -41,14 +41,17 @@ class UserController extends Controller
     public function update(Request $request)
     {
         try {
-            if ($request->username && User::where('username', $request->username)->exist()) {
+            if ($request->username && User::where('username', $request->username)->exists()) {
                 $user = User::where('username', $request->username)->first();
-                $user->fill($request->all());
+                $user->username = $request->username;
+                $user->email = $request->email;
+                $user->bio = $request->bio;
+                $user->phone = $request->phone;
                 $userSave = $user->save();
                 if ($userSave) {
                     return response()->json([
                         'success' => true,
-                        'data' => $userSave,
+                        'data' => $user,
                         'message' => 'Update profile success'
                     ]);
                 }

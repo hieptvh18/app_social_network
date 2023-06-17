@@ -38,13 +38,13 @@
 </div>
 </template>
 
+<style scoped src="./index.css">
+</style>
+
 <script>
-// import Vue from 'vue';
-import Index from './index.css';
 
 export default {
     name: '',
-    components: Index,
     // return data to DOM
     data() {
         return {

@@ -70,14 +70,11 @@
       </main>
 </template>
 
+<style scoped src="./register.css"></style>
 <script>
-import RegisterStyle from './register.css';
 import {register} from '../../api/auth';
 
 export default {
-    components: {
-        RegisterStyle
-    },
     data(){
       return{
         messageSuccess:'',

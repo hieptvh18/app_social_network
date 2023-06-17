@@ -10,7 +10,8 @@
                 </router-link>
         </li>
           <li><i class="fas fa-search"></i><ModalSearchUser/></li>
-          <li><i class="fas fa-search"></i>
+          <!-- <li>
+            <i class="fas fa-search"></i>
             <button
             type="button"
             class="btn"
@@ -23,18 +24,18 @@
               v-show="isModalVisible"
               @close="closeModal"
             />
-          </li>
+          </li> -->
           <li><a href="">Explore</a></li>
           <li><a href=""><i class="fab fa-facebook-messenger"></i>Message</a></li>
           <li><a href=""><i class="far fa-heart"></i>Notification</a></li>
 
           <!-- create post -->
           <li><ModalCreatePost/></li>
-          <li>
-            <router-link :to="{name:'profile',params:{username:'tvhh'}}">
+          <!-- <li>
+            <router-link :to="{name:'profile',params:{username:userDataLogin && userDataLogin.username ? userDataLogin.username : '#'}}">
                     <i class="fas fa-home-alt"></i>Profile
                 </router-link>
-        </li>
+        </li> -->
         </ul>
       </aside>
 </template>
@@ -45,8 +46,8 @@ import ModalSearchUser from './ModalSearchUser/index.vue';
 import ModalDynamic from './ModalDynamic/index.vue';
 
 export default {
-  components:{ModalCreatePost,ModalSearchUser,ModalDynamic}
-  ,
+  components:{ModalCreatePost,ModalSearchUser,ModalDynamic},
+  props: ['userDataLogin'],
   data() {
       return {
         isModalVisible: false,
@@ -59,6 +60,13 @@ export default {
       closeModal() {
         this.isModalVisible = false;
       }
+    },
+    setup(props){
+      // const userDataLogin = props.userDataLogin;
+
+      // return {
+      //   userDataLogin
+      // }
     }
 }
 </script>

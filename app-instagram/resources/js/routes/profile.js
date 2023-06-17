@@ -10,7 +10,7 @@ const profile = [
                 component: () => import("../pages/Profile/index.vue")
             },
             {
-                path: "accounts/edit/:username", 
+                path: "accounts/edit/", 
                 name: "account-edit",
                 component: () => import("../pages/ProfileEdit/index.vue")
             },
