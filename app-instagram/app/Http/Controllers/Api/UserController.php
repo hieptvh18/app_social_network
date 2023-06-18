@@ -6,35 +6,22 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Throwable;
+use App\Repositories\Interfaces\UserRepositoryInterface;
 
 class UserController extends Controller
 {
+
+    protected $userRepository;
+
+    public function __construct(UserRepositoryInterface $userRepositoryInterface)
+    {
+        $this->userRepository = $userRepositoryInterface;
+    }
+
     // get user by username
     public function getUserByUsername(Request $request)
     {
-        try {
-            if ($request->username && User::where('username', $request->username)->exists()) {
-                $user = User::where('username', $request->username)->first();
-                // $user->countPosts = count($user->posts);
-                $user->posts;
-                return response()->json([
-                    'data' => $user,
-                    'message' => 'Get user data by username success',
-                    'success' => true,
-                ]);
-            }
-            return response()->json([
-                'data' => [],
-                'message' => 'User not found!',
-                'success' => false,
-            ]);
-        } catch (Throwable $e) {
-            return response()->json([
-                'data' => [],
-                'message' => 'Get user by username fail!! ' . $e->getMessage(),
-                'success' => false,
-            ]);
-        }
+        return $this->userRepository->getUserByUsername($request->username);
     }
 
     // update user profile
@@ -47,6 +34,7 @@ class UserController extends Controller
                 $user->email = $request->email;
                 $user->bio = $request->bio;
                 $user->phone = $request->phone;
+               
                 $userSave = $user->save();
                 if ($userSave) {
                     return response()->json([
@@ -74,6 +62,11 @@ class UserController extends Controller
                 'message' => 'Update profile fail! ' . $e->getMessage()
             ]);
         }
+    }
+
+    // check exist username when customer update->change username
+    public function checkExistUsername(Request $request){
+
     }
 
     // search
