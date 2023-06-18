@@ -2,6 +2,7 @@
 namespace App\Repositories;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Throwable;
 
 class UserRepository implements UserRepositoryInterface
@@ -32,4 +33,76 @@ class UserRepository implements UserRepositoryInterface
             ]);
         }
     }    
+
+    public function updateUserByUsername($request){
+        try {
+            if ($request->username && User::where('username', $request->username)->exists()) {
+                $user = User::where('username', $request->username)->first();
+                $user->username = $request->username;
+                $user->email = $request->email;
+                $user->bio = $request->bio;
+                $user->phone = $request->phone;
+               
+                $userSave = $user->save();
+                if ($userSave) {
+                    return response()->json([
+                        'success' => true,
+                        'data' => $user,
+                        'message' => 'Update profile success'
+                    ]);
+                }
+                return response()->json([
+                    'success' => false,
+                    'data' => [],
+                    'message' => 'User not found!'
+                ]);
+            }
+            return response()->json([
+                'success' => false,
+                'data' => [],
+                'message' => 'Params is invalid!'
+            ]);
+        } catch (Throwable $e) {
+            report($e->getMessage());
+            return response()->json([
+                'success' => false,
+                'data' => [],
+                'message' => 'Update profile fail! ' . $e->getMessage()
+            ]);
+        }
+    }
+
+    public function findUserByUsername($username){
+        try {
+            if(!$username){
+                return response()->json([
+                    "success" => false,
+                    "data" => [],
+                    "message" => "Params username is required!"
+                ]);
+            }
+            $user = User::select('id','name','email','username','avatar')->where('username','like', $username.'%')->get();
+
+            if ($user) {
+                return response()->json([
+                    "success" => true,
+                    "data" => $user,
+                    "message" => "Get success user!"
+                ]);
+            }
+
+            return response()->json([
+                "success" => true,
+                "data" => [],
+                "message" => "User not found!"
+            ]);
+        } catch (Throwable $e) {
+            report($e->getMessage());
+            return response()->json([
+                "success" => false,
+                "data" => [],
+                "message" => $e->getMessage()
+            ]);
+        }
+    }
 }

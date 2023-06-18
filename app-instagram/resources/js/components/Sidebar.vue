@@ -31,11 +31,11 @@
 
           <!-- create post -->
           <li><ModalCreatePost/></li>
-          <!-- <li>
-            <router-link :to="{name:'profile',params:{username:userDataLogin && userDataLogin.username ? userDataLogin.username : '#'}}">
+          <li>
+            <router-link :to="{name:'profile',params:{username:userData.username}}">
                     <i class="fas fa-home-alt"></i>Profile
                 </router-link>
-        </li> -->
+        </li>
         </ul>
       </aside>
 </template>
@@ -47,7 +47,7 @@ import ModalDynamic from './ModalDynamic/index.vue';
 
 export default {
   components:{ModalCreatePost,ModalSearchUser,ModalDynamic},
-  props: ['userDataLogin'],
+  // props: ['userData'],
   data() {
       return {
         isModalVisible: false,
@@ -61,12 +61,15 @@ export default {
         this.isModalVisible = false;
       }
     },
+    props:{
+      userData: Object
+    },
     setup(props){
-      // const userDataLogin = props.userDataLogin;
+      // const userData = props.userData;
 
       // return {
-      //   userDataLogin
+      //   userData
       // }
-    }
+    },
 }
 </script>

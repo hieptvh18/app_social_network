@@ -62,7 +62,7 @@
     </form>
     <div class="text-secondary">© 2023 Instagram from Meta</div>
 </div>
-<ModalLoading v-if="loading" />
+<ModalLoading v-if="loading || loader" />
 </template>
 
 <style scoped src="./index.css"></style>

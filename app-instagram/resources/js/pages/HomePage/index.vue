@@ -187,7 +187,6 @@
         // fetch data user login
         getUser()
                   .then(response=>{
-                    console.log(response);
                     if(response.data.statusText = 'OK'){
                       userLoginData.value = response.data.data;
                     }
