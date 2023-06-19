@@ -7,7 +7,7 @@ use Throwable;
 
 class UserRepository implements UserRepositoryInterface
 {
-    
+
     public function getUserByUsername($username){
         try {
             if ($username && User::where('username', $username)->exists()) {
@@ -32,7 +32,7 @@ class UserRepository implements UserRepositoryInterface
                 'success' => false,
             ]);
         }
-    }    
+    }
 
     public function updateUserByUsername($request){
         try {
@@ -42,7 +42,7 @@ class UserRepository implements UserRepositoryInterface
                 $user->email = $request->email;
                 $user->bio = $request->bio;
                 $user->phone = $request->phone;
-               
+
                 $userSave = $user->save();
                 if ($userSave) {
                     return response()->json([

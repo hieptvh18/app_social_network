@@ -46,14 +46,14 @@
         <div class="form-group d-flex">
             <label for="" class="col-1">Email</label>
             <div class="ml-3">
-                <input type="email" name="email" v-model="formData.email" class="form-control-sm" >        
+                <input type="email" name="email" v-model="formData.email" class="form-control-sm" >
             </div>
         </div>
 
         <div class="form-group d-flex">
             <label for="" class="col-1">Phone</label>
             <div class="ml-3">
-                <input type="text" name="phone" class="form-control-sm" v-model="formData.phone">        
+                <input type="text" name="phone" class="form-control-sm" v-model="formData.phone">
             </div>
         </div>
 
@@ -67,7 +67,6 @@
 
 <style scoped src="./index.css"></style>
 <script>
-    import Index from './index.css';
     import { getUser } from '../../api/auth';
     import { ref } from 'vue';
     import ModalLoading from '../../components/ModalLoading.vue';
@@ -76,7 +75,7 @@
     import {validateUsername, validatePhoneNumber,validateEmail} from '../../helpers/functions';
 
     export default {
-      components:{Index,ModalLoading},
+      components:{ModalLoading},
       data(){
         return {
             formData:{
@@ -132,7 +131,7 @@
                 this.message.error = 'Username is invalid!';
                 return false;
             }
-            
+
             if(!validateEmail(this.formData.email)){
                 this.message.error = 'Email is invalid!';
                 return false;

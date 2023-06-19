@@ -5,8 +5,7 @@
 </template>
 <style scoped src="./index.css"></style>
 <script>
-    import Index from './index.css';
     export default {
-      components:{Index}
+
     }
 </script>
