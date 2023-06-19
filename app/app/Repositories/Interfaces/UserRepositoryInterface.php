@@ -4,7 +4,7 @@ namespace App\Repositories\Interfaces;
 use Illuminate\Http\Request;
 
 Interface UserRepositoryInterface{
-    
+
     /**
      * get user by username
      * @param mixed $username
@@ -16,11 +16,13 @@ Interface UserRepositoryInterface{
      * @param mixed $requestData
      * @return object
      */
-    public function updateUserByUsername($requestData);
+    public function updateUserById($requestData);
 
      /**
      * @param mixed $username
      * @return object
      */
     public function findUserByUsername($username);
+
+    public function create($requestData);
 }

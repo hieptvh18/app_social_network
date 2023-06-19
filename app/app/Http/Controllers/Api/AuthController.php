@@ -5,22 +5,29 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Throwable;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Redis;
 use Symfony\Component\HttpFoundation\Response;
+use App\Repositories\Interfaces\UserRepositoryInterface;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
+
+    protected $userRepository;
+
+    public function __construct(UserRepositoryInterface $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
     // login with username && password
     public function loginUsername(Request $request)
     {
         try {
             $credentials = request(['username', 'password']);
-            if(!Auth::attempt($credentials)){
-                return response()->json(['status'=>'fail','message'=>'Auth fail!','data'=>[]],Response::HTTP_UNAUTHORIZED);
+            if (!Auth::attempt($credentials)) {
+                return response()->json(['status' => 'fail', 'message' => 'Auth fail!', 'data' => []], Response::HTTP_UNAUTHORIZED);
             }
 
             // ok
@@ -28,19 +35,19 @@ class AuthController extends Controller
 
             $token = $user->createToken('token')->plainTextToken;
 
-            $cookie = cookie('jwtlogin',$token,60 * 24); //1 day
+            $cookie = cookie('jwtlogin', $token, 60 * 24); //1 day
 
             return response()->json([
-                'status'=>'ok',
-                'data'=>[
+                'status' => 'ok',
+                'data' => [
                     'token' => $token,
-                    'data'=>$user
+                    'data' => $user
                 ],
-                'message'=>'Auth success!'
-                ],200)->withCookie($cookie);
+                'message' => 'Auth success!'
+            ], 200)->withCookie($cookie);
         } catch (\Throwable $e) {
             report($e);
-            return response()->json(['status'=>'fail','message'=>$e->getMessage()]);
+            return response()->json(['status' => 'fail', 'message' => $e->getMessage()]);
         }
     }
 
@@ -50,77 +57,56 @@ class AuthController extends Controller
     // register post
     public function registerPost(Request $request)
     {
-        $dataResponse = ['status' => true, 'data' => [], 'message' => ""];
+        $validator = Validator::make($request->all(),
+        [
+            'name'=>'required|min:6|max:30',
+            'username'=>'required|min:6|max:14|regex:/^\w{4,14}$/',
+            'email'=>'required|email|unique:users',
+            'password'=>''
+        ],
+        ['username.regex'=>'Username is not valid']);
 
-        if (!$request->username || !$request->name || !$request->email || !$request->password) {
+        if($validator->fails()){
             return response()->json([
-                'status' => false,
-                'message' => 'Data is not valid!',
-                'data' => $request->all()
+                'request data'=>$request->all(),
+                'errors'=>$validator->errors(),
+                'success'=>false
             ]);
         }
 
-        try {
-            $userExistEmail = User::where('email', $request->email)->first();
-            $userExistUsername = User::where('username', $request->username)->first();
-
-            if ($userExistEmail) {
-                $dataResponse['status'] = false;
-                $dataResponse['message'] = 'Email exist customer!';
-                return response()->json($dataResponse);
-            }
-
-            if ($userExistUsername) {
-                $dataResponse['status'] = false;
-                $dataResponse['message'] = 'Username exist customer!';
-                return response()->json($dataResponse);
-            }
-
-            $model = new User();
-            $model->fill($request->all());
-            $model->password = Hash::make($request->password);
-            $model->save();
-
-            $dataResponse['data'] = $request->all();
-            $dataResponse['message'] = 'Register success!';
-            return response()->json($dataResponse);
-        } catch (Throwable $e) {
-            report($e);
-            $dataResponse['status'] = false;
-            $dataResponse['message'] = 'Error: ' . $e->getMessage();
-            return response()->json($dataResponse);
-        }
+        return $this->userRepository->create($request);
     }
 
     // get info user logginIn
     public function getUser(Request $request)
     {
-        try{
+        try {
             $data = Auth::user();
 
             return response()->json([
                 'data' => $data,
                 'success' => true,
-                'message'=>"Get user data success!"
+                'message' => "Get user data success!"
             ]);
-        }catch(Throwable $e){
+        } catch (Throwable $e) {
             return response()->json([
                 'data' => [],
                 'success' => false,
-                'message'=>"Get user data fail! ".$er->getMessage()
+                'message' => "Get user data fail! " . $er->getMessage()
             ]);
         }
     }
 
     // logout
-    public function logout(Request $request){
-        try{
+    public function logout(Request $request)
+    {
+        try {
             $cookie = Cookie::forget('jwtlogin');
-            $request->user()->currentAccessToken()->delete();    
-            return response()->json(['status'=>'ok','message'=>'Logout success!']);
-        }catch(Throwable $e){
+            $request->user()->currentAccessToken()->delete();
+            return response()->json(['status' => 'ok', 'message' => 'Logout success!']);
+        } catch (Throwable $e) {
             report($e->getMessage());
-            return response()->json(['status'=>'fail','message'=>'Logout fail!']);
+            return response()->json(['status' => 'fail', 'message' => 'Logout fail!']);
         }
     }
 }

@@ -8,6 +8,7 @@
         </div>
     </div>
     <form @submit.prevent="submitUpdate">
+        <input type="hidden" name="id" :value="formData.id">
         <div class="username">
             <span>tranvhh</span>
             <a href="">Change profile photo</a>
@@ -79,6 +80,7 @@
       data(){
         return {
             formData:{
+                id:'',
                 username:'',
                 name:'',
                 email:'',
@@ -114,6 +116,7 @@
             .then(response=>{
                 if(response.data.success == true){
                     let user = response.data.data;
+                    this.formData.id = user.id;
                     this.formData.username = user.username;
                     this.formData.name = user.name;
                     this.formData.email = user.email;

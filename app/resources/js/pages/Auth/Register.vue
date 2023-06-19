@@ -31,7 +31,7 @@
 
                 <button type="submit">Sign up</button>
               </form>
-              
+
               <ul>
                 <li>By signing up, you agree to our</li>
                 <li><a href="">Terms</a></li>
@@ -42,7 +42,7 @@
             </div>
         </div>
         <div class="option">
-           <p>Have an account? 
+           <p>Have an account?
             <router-link :to="{name:'login'}">Log in</router-link>
             </p>
         </div>
@@ -90,14 +90,15 @@ export default {
         if(this.validateForm()){
           // handle call api submit form
           const formData = {name:this.name, email: this.email, username:this.username, password:this.password};
-          
+
           await register(formData)
           .then(response=>{
+            console.log(response);
             if(response.data.status){
                 delete this.errors['server'];
                 this.messageSuccess = response.data.message;
             }else{
-                this.errors.server = response.data.message;
+                this.errors.server = 'Register fail! try again!';
             }
           }).
           catch(error=>{
@@ -105,7 +106,7 @@ export default {
           })
         }
       },
-       
+
       validateForm(){
         delete this.errors['server'];
         // fullname field
@@ -120,7 +121,7 @@ export default {
 
           if(!emailPattern.test(this.email)) this.errors.email = 'Email is not vaild!';
           else delete this.errors['email'];
-        } 
+        }
 
         // username
         if(this.username){
@@ -138,7 +139,7 @@ export default {
 
         if(Object.keys(this.errors).length){
           return false;
-        }        
+        }
         return true;
       },
     }

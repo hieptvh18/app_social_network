@@ -4,6 +4,7 @@ use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Throwable;
+use Illuminate\Support\Facades\Hash;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -34,10 +35,10 @@ class UserRepository implements UserRepositoryInterface
         }
     }
 
-    public function updateUserByUsername($request){
+    public function updateUserById($request){
         try {
-            if ($request->username && User::where('username', $request->username)->exists()) {
-                $user = User::where('username', $request->username)->first();
+            if ($user = User::find($request->id)) {
+
                 $user->username = $request->username;
                 $user->email = $request->email;
                 $user->bio = $request->bio;
@@ -54,13 +55,13 @@ class UserRepository implements UserRepositoryInterface
                 return response()->json([
                     'success' => false,
                     'data' => [],
-                    'message' => 'User not found!'
-                ]);
+                    'message' => 'Update fail!'
+                ],500);
             }
             return response()->json([
                 'success' => false,
                 'data' => [],
-                'message' => 'Params is invalid!'
+                'message' => 'Params id is invalid!'
             ]);
         } catch (Throwable $e) {
             report($e->getMessage());
@@ -103,6 +104,50 @@ class UserRepository implements UserRepositoryInterface
                 "data" => [],
                 "message" => $e->getMessage()
             ]);
+        }
+    }
+
+    public function create($request)
+    {
+        $dataResponse = ['status' => true, 'data' => [], 'message' => ""];
+
+        if (!$request->username || !$request->name || !$request->email || !$request->password) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Data is not valid!',
+                'data' => $request->all()
+            ]);
+        }
+
+        try {
+            $userExistEmail = User::where('email', $request->email)->first();
+            $userExistUsername = User::where('username', $request->username)->first();
+
+            if ($userExistEmail) {
+                $dataResponse['status'] = false;
+                $dataResponse['message'] = 'Email exist customer!';
+                return response()->json($dataResponse);
+            }
+
+            if ($userExistUsername) {
+                $dataResponse['status'] = false;
+                $dataResponse['message'] = 'Username exist customer!';
+                return response()->json($dataResponse);
+            }
+
+            $model = new User();
+            $model->fill($request->all());
+            $model->password = Hash::make($request->password);
+            $model->save();
+
+            $dataResponse['data'] = $request->all();
+            $dataResponse['message'] = 'Register success!';
+            return response()->json($dataResponse);
+        } catch (Throwable $e) {
+            report($e);
+            $dataResponse['status'] = false;
+            $dataResponse['message'] = 'Error: ' . $e->getMessage();
+            return response()->json($dataResponse);
         }
     }
 }

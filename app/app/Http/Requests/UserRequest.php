@@ -22,13 +22,14 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'username'=>'required|unique:users'
         ];
     }
 
     public function messages(){
         return [
-
+            'required'=>'Bat buoc nhap field!',
+            'unique'=>'User da ton tai!'
         ];
     }
 
