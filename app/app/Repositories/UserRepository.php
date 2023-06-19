@@ -5,6 +5,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Throwable;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Cookie;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -148,6 +149,23 @@ class UserRepository implements UserRepositoryInterface
             $dataResponse['status'] = false;
             $dataResponse['message'] = 'Error: ' . $e->getMessage();
             return response()->json($dataResponse);
+        }
+    }
+
+    public function following($requestData)
+    {
+
+    }
+
+    public function logout($request)
+    {
+        try {
+            $cookie = Cookie::forget('jwtlogin');
+            $request->user()->currentAccessToken()->delete();
+            return response()->json(['status' => 'ok', 'message' => 'Logout success!']);
+        } catch (Throwable $e) {
+            report($e->getMessage());
+            return response()->json(['status' => 'fail', 'message' => 'Logout fail!']);
         }
     }
 }

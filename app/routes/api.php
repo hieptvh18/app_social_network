@@ -38,5 +38,7 @@ Route::prefix('v1')->group(function(){
         Route::get('/user/get-user',[UserController::class,'getUserByUsername'])->name('getUserByUsername');
         // update profile user
         Route::put('/user/update',[UserController::class,'update'])->name('updateUser');
+        // following user
+        Route::post('/user/following',[UserController::class,'followUser'])->name('followUser');
     });
 });

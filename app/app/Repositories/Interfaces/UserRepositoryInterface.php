@@ -24,5 +24,21 @@ Interface UserRepositoryInterface{
      */
     public function findUserByUsername($username);
 
+    /**
+     * register customer
+     * @param $requestData
+     */
     public function create($requestData);
+
+    /**
+     * Logout customer
+     * @param $requestData
+     */
+    public function logout($requestData);
+
+    /**
+     * following customer
+     * @param $requestData
+     */
+    public function following($requestData);
 }
