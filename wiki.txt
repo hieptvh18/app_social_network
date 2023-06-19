@@ -1,0 +1,3 @@
+#note: clone instagram with laravel vs vuejs
+
+#link db diagram design: https://dbdiagram.io/d/642d824c5758ac5f1726fc63
