@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class UserRequest extends FormRequest
 {
@@ -11,7 +13,7 @@ class UserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -19,17 +21,36 @@ class UserRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
      */
-    public function rules(): array
+    public function rules(Request $request): array
     {
-        return [
-            'username'=>'required|unique:users'
-        ];
+        switch ($request->method()) {
+            case 'POST':
+                $rules = [
+                    'name'=>'required|min:6|max:30',
+                    'username'=>'required|unique:users|min:6|max:14|regex:/^\w{4,14}$/',
+                    'email'=>'required|email|unique:users',
+                    'password'=>''
+                ];
+                break;
+            default: // put
+                $rules = [
+                    'id'=>'required|exists:users,id',
+                    'username' => ['required', Rule::unique('users', 'username')->ignore(request()->username, 'username')],
+                    'email'=>['required', Rule::unique('users', 'email')->ignore(request()->username, 'email')]
+                ];
+                break;
+        }
+
+        return $rules;
     }
 
-    public function messages(){
+    public function messages()
+    {
         return [
-            'required'=>'Bat buoc nhap field!',
-            'unique'=>'User da ton tai!'
+            'username.unique' => 'Username is exist!',
+            'username.regex'=>'Username is not valid',
+            'email.unique' => 'Email is exist!',
+            'exists' => 'Not found user ID in database!'
         ];
     }
 

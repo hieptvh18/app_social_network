@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Cookie;
 use Symfony\Component\HttpFoundation\Response;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\UserRequest;
 
 class AuthController extends Controller
 {
@@ -55,25 +56,8 @@ class AuthController extends Controller
 
 
     // register post
-    public function registerPost(Request $request)
+    public function registerPost(UserRequest $request)
     {
-        $validator = Validator::make($request->all(),
-        [
-            'name'=>'required|min:6|max:30',
-            'username'=>'required|min:6|max:14|regex:/^\w{4,14}$/',
-            'email'=>'required|email|unique:users',
-            'password'=>''
-        ],
-        ['username.regex'=>'Username is not valid']);
-
-        if($validator->fails()){
-            return response()->json([
-                'request data'=>$request->all(),
-                'errors'=>$validator->errors(),
-                'success'=>false
-            ]);
-        }
-
         return $this->userRepository->create($request);
     }
 

@@ -32,26 +32,8 @@ class UserController extends Controller
      * update user profile
      * @method PUT
      */
-    public function update(Request $request)
+    public function update(UserRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'id'=>'required|exists:users,id',
-            'username' => ['required', Rule::unique('users', 'username')->ignore(request()->username, 'username')],
-            'email'=>'required|email'
-        ], [
-            'unique' => 'Username is exist!',
-            'exists' => 'Not found user ID in database!'
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'request data' => $request->all(),
-                'errors' => $validator->errors(),
-                'message'=> 'Validate fails!',
-                'success'=> false
-            ]);
-        }
-
         return $this->userRepository->updateUserById($request);
     }
 
