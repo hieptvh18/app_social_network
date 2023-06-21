@@ -41,9 +41,9 @@
 </template>
 
 <script>
-import ModalCreatePost from './ModalCreatePost/index.vue';
-import ModalSearchUser from './ModalSearchUser/index.vue';
-import ModalDynamic from './ModalDynamic/index.vue';
+import ModalCreatePost from '../ModalCreatePost/index.vue';
+import ModalSearchUser from '../ModalSearchUser/index.vue';
+import ModalDynamic from '../ModalDynamic/index.vue';
 
 export default {
   components:{ModalCreatePost,ModalSearchUser,ModalDynamic},
