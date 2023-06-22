@@ -1,5 +1,7 @@
 <?php
 namespace App\Repositories;
+
+use App\Models\Follow;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -14,7 +16,6 @@ class UserRepository implements UserRepositoryInterface
         try {
             if ($username && User::where('username', $username)->exists()) {
                 $user = User::where('username', $username)->first();
-                // $user->countPosts = count($user->posts);
                 $data = [
                     'id' => $user->id,
                     'name' => $user->name,
@@ -39,7 +40,8 @@ class UserRepository implements UserRepositoryInterface
                 'message' => 'User not found!',
                 'success' => false,
             ]);
-        } catch (Throwable $e) {
+        }
+        catch (Throwable $e) {
             return response()->json([
                 'data' => [],
                 'message' => 'Get user by username fail!! ' . $e->getMessage(),
@@ -168,6 +170,14 @@ class UserRepository implements UserRepositoryInterface
     {
 
     }
+
+    // public function getUserNamebyFollowingId($followListId){
+    //     foreach ($followListId as $key) {
+    //         $data = User::where('id', $key)->get('name');
+    //     }
+    //     dd($data);
+    //     return $data;
+    // }
 
     public function logout($request)
     {
