@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('following_id')->unique();
             $table->foreign('following_id')->references('id')->on('users')->onDelete('cascade');
 
-            $table->tinyInteger('follow_types')->default(0)->comment('1 is following, 0 is followers');
+            // $table->tinyInteger('follow_types')->default(0)->comment('1 is following, 0 is followers');
             $table->timestamps();
         });
     }

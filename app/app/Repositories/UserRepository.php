@@ -16,8 +16,19 @@ class UserRepository implements UserRepositoryInterface
                 $user = User::where('username', $username)->first();
                 // $user->countPosts = count($user->posts);
                 $user->posts;
+                $data = [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'phone' => $user->phone,
+                    'avatar' => $user->avatar,
+                    'google_id' => $user->google_id,
+                    'facebook_id' => $user->facebook_id,
+                    'follower' => count($user->follower),
+                    'following' => count($user->following),
+                ];
                 return response()->json([
-                    'data' => $user,
+                    'data' => $data,
                     'message' => 'Get user data by username success',
                     'success' => true,
                 ]);
