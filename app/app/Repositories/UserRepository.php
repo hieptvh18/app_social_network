@@ -1,5 +1,7 @@
 <?php
 namespace App\Repositories;
+
+use App\Models\Follow;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -11,10 +13,20 @@ class UserRepository implements UserRepositoryInterface
 {
 
     public function getUserByUsername($username){
-        try {
+        // try {
             if ($username && User::where('username', $username)->exists()) {
                 $user = User::where('username', $username)->first();
                 // $user->countPosts = count($user->posts);
+                $followListId = Follow::where('user_id',$user->id)->get();
+
+                foreach($followListId as $key){
+                    $data = $key;
+                }
+                dd($data->following_id);
+                // $followListgetName = User
+                // $followListgetName = $this->getUserNamebyFollowingId($followListId);
+                // $followListgetName = User::where('id', $followListId)->get('name');
+                // dd($followListgetName);
                 $user->posts;
                 $data = [
                     'id' => $user->id,
@@ -26,6 +38,7 @@ class UserRepository implements UserRepositoryInterface
                     'facebook_id' => $user->facebook_id,
                     'follower' => count($user->follower),
                     'following' => count($user->following),
+                    'follow_list' => $followListgetName,
                 ];
                 return response()->json([
                     'data' => $data,
@@ -38,13 +51,14 @@ class UserRepository implements UserRepositoryInterface
                 'message' => 'User not found!',
                 'success' => false,
             ]);
-        } catch (Throwable $e) {
-            return response()->json([
-                'data' => [],
-                'message' => 'Get user by username fail!! ' . $e->getMessage(),
-                'success' => false,
-            ]);
-        }
+        // }
+        // catch (Throwable $e) {
+        //     return response()->json([
+        //         'data' => [],
+        //         'message' => 'Get user by username fail!! ' . $e->getMessage(),
+        //         'success' => false,
+        //     ]);
+        // }
     }
 
     public function updateUserById($request){
@@ -167,6 +181,14 @@ class UserRepository implements UserRepositoryInterface
     {
 
     }
+
+    // public function getUserNamebyFollowingId($followListId){
+    //     foreach ($followListId as $key) {
+    //         $data = User::where('id', $key)->get('name');
+    //     }
+    //     dd($data);
+    //     return $data;
+    // }
 
     public function logout($request)
     {
