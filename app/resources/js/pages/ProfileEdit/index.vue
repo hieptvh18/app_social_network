@@ -105,11 +105,19 @@
             updateUser(formData)
             .then(response=>{
                 if(response.data.success){
+                    this.message.error = '';
                     this.message.success = 'Update profile successfully!';
                     this.loader = false;
                 }
             }).
-            catch(err=>console.log(err))
+            catch(err=>{
+                console.log(err);
+                if(err.response.status == 422){
+                    this.loader = false;
+                    this.message.success = '';
+                    this.message.error = Object.values(err.response.data.errors)[0][0];
+                }
+            })
         },
         getUserData(){
              getUser()

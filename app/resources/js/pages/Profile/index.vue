@@ -30,10 +30,10 @@
                         post</span
                     >
                     <div class="count-follower mr-3">
-                        <span class="font-weight-bold">133</span> followers
+                        <span class="font-weight-bold">{{ userDataFromParam.follower }}</span> followers
                     </div>
                     <div class="count-following">
-                        <span class="font-weight-bold">133</span> following
+                        <span class="font-weight-bold">{{ userDataFromParam.following }}</span> following
                     </div>
                 </div>
                 <div class="content-profile-fullname">

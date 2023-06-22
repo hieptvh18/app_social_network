@@ -76,7 +76,7 @@ class AuthController extends Controller
             return response()->json([
                 'data' => [],
                 'success' => false,
-                'message' => "Get user data fail! " . $er->getMessage()
+                'message' => "Get user data fail! " . $e->getMessage()
             ]);
         }
     }

@@ -15,10 +15,10 @@ class UserRepository implements UserRepositoryInterface
             if ($username && User::where('username', $username)->exists()) {
                 $user = User::where('username', $username)->first();
                 // $user->countPosts = count($user->posts);
-                $user->posts;
                 $data = [
                     'id' => $user->id,
                     'name' => $user->name,
+                    'username' => $user->username,
                     'email' => $user->email,
                     'phone' => $user->phone,
                     'avatar' => $user->avatar,
@@ -26,6 +26,7 @@ class UserRepository implements UserRepositoryInterface
                     'facebook_id' => $user->facebook_id,
                     'follower' => count($user->follower),
                     'following' => count($user->following),
+                    'posts'=>$user->posts
                 ];
                 return response()->json([
                     'data' => $data,
