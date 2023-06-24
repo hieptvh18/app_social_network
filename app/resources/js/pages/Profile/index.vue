@@ -16,7 +16,13 @@
                         <button class="btn btn-light mr-3">Edit profile</button>
                     </router-link>
 
-                    <button class="btn btn-success" :data-follow="userDataFromParam.username" v-if="!myProfile" @click="follow(userDataFromParam.username)">Follow + </button>
+                    <button class="btn" 
+                    :class="{ 'btn-secondary':isUserFollowed, 'btn-success':!isUserFollowed }" 
+                    :data-follow="userDataFromParam.username" 
+                    v-if="!myProfile"
+                     @click="handleFollow(userDataFromParam.id)">
+                        {{ isUserFollowed ? 'UnFollow' : 'Follow +' }}
+                     </button>
 
                     <button v-if="myProfile"><i class="fa fa-cog"></i></button>
                 </div>
@@ -30,14 +36,16 @@
                         post</span
                     >
                     <div class="count-follower mr-3">
-                        <span class="font-weight-bold">{{ userDataFromParam.follower }}</span> followers
+                        <span class="font-weight-bold">{{ userDataFromParam.follower.length }}</span> followers
                     </div>
                     <div class="count-following">
-                        <span class="font-weight-bold">{{ userDataFromParam.following }}</span> following
+                        <span class="font-weight-bold">{{ userDataFromParam.following.length }}</span> following
                     </div>
                 </div>
                 <div class="content-profile-fullname">
-                    <span>{{ userDataFromParam.name }}</span>
+                    <div class="profile-username">
+                        <b class="fw-bold">{{ userDataFromParam.name }}</b>
+                    </div>
                     <span>{{
                         userDataFromParam.bio ?? userDataFromParam.bio
                     }}</span>
@@ -102,13 +110,14 @@
 <script setup>
 import { useRoute } from "vue-router";
 import { getUser } from "../../api/auth";
-import { getUserByUsername } from "../../api/user";
+import { getUserByUsername, followUser } from "../../api/user";
 import { ref } from "vue";
 
 var userLoggin = ref({});
 var userDataFromParam = ref({});
 var loading = ref(true);
 var myProfile = ref(true);
+var isUserFollowed = ref(false);
 
 const route = useRoute();
 let username = route.params.username;
@@ -124,17 +133,19 @@ const getUserLoggin = getUser()
     });
 // .then(()=> loading.value = false)
 
+// get user data from username param
 let formdata = new FormData();
 formdata.username = username;
-const getUserDataFromParam = getUserByUsername(formdata)
+const getUserDataFromParam = () => {
+    getUserByUsername(formdata)
     .then((response) => {
-        console.log(response);
         if (response.data.success == true) {
             userDataFromParam.value = response.data.data;
             // compare is my profile or guest profile
             if (response.data.data.id != userLoggin.id) {
                 myProfile.value = false;
             }
+            isUserFollowed = isFollowed();
         } else {
             window.location.href = "/404.html";
         }
@@ -143,6 +154,53 @@ const getUserDataFromParam = getUserByUsername(formdata)
         console.log(err);
     })
     .then(() => (loading.value = false));
+}
+getUserDataFromParam();
+
+// handle follows
+const handleFollow = (following_id) =>{
+    if(isUserFollowed){
+        //  un fl
+        unFollow();
+    }else{
+        // fl
+        follow(following_id);
+    }
+}
+
+// follow action
+const follow = (following_id)=>{
+            let dataFollow  = {
+                user_id:userLoggin.id,
+                following_id:following_id
+            };
+            followUser(dataFollow)
+            .then(res=>{
+                if(res.data.success){
+                    // re render data
+                    getUserDataFromParam(); 
+
+                    // check is followed
+                    isUserFollowed.value = isFollowed();
+                }
+            })
+            .catch(err=>{})
+        }
+
+// unfollow action
+const unFollow = ()=>{
+    console.log('un follow');
+}
+
+const isFollowed = ()=>{
+    let userLoginId = userLoggin.id;
+    let isFollowMe = false;
+    let currentFollowing = userDataFromParam.value.follower;
+    if(currentFollowing.length){
+        isFollowMe = currentFollowing.filter(val=> val.following_id == userLoginId) ? true : false;
+    }
+    return isFollowMe;
+}
 </script>
 
 <script>
@@ -151,22 +209,15 @@ import ModalLoading from "../../components/ModalLoading.vue";
 export default {
     components: { ModalLoading },
     data() {
-        return {};
+        return {
+            userData:this.userData
+        };
     },
     props:{
         userData:Object
     },
     methods: {
-        getUserData(){
-            console.log('props data from layout');
-            console.log(this.userData);
-        },
-        follow(username){
-            console.log(username);
-        }
+        
     },
-    beforeMount(){
-        this.getUserData();
-    }
 };
 </script>

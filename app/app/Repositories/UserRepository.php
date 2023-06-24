@@ -20,13 +20,14 @@ class UserRepository implements UserRepositoryInterface
                     'id' => $user->id,
                     'name' => $user->name,
                     'username' => $user->username,
+                    'bio' => $user->bio,
                     'email' => $user->email,
                     'phone' => $user->phone,
                     'avatar' => $user->avatar,
                     'google_id' => $user->google_id,
                     'facebook_id' => $user->facebook_id,
-                    'follower' => count($user->follower),
-                    'following' => count($user->following),
+                    'follower' => $user->follower,
+                    'following' => $user->following,
                     'posts'=>$user->posts
                 ];
                 return response()->json([
@@ -166,9 +167,28 @@ class UserRepository implements UserRepositoryInterface
         }
     }
 
-    public function following($requestData)
+    public function follow($request)
     {
+        try{
+            // action following
+            $userFollow = new Follow();
+            $userFollow->user_id = $request->user_id;
+            $userFollow->following_id = $request->following_id;
+            $userFollow->save();
 
+            return response()->json([
+                'success'=>true,
+                'data'=>[],
+                'message'=>'Following success'
+            ]);
+        }catch(Throwable $e){
+            report($e->getMessage());
+            return response()->json([
+                'success'=>false,
+                'data'=>[],
+                'message'=>$e->getMessage()
+            ]);
+        }
     }
 
     // public function getUserNamebyFollowingId($followListId){

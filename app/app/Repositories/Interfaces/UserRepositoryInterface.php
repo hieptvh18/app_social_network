@@ -40,5 +40,5 @@ Interface UserRepositoryInterface{
      * following customer
      * @param $requestData
      */
-    public function following($requestData);
+    public function follow($requestData);
 }
