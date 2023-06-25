@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\api\PostController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -42,5 +43,7 @@ Route::prefix('v1')->group(function(){
         Route::post('/user/following',[UserController::class,'followUser'])->name('followUser');
          // un follow user
          Route::post('/user/unfollow',[UserController::class,'unFollowUser'])->name('unFollowUser');
+        // show post
+        Route::get('/posts/get_by_following',[PostController::class, 'getPostByFollowingId'])->name('getPost');
     });
 });
