@@ -85,23 +85,8 @@
                 </div>
             </div>
         </div>
-        <div class="content-gallery">
-            <div class="gallery__header">Posts</div>
-            <div class="gallery__items d-flex">
-                <div class="gallery__item">
-                    <img
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQj0P5UaXPM-iOOHh9o9JrktCiqXnfpzlCsqA&usqp=CAU"
-                        alt=""
-                    />
-                </div>
-                <div class="gallery__item">
-                    <img
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQj0P5UaXPM-iOOHh9o9JrktCiqXnfpzlCsqA&usqp=CAU"
-                        alt=""
-                    />
-                </div>
-            </div>
-        </div>
+        <!-- gallery list -->
+        <GalleryItems v-if="userDataFromParam.posts" :posts="userDataFromParam.posts" />
     </div>
     <ModalLoading v-if="loading" />
 </template>
@@ -190,6 +175,8 @@ const follow = (following_id)=>{
 // unfollow action
 const unFollow = ()=>{
     console.log('un follow');
+
+    
 }
 
 const isFollowed = ()=>{
@@ -205,9 +192,10 @@ const isFollowed = ()=>{
 
 <script>
 import ModalLoading from "../../components/ModalLoading.vue";
+import GalleryItems from "../../components/Profile/GalleryItems.vue";
 
 export default {
-    components: { ModalLoading },
+    components: { ModalLoading, GalleryItems },
     data() {
         return {
             userData:this.userData

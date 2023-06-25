@@ -29,13 +29,3 @@
     width: 100%;
 }
 
-.gallery__items{
-    column-gap: 20px;
-}
-
-.gallery__item{
-    width:25% ;
-}
-.gallery__item img{
-    width: 100%;
-}
