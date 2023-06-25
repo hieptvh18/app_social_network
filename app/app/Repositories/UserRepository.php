@@ -1,5 +1,6 @@
 <?php
 namespace App\Repositories;
+
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -14,10 +15,31 @@ class UserRepository implements UserRepositoryInterface
         try {
             if ($username && User::where('username', $username)->exists()) {
                 $user = User::where('username', $username)->first();
-                // $user->countPosts = count($user->posts);
-                $user->posts;
+
+                $listFollowerId = $user->follower->pluck('following_id')->toArray();
+                $listFollowingId = $user->following->pluck('user_id')->toArray();
+
+                $listFollower = $this->getInfobyId($listFollowerId);
+
+                $listFollowing = $this->getInfobyId($listFollowingId);
+
+                $data = [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'username' => $user->username,
+                    'email' => $user->email,
+                    'phone' => $user->phone,
+                    'avatar' => $user->avatar,
+                    'google_id' => $user->google_id,
+                    'facebook_id' => $user->facebook_id,
+                    'follower' => count($user->follower),
+                    'following' => count($user->following),
+                    'follower_list' => $listFollower,
+                    'following_list' => $listFollowing,
+                    'posts'=> $user->posts,
+                ];
                 return response()->json([
-                    'data' => $user,
+                    'data' => $data,
                     'message' => 'Get user data by username success',
                     'success' => true,
                 ]);
@@ -27,7 +49,8 @@ class UserRepository implements UserRepositoryInterface
                 'message' => 'User not found!',
                 'success' => false,
             ]);
-        } catch (Throwable $e) {
+        }
+        catch (Throwable $e) {
             return response()->json([
                 'data' => [],
                 'message' => 'Get user by username fail!! ' . $e->getMessage(),
@@ -155,6 +178,25 @@ class UserRepository implements UserRepositoryInterface
     public function following($requestData)
     {
 
+    }
+
+    public function getInfobyId($id){
+        $list = [];
+
+        foreach ($id as $key) {
+            $data = User::where('id', $key)->first(['id','name', 'avatar', 'username']);
+            if ($data) {
+                $userAttributes = [
+                    'id' => $data->id,
+                    'name' => $data->name,
+                    'avatar' => $data->avatar,
+                    'username' => $data->username
+                ];
+
+                $list[] = $userAttributes;
+            }
+        }
+        return $list;
     }
 
     public function logout($request)
