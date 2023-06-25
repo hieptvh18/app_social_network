@@ -58,10 +58,11 @@ class UserController extends Controller
      */
     public function followUser(FollowUserRequest $request)
     {
-        return $this->userRepository->follow($request);
+        return $this->userRepository->follow($request->user_id,$request->following_id);
     }
 
-    public function unFollowUser()
+    public function unFollowUser(FollowUserRequest $request)
     {
+        return $this->userRepository->unFollow($request->user_id,$request->following_id);
     }
 }

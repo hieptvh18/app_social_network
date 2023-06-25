@@ -167,13 +167,13 @@ class UserRepository implements UserRepositoryInterface
         }
     }
 
-    public function follow($request)
+    public function follow($user_id,$following_id)
     {
         try{
             // action following
             $userFollow = new Follow();
-            $userFollow->user_id = $request->user_id;
-            $userFollow->following_id = $request->following_id;
+            $userFollow->user_id = $user_id;
+            $userFollow->following_id = $following_id;
             $userFollow->save();
 
             return response()->json([
@@ -208,6 +208,39 @@ class UserRepository implements UserRepositoryInterface
         } catch (Throwable $e) {
             report($e->getMessage());
             return response()->json(['status' => 'fail', 'message' => 'Logout fail!']);
+        }
+    }
+
+    public function unFollow($user_id,$following_id){
+        try{
+            $followExist  = Follow::where('user_id',$user_id)
+                                    ->where('following_id',$following_id)->exists();
+            
+            if(!$followExist){
+                return response()->json([
+                    'success'=>false,
+                    'message'=>'Not found user followed!'
+                ]);
+            }
+                                          
+            $delete = Follow::where('user_id',$user_id)
+            ->where('following_id',$following_id)->first()->delete();
+            if($delete){
+                return response()->json([
+                    'success'=>true,
+                    'message'=>'Unfollow success!',
+                ]);
+            }
+
+            return response()->json([
+                'success'=>false,
+                'message'=>'UnFollow error! Pls try again!',
+            ]);
+        }catch(Throwable $er){
+            return response()->json([
+                'success'=>false,
+                'message'=>'UnFollow error! '.$er->getMessage(),
+            ]);
         }
     }
 }

@@ -12,17 +12,25 @@
                     <span class="name mr-3">{{
                         userDataFromParam.username
                     }}</span>
-                    <router-link :to="{ name: 'account-edit' }" v-if="myProfile" >
+                    <router-link
+                        :to="{ name: 'account-edit' }"
+                        v-if="myProfile"
+                    >
                         <button class="btn btn-light mr-3">Edit profile</button>
                     </router-link>
 
-                    <button class="btn" 
-                    :class="{ 'btn-secondary':isUserFollowed, 'btn-success':!isUserFollowed }" 
-                    :data-follow="userDataFromParam.username" 
-                    v-if="!myProfile"
-                     @click="handleFollow(userDataFromParam.id)">
-                        {{ isUserFollowed ? 'UnFollow' : 'Follow +' }}
-                     </button>
+                    <button
+                        class="btn"
+                        :class="{
+                            'btn-secondary': isUserFollowed,
+                            'btn-success': !isUserFollowed,
+                        }"
+                        :data-follow="userDataFromParam.username"
+                        v-if="!myProfile"
+                        @click="handleFollow(userDataFromParam.id)"
+                    >
+                        {{ isUserFollowed ? "UnFollow" : "Follow +" }}
+                    </button>
 
                     <button v-if="myProfile"><i class="fa fa-cog"></i></button>
                 </div>
@@ -36,10 +44,16 @@
                         post</span
                     >
                     <div class="count-follower mr-3">
-                        <span class="font-weight-bold">{{ userDataFromParam.follower.length }}</span> followers
+                        <span class="font-weight-bold">{{
+                            userDataFromParam.follower.length
+                        }}</span>
+                        followers
                     </div>
                     <div class="count-following">
-                        <span class="font-weight-bold">{{ userDataFromParam.following.length }}</span> following
+                        <span class="font-weight-bold">{{
+                            userDataFromParam.following.length
+                        }}</span>
+                        following
                     </div>
                 </div>
                 <div class="content-profile-fullname">
@@ -86,7 +100,10 @@
             </div>
         </div>
         <!-- gallery list -->
-        <GalleryItems v-if="userDataFromParam.posts" :posts="userDataFromParam.posts" />
+        <GalleryItems
+            v-if="userDataFromParam.posts"
+            :posts="userDataFromParam.posts"
+        />
     </div>
     <ModalLoading v-if="loading" />
 </template>
@@ -95,7 +112,7 @@
 <script setup>
 import { useRoute } from "vue-router";
 import { getUser } from "../../api/auth";
-import { getUserByUsername, followUser } from "../../api/user";
+import { getUserByUsername, followUser, unFollowUser } from "../../api/user";
 import { ref } from "vue";
 
 var userLoggin = ref({});
@@ -123,71 +140,81 @@ let formdata = new FormData();
 formdata.username = username;
 const getUserDataFromParam = () => {
     getUserByUsername(formdata)
-    .then((response) => {
-        if (response.data.success == true) {
-            userDataFromParam.value = response.data.data;
-            // compare is my profile or guest profile
-            if (response.data.data.id != userLoggin.id) {
-                myProfile.value = false;
+        .then((response) => {
+            if (response.data.success == true) {
+                userDataFromParam.value = response.data.data;
+                // compare is my profile or guest profile
+                if (response.data.data.id != userLoggin.id) {
+                    myProfile.value = false;
+                }
+                isUserFollowed = isFollowed();
+            } else {
+                window.location.href = "/404.html";
             }
-            isUserFollowed = isFollowed();
-        } else {
-            window.location.href = "/404.html";
-        }
-    })
-    .catch((err) => {
-        console.log(err);
-    })
-    .then(() => (loading.value = false));
-}
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+        .then(() => (loading.value = false));
+};
 getUserDataFromParam();
 
 // handle follows
-const handleFollow = (following_id) =>{
-    if(isUserFollowed){
-        //  un fl
-        unFollow();
-    }else{
-        // fl
+const handleFollow = (following_id) => {
+    if (isUserFollowed) {
+        unFollow(following_id);
+    } else {
         follow(following_id);
     }
-}
+};
 
 // follow action
-const follow = (following_id)=>{
-            let dataFollow  = {
-                user_id:userLoggin.id,
-                following_id:following_id
-            };
-            followUser(dataFollow)
-            .then(res=>{
-                if(res.data.success){
-                    // re render data
-                    getUserDataFromParam(); 
+const follow = (following_id) => {
+    let dataFollow = {
+        user_id: userLoggin.id,
+        following_id: following_id,
+    };
+    followUser(dataFollow)
+        .then((res) => {
+            if (res.data.success) {
+                // re render data
+                getUserDataFromParam();
 
-                    // check is followed
-                    isUserFollowed.value = isFollowed();
-                }
-            })
-            .catch(err=>{})
-        }
+                isUserFollowed = isFollowed();
+            }
+        })
+        .catch((err) => {console.log(err);});
+};
 
 // unfollow action
-const unFollow = ()=>{
-    console.log('un follow');
+const unFollow = (following_id) => {
+    let dataUnFollow = {
+        user_id: userLoggin.id,
+        following_id: following_id,
+    };
+    unFollowUser(dataUnFollow)
+        .then((res) => {
+            if (res.data.success) {
+                getUserDataFromParam();
+                isUserFollowed = isFollowed();
+            }
+        })
+        .catch((err) => {console.log(err);});
+};
 
-    
-}
-
-const isFollowed = ()=>{
+const isFollowed = () => {
     let userLoginId = userLoggin.id;
     let isFollowMe = false;
     let currentFollowing = userDataFromParam.value.follower;
-    if(currentFollowing.length){
-        isFollowMe = currentFollowing.filter(val=> val.following_id == userLoginId) ? true : false;
+    if (currentFollowing.length) {
+        isFollowMe = currentFollowing.filter(
+            (val) => val.following_id == userLoginId
+        )
+            ? true
+            : false;
     }
     return isFollowMe;
-}
+};
 </script>
 
 <script>
@@ -198,14 +225,12 @@ export default {
     components: { ModalLoading, GalleryItems },
     data() {
         return {
-            userData:this.userData
+            userData: this.userData,
         };
     },
-    props:{
-        userData:Object
+    props: {
+        userData: Object,
     },
-    methods: {
-        
-    },
+    methods: {},
 };
 </script>
