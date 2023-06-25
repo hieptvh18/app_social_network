@@ -21,7 +21,6 @@ class UserRepository implements UserRepositoryInterface
                 $listFollowerId = $user->follower->pluck('user_id')->toArray();
 
                 $listFollower = $this->getInfobyId($listFollowerId);
-
                 $listFollowing = $this->getInfobyId($listFollowingId);
 
                 $data = [

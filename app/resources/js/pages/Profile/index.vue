@@ -43,15 +43,15 @@
                         }}</span>
                         post</span
                     >
-                    <div class="count-follower mr-3">
+                    <div class="count-follower mr-3" @click="showListFollow">
                         <span class="font-weight-bold">{{
-                            userDataFromParam.follower.length
+                            userDataFromParam.follower
                         }}</span>
                         followers
                     </div>
-                    <div class="count-following">
+                    <div class="count-following" @click="showListFollow">
                         <span class="font-weight-bold">{{
-                            userDataFromParam.following.length
+                            userDataFromParam.following
                         }}</span>
                         following
                     </div>
@@ -141,13 +141,14 @@ formdata.username = username;
 const getUserDataFromParam = () => {
     getUserByUsername(formdata)
         .then((response) => {
+            console.log(response);
             if (response.data.success == true) {
                 userDataFromParam.value = response.data.data;
                 // compare is my profile or guest profile
                 if (response.data.data.id != userLoggin.id) {
                     myProfile.value = false;
                 }
-                isUserFollowed = isFollowed();
+                isUserFollowed.value = isFollowed();
             } else {
                 window.location.href = "/404.html";
             }
@@ -161,7 +162,8 @@ getUserDataFromParam();
 
 // handle follows
 const handleFollow = (following_id) => {
-    if (isUserFollowed) {
+    console.log('type: '+isUserFollowed.value);
+    if (isUserFollowed.value) {
         unFollow(following_id);
     } else {
         follow(following_id);
@@ -180,7 +182,7 @@ const follow = (following_id) => {
                 // re render data
                 getUserDataFromParam();
 
-                isUserFollowed = isFollowed();
+                isUserFollowed.value = isFollowed();
             }
         })
         .catch((err) => {console.log(err);});
@@ -196,7 +198,7 @@ const unFollow = (following_id) => {
         .then((res) => {
             if (res.data.success) {
                 getUserDataFromParam();
-                isUserFollowed = isFollowed();
+                isUserFollowed.value = isFollowed();
             }
         })
         .catch((err) => {console.log(err);});
@@ -205,7 +207,8 @@ const unFollow = (following_id) => {
 const isFollowed = () => {
     let userLoginId = userLoggin.id;
     let isFollowMe = false;
-    let currentFollowing = userDataFromParam.value.follower;
+    let currentFollowing = userDataFromParam.value.follower_list;
+    console.log(currentFollowing);
     if (currentFollowing.length) {
         isFollowMe = currentFollowing.filter(
             (val) => val.following_id == userLoginId
@@ -231,6 +234,14 @@ export default {
     props: {
         userData: Object,
     },
-    methods: {},
+    methods: {
+        showListFollow(type='followers'){
+            if(type == 'followers'){
+
+            }else{
+
+            }
+        }
+    },
 };
 </script>

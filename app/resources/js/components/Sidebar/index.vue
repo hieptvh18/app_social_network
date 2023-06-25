@@ -1,5 +1,5 @@
 <template>
-    <aside class="sidebar-menu col-3 bg-info">
+    <aside class="sidebar-menu col-3 bg-light">
         <div class="logo">
           <a href="">Instagram</a>
         </div>
@@ -10,21 +10,6 @@
                 </router-link>
         </li>
           <li><i class="fas fa-search"></i><ModalSearchUser/></li>
-          <!-- <li>
-            <i class="fas fa-search"></i>
-            <button
-            type="button"
-            class="btn"
-            @click="showModal"
-            >
-              Open Modal!
-            </button>
-
-            <ModalDynamic
-              v-show="isModalVisible"
-              @close="closeModal"
-            />
-          </li> -->
           <li><a href="">Explore</a></li>
           <li><a href=""><i class="fab fa-facebook-messenger"></i>Message</a></li>
           <li><a href=""><i class="far fa-heart"></i>Notification</a></li>
@@ -39,7 +24,8 @@
         </ul>
       </aside>
 </template>
-
+<style scoped src="./index.css">
+</style>
 <script>
 import ModalCreatePost from '../ModalCreatePost/index.vue';
 import ModalSearchUser from '../ModalSearchUser/index.vue';

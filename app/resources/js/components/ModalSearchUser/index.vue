@@ -1,15 +1,13 @@
 <template>
-<span class="" data-toggle="modal" data-target="#modalSearchUser">
+<span @click="toggleModal">
     Search
 </span>
 
 <!-- Modal -->
-<div class="modal" id="modalSearchUser" tabindex="-1" role="dialog" aria-labelledby="modalSearchUser" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
+<div class="modal-search-box" :class="{'hide':!isShowModal,'active':isShowModal}">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalSearchUser">Search User</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" @click="toggleModal">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -23,13 +21,7 @@
                </ul>
                <div v-if="!loading && !resultSearch" class="search-result__blank">Nothing result!</div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Next</button>
-            </div>
         </div>
-    </div>
-</div>
 </template>
 
 <style scoped src="./index.css"></style>
@@ -46,7 +38,8 @@ export default {
     data() {
         return {
             resultSearch:true,
-            loading:ref(false)
+            loading:ref(false),
+            isShowModal:ref(false)
         }
     },
     // method is binding method to DOM
@@ -74,6 +67,10 @@ export default {
                 })
                 .catch(err=>console.log(err))
                 .then(()=>this.loading = false)
+        },
+
+        toggleModal(){
+            this.isShowModal ? this.isShowModal = false : this.isShowModal = true;
         }
     },
 

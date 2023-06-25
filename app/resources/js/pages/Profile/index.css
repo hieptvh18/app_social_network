@@ -29,3 +29,7 @@
     width: 100%;
 }
 
+.count-follower, .count-following{
+    cursor: pointer;
+}
+
