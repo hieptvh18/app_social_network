@@ -1,6 +1,7 @@
 <?php
 namespace App\Repositories;
 
+use App\Models\Follow;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -27,15 +28,16 @@ class UserRepository implements UserRepositoryInterface
                     'id' => $user->id,
                     'name' => $user->name,
                     'username' => $user->username,
+                    'bio' => $user->bio,
                     'email' => $user->email,
                     'phone' => $user->phone,
                     'avatar' => $user->avatar,
                     'google_id' => $user->google_id,
                     'facebook_id' => $user->facebook_id,
-                    'follower' => count($user->follower),
-                    'following' => count($user->following),
-                    'follower_list' => $listFollower,
-                    'following_list' => $listFollowing,
+                    'follower' => count($user->following),
+                    'following' => count($user->follower),
+                    'follower_list' => $listFollowing,
+                    'following_list' => $listFollower,
                     'posts'=> $user->posts,
                 ];
                 return response()->json([
@@ -175,9 +177,28 @@ class UserRepository implements UserRepositoryInterface
         }
     }
 
-    public function following($requestData)
+    public function follow($user_id,$following_id)
     {
+        try{
+            // action following
+            $userFollow = new Follow();
+            $userFollow->user_id = $user_id;
+            $userFollow->following_id = $following_id;
+            $userFollow->save();
 
+            return response()->json([
+                'success'=>true,
+                'data'=>[],
+                'message'=>'Following success'
+            ]);
+        }catch(Throwable $e){
+            report($e->getMessage());
+            return response()->json([
+                'success'=>false,
+                'data'=>[],
+                'message'=>$e->getMessage()
+            ]);
+        }
     }
 
     public function getInfobyId($id){
@@ -198,7 +219,6 @@ class UserRepository implements UserRepositoryInterface
         }
         return $list;
     }
-
     public function logout($request)
     {
         try {
@@ -208,6 +228,39 @@ class UserRepository implements UserRepositoryInterface
         } catch (Throwable $e) {
             report($e->getMessage());
             return response()->json(['status' => 'fail', 'message' => 'Logout fail!']);
+        }
+    }
+
+    public function unFollow($user_id,$following_id){
+        try{
+            $followExist  = Follow::where('user_id',$user_id)
+                                    ->where('following_id',$following_id)->exists();
+
+            if(!$followExist){
+                return response()->json([
+                    'success'=>false,
+                    'message'=>'Not found user followed!'
+                ]);
+            }
+
+            $delete = Follow::where('user_id',$user_id)
+            ->where('following_id',$following_id)->first()->delete();
+            if($delete){
+                return response()->json([
+                    'success'=>true,
+                    'message'=>'Unfollow success!',
+                ]);
+            }
+
+            return response()->json([
+                'success'=>false,
+                'message'=>'UnFollow error! Pls try again!',
+            ]);
+        }catch(Throwable $er){
+            return response()->json([
+                'success'=>false,
+                'message'=>'UnFollow error! '.$er->getMessage(),
+            ]);
         }
     }
 }

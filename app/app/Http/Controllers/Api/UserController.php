@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Http\Requests\UserRequest;
+use App\Http\Requests\FollowUserRequest;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Throwable;
@@ -55,40 +56,13 @@ class UserController extends Controller
     /**
      * handle following & count follwer
      */
-    public function followUser(Request $request)
+    public function followUser(FollowUserRequest $request)
     {
-        //  validate
-
-
-        try{
-            $user = \App\Models\User::find($request->user_id);
-
-            // action following
-            $userFollow = new \App\Models\Follow();
-            $userFollow->user_id = $request->user_id;
-            $userFollow->following_id = $request->following_id;
-            $userFollow->follow_types = $request->follow_types;
-            $userFollow->save();
-
-            // count follower
-
-
-            return response()->json([
-                'success'=>true,
-                'data'=>[],
-                'message'=>'Following success'
-            ]);
-        }catch(Throwable $e){
-            report($e->getMessage());
-            return response()->json([
-                'success'=>false,
-                'data'=>[],
-                'message'=>$e->getMessage()
-            ]);
-        }
+        return $this->userRepository->follow($request->user_id,$request->following_id);
     }
 
-    public function unFollowUser()
+    public function unFollowUser(FollowUserRequest $request)
     {
+        return $this->userRepository->unFollow($request->user_id,$request->following_id);
     }
 }

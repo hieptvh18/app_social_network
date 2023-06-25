@@ -38,7 +38,13 @@ Interface UserRepositoryInterface{
 
     /**
      * following customer
-     * @param $requestData
+     * @param $userId, $followingId
      */
-    public function following($requestData);
+    public function follow($userId, $followingId);
+
+    /**
+     * un follow
+     * @param $userId, $followingId
+     */
+    public function unFollow($userId, $followingId);
 }

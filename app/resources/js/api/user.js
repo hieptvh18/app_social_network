@@ -48,3 +48,29 @@ export const updateUser = async(formData)=>{
    
     return await axios(options);
 }
+
+// following
+export const followUser = async(formData)=>{
+    const url = '/user/following';
+    const options = {
+        method: 'POST',
+        headers: headers,
+        params: formData,
+        url:baseURLApi+url
+    }
+   
+    return await axios(options);
+}
+
+// following
+export const unFollowUser = async(formData)=>{
+    const url = '/user/unfollow';
+    const options = {
+        method: 'POST',
+        headers: headers,
+        params: formData,
+        url:baseURLApi+url
+    }
+   
+    return await axios(options);
+}

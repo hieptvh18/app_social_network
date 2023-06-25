@@ -36,7 +36,7 @@ class UserRequest extends FormRequest
                 $rules = [
                     'id'=>'required|exists:users,id',
                     'username' => ['required', Rule::unique('users', 'username')->ignore(request()->username, 'username')],
-                    'email'=>['required', Rule::unique('users', 'email')->ignore(request()->username, 'email')]
+                    'email'=>['required', Rule::unique('users', 'email')->ignore(request()->email, 'email')]
                 ];
                 break;
         }

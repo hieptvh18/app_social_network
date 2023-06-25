@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('follows', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->unique();
+            $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
-            $table->unsignedBigInteger('following_id')->unique();
+            $table->unsignedBigInteger('following_id');
             $table->foreign('following_id')->references('id')->on('users')->onDelete('cascade');
 
-            $table->tinyInteger('follow_types')->default(0)->comment('1 is following, 0 is followers');
+            // $table->tinyInteger('follow_types')->default(0)->comment('1 is following, 0 is followers');
             $table->timestamps();
         });
     }

@@ -40,5 +40,7 @@ Route::prefix('v1')->group(function(){
         Route::put('/user/update',[UserController::class,'update'])->name('updateUser');
         // following user
         Route::post('/user/following',[UserController::class,'followUser'])->name('followUser');
+         // un follow user
+         Route::post('/user/unfollow',[UserController::class,'unFollowUser'])->name('unFollowUser');
     });
 });

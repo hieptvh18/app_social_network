@@ -28,7 +28,7 @@ class AuthController extends Controller
         try {
             $credentials = request(['username', 'password']);
             if (!Auth::attempt($credentials)) {
-                return response()->json(['status' => 'fail', 'message' => 'Auth fail!', 'data' => []], Response::HTTP_UNAUTHORIZED);
+                return response()->json(['status' => 'fail', 'message' => 'Username or password invalid!', 'data' => []], Response::HTTP_UNAUTHORIZED);
             }
 
             // ok
@@ -76,7 +76,7 @@ class AuthController extends Controller
             return response()->json([
                 'data' => [],
                 'success' => false,
-                'message' => "Get user data fail! " . $er->getMessage()
+                'message' => "Get user data fail! " . $e->getMessage()
             ]);
         }
     }
@@ -84,6 +84,6 @@ class AuthController extends Controller
     // logout
     public function logout(Request $request)
     {
-        $this->userRepository->logout($request);
+        return $this->userRepository->logout($request);
     }
 }
