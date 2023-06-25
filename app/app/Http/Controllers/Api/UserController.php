@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\FollowUserRequest;
+use App\Models\Follow;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Throwable;
@@ -58,11 +59,15 @@ class UserController extends Controller
      */
     public function followUser(FollowUserRequest $request)
     {
-        return $this->userRepository->follow($request->user_id,$request->following_id);
+        if ($request->validated()) {
+            return $this->userRepository->follow($request->user_id, $request->following_id);
+        } else {
+            return "";
+        }
     }
 
     public function unFollowUser(FollowUserRequest $request)
     {
-        return $this->userRepository->unFollow($request->user_id,$request->following_id);
+        return $this->userRepository->unFollow($request->user_id, $request->following_id);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class FollowUserRequest extends FormRequest
 {
@@ -22,8 +23,14 @@ class FollowUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id'=>"required",
-            'following_id'=>"required"
+            'user_id' => 'required|exists:users,id',
+            'following_id' => [
+                'required',
+                'exists:users,id',
+                Rule::unique('follows')->where(function ($query) {
+                    return $query->where('user_id', $this->input('user_id'));
+                })
+            ],
         ];
     }
 }
