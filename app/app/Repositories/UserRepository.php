@@ -17,8 +17,8 @@ class UserRepository implements UserRepositoryInterface
             if ($username && User::where('username', $username)->exists()) {
                 $user = User::where('username', $username)->first();
 
-                $listFollowerId = $user->follower->pluck('following_id')->toArray();
-                $listFollowingId = $user->following->pluck('user_id')->toArray();
+                $listFollowerId = $user->following->pluck('following_id')->toArray();
+                $listFollowingId = $user->follower->pluck('user_id')->toArray();
 
                 $listFollower = $this->getInfobyId($listFollowerId);
 
@@ -34,11 +34,12 @@ class UserRepository implements UserRepositoryInterface
                     'avatar' => $user->avatar,
                     'google_id' => $user->google_id,
                     'facebook_id' => $user->facebook_id,
-                    'follower' => count($user->following),
-                    'following' => count($user->follower),
-                    'follower_list' => $listFollowing,
-                    'following_list' => $listFollower,
+                    'follower' => count($user->follower),
+                    'following' => count($user->following),
+                    'follower_list' => $listFollower,
+                    'following_list' => $listFollowing,
                     'posts'=> $user->posts,
+
                 ];
                 return response()->json([
                     'data' => $data,
