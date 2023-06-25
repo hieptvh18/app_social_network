@@ -17,8 +17,8 @@ class UserRepository implements UserRepositoryInterface
             if ($username && User::where('username', $username)->exists()) {
                 $user = User::where('username', $username)->first();
 
-                $listFollowerId = $user->following->pluck('following_id')->toArray();
-                $listFollowingId = $user->follower->pluck('user_id')->toArray();
+                $listFollowerId = $user->follower->pluck('following_id')->toArray();
+                $listFollowingId = $user->following->pluck('user_id')->toArray();
 
                 $listFollower = $this->getInfobyId($listFollowerId);
 
