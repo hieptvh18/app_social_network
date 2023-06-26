@@ -16,7 +16,11 @@
               <i class="fab fa-facebook-messenger"></i>Message
             </router-link>
           </li>
-          <li><a href=""><i class="far fa-heart"></i>Notification</a></li>
+          <li>
+            <router-link :to="{name:'notificationpage'}">
+              <i class="far fa-heart"></i>Notification
+            </router-link>
+          </li>
 
           <!-- create post -->
           <li><ModalCreatePost/></li>
