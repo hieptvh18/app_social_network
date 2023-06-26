@@ -5,10 +5,11 @@ import home from "./home";
 import profile from "./profile";
 import error from "./error-page";
 import auth from "./auth";
+import message from './message'
 import {getUser} from '../api/auth';
 
 //init routing
-const routes = [...home,...post,...profile,...auth,...error];
+const routes = [...home,...post,...profile,...auth,...error,...message];
 
 const router = createRouter({
     history:createWebHistory(),

@@ -11,7 +11,11 @@
         </li>
           <li><i class="fas fa-search"></i><ModalSearchUser/></li>
           <li><a href="">Explore</a></li>
-          <li><a href=""><i class="fab fa-facebook-messenger"></i>Message</a></li>
+          <li>
+            <router-link :to="{name:'messagepage'}">
+              <i class="fab fa-facebook-messenger"></i>Message
+            </router-link>
+          </li>
           <li><a href=""><i class="far fa-heart"></i>Notification</a></li>
 
           <!-- create post -->
