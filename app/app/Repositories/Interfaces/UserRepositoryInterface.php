@@ -47,4 +47,12 @@ Interface UserRepositoryInterface{
      * @param $userId, $followingId
      */
     public function unFollow($userId, $followingId);
+
+    /**
+     * upload avatar image
+     * @param mixed $name
+     */
+    public function uploadAvatar(Request $request);
+
+    
 }

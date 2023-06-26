@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\FileUploadRequest;
 use Illuminate\Http\Request;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Http\Requests\UserRequest;
@@ -59,15 +60,15 @@ class UserController extends Controller
      */
     public function followUser(FollowUserRequest $request)
     {
-        if ($request->validated()) {
-            return $this->userRepository->follow($request->user_id, $request->following_id);
-        } else {
-            return "";
-        }
+        return $this->userRepository->follow($request->user_id, $request->following_id);
     }
 
-    public function unFollowUser(FollowUserRequest $request)
+    public function unFollowUser(Request $request)
     {
         return $this->userRepository->unFollow($request->user_id, $request->following_id);
+    }
+
+    public function uploadAvatar(FileUploadRequest $request){
+        return $this->userRepository->uploadAvatar($request);
     }
 }

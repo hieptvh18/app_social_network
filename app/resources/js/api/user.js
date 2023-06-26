@@ -9,7 +9,13 @@ const headers = {
     'Authorization':'Bearer '+token,
     'X-Requested-With':'XMLHttpRequest' 
   };
-
+  const headersUploadFile = {
+    headers:{
+        "Content-Type": "multipart/form-data",
+        'Authorization':'Bearer '+token,
+        // 'X-Requested-With':'XMLHttpRequest'
+    }
+  };
 // get data current user login
 export const getUserByUsername = async (formData) =>{
     const url = '/user/get-user';
@@ -73,4 +79,13 @@ export const unFollowUser = async(formData)=>{
     }
    
     return await axios(options);
+}
+
+// following
+export const uploadAvatar = async(formData)=>{
+    const url = '/user/upload-avatar';
+    let config = headersUploadFile;
+    let data = formData;
+
+    return await axios.post(baseURLApi+url,data,config);
 }

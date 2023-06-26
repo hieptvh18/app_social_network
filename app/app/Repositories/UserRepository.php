@@ -5,9 +5,12 @@ use App\Models\Follow;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Throwable;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Storage;
+use URL;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -260,6 +263,56 @@ class UserRepository implements UserRepositoryInterface
             return response()->json([
                 'success'=>false,
                 'message'=>'UnFollow error! '.$er->getMessage(),
+            ]);
+        }
+    }
+
+    /**
+     * upload avatar file
+     */
+    public function uploadAvatar(Request $request)
+    {
+        try{
+            if(!$request->hasFile('avatar')){
+                return response()->json([
+                    'success'=>false,
+                    'message'=>'File upload not exist!',
+                    'data'=>[]
+                ]);
+            }
+
+            $filePath = fileUploader($request->file('avatar'),'avatar','uploads/avatars');
+
+            if($filePath){
+                // save data
+                $baseUrl = url('/');
+                $user = User::find(Auth::user()->id);
+
+                // remove old file
+                $oldAvatar = $user->avatar;
+                if($oldAvatar) removeFilePath($oldAvatar);
+
+                $user->avatar = $baseUrl.'/'.$filePath;
+                $user->save();
+
+                return response()->json([
+                    'success'=>true,
+                    'message'=>'Upload success!',
+                    'data'=>[
+                        'avatar'=>$user->avatar
+                    ]
+                ]);
+            }
+            return response()->json([
+                'success'=>false,
+                'message'=>'Upload not success!',
+                'data'=>[]
+            ]);
+        }catch(Throwable $er){
+            return response()->json([
+                'success'=>false,
+                'message'=>'Upload not success! '.$er->getMessage(),
+                'data'=>[]
             ]);
         }
     }

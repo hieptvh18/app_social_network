@@ -42,5 +42,7 @@ Route::prefix('v1')->group(function(){
         Route::post('/user/following',[UserController::class,'followUser'])->name('followUser');
          // un follow user
          Route::post('/user/unfollow',[UserController::class,'unFollowUser'])->name('unFollowUser');
+          // upload avatar
+          Route::post('/user/upload-avatar',[UserController::class,'uploadAvatar'])->name('uploadAvatar');
     });
 });
