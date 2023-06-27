@@ -61,7 +61,10 @@ class PostRepository implements PostRepositoryInterface
             $dataResponse['message'] = 'Create post success!';
             return response()->json($dataResponse);
         } catch (\Throwable $th) {
-            //throw $th;
+            report($th);
+            $dataResponse['status'] = false;
+            $dataResponse['message'] = 'Error: ' . $th->getMessage();
+            return response()->json($dataResponse);
         }
     }
 
