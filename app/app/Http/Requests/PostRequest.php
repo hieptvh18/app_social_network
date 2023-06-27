@@ -22,7 +22,7 @@ class PostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'captions' => 'required',
         ];
     }
 }

@@ -7,6 +7,7 @@ Interface PostRepositoryInterface{
 
     public function getPostByFollowingId();
 
+    public function save($request);
 }
 
 ?>

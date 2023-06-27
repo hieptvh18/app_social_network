@@ -3,6 +3,7 @@ namespace App\Repositories;
 
 use App\Models\Follow;
 use App\Models\Post;
+use App\Models\PostImage;
 use App\Repositories\Interfaces\PostRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,6 +29,40 @@ class PostRepository implements PostRepositoryInterface
             'message' => 'Post not found!',
             'success' => false,
         ]);
+    }
+
+    public function save($request){
+        $dataResponse = ['status' => true, 'data' => [], 'message' => ""];
+        if (!$request->captions || !$request->tags) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Data is not valid!',
+                'data' => $request->all()
+            ]);
+        }
+        try {
+            // lưu post
+            $post = new Post();
+            $post->user_id = Auth::id();
+            $post->captions = $request->input('captions');
+            $post->tags = $request->input('tags');
+            $post->save();
+
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $image) {
+                    $filename = $image->store('images'); // Lưu ảnh vào thư mục "storage/app/images"
+                    $postImg = new PostImage();
+                    $postImg->post_id = $post->id;
+                    $postImg->image = $filename;
+                    $postImg->save();
+                }
+            }
+            $dataResponse['data'] = $request->all();
+            $dataResponse['message'] = 'Create post success!';
+            return response()->json($dataResponse);
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
     }
 
 }
