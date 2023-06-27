@@ -43,3 +43,17 @@ body{margin-top:20px;}
 .border-top {
     border-top: 1px solid #dee2e6!important;
 }
+.card{
+    height: 100vh;
+}
+.chat-default-box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+.default-chat__title{
+    font-size: 25px;
+    font-weight: 400;
+    font-family: monospace;
+}
