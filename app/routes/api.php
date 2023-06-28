@@ -49,5 +49,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/posts/get_by_following', [PostController::class, 'getPostByFollowingId'])->name('getPost');
         // save post
         Route::post('/posts/save', [PostController::class, 'savePost'])->name('savePost');
+        // recommend follow
+        Route::get('recommend-follows', [UserController::class, 'recommendFollow'])->name('recommend-follows');
     });
 });
