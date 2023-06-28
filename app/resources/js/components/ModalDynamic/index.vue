@@ -1,23 +1,21 @@
 
 <template>
     <transition name="modal-fade">
-       <div class="wrapper-modal-layout" style="max-width: 700px; max-height: 700px">
+       <div class="modal-box">
+        <div class="wrapper-modal-layout">
            <div class="modal-layout__container md">
              <div
                class="modal-layout"
-               role="dialog"
-               aria-labelledby="modalTitle"
-               aria-describedby="modalDescription"
              >
                <header class="modal-header" id="modalTitle">
-                 <slot name="header"> This is the default tile! </slot>
+                 <slot name="header"> User Following! </slot>
                  <button
                    type="button"
                    class="btn-close"
                    @click="close"
                    aria-label="Close modal"
                  >
-                   x
+                 &times;
                  </button>
                </header>
    
@@ -27,17 +25,11 @@
    
                <footer class="modal-footer">
                  <slot name="footer"></slot>
-                 <button
-                   type="button"
-                   class="btn-green"
-                   @click="close"
-                   aria-label="Close modal"
-                 >
-                   Close me!
-                 </button>
                </footer>
              </div>
          </div>
+        </div>
+        <div id="modal-backdrop" @click="close"></div>
        </div>
      </transition>
    </template>
@@ -52,7 +44,16 @@
   };
 </script>
 <style scoped>
-
+#modal-backdrop{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: #000;
+  opacity: 0.2;
+  z-index: 999;
+}
 .modal-layout{
   width: 500px;
   height: auto;
@@ -60,11 +61,12 @@
 
 .wrapper-modal-layout{
     position: fixed;
-    top: 50%;
+    top: 20%;
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 10px;
-    transition: all ease-in-out .5s;
+    transition: all ease-in-out .8s;
+    z-index: 9999;
 }
   .modal-backdrop {
     position: fixed;

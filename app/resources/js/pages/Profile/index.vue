@@ -43,13 +43,13 @@
                         }}</span>
                         post</span
                     >
-                    <div class="count-follower mr-3" @click="showListFollow">
+                    <div class="count-follower mr-3" @click="showModal('follower')">
                         <span class="font-weight-bold">{{
                             userDataFromParam.follower
                         }}</span>
                         followers
                     </div>
-                    <div class="count-following" @click="showListFollow">
+                    <div class="count-following" @click="showModal('following')">
                         <span class="font-weight-bold">{{
                             userDataFromParam.following
                         }}</span>
@@ -64,40 +64,21 @@
                         userDataFromParam.bio ?? userDataFromParam.bio
                     }}</span>
                 </div>
+
+                <!-- modal -->
+                <ModalDynamic v-show="isModalVisible" @close="closeModal">
+                    <template v-slot:header>
+                       {{ dataTitleModal }}
+                    </template>
+                    <template v-slot:body>
+                       <div v-html="dataBodyModal"></div>
+                    </template>
+                </ModalDynamic>
+
             </div>
         </div>
         <div class="content-stories mt-5 pb-5">
-            <div class="story-headers d-flex mb-3">
-                <div class="story-headers__item mr-4">
-                    <div class="avatar active">
-                        <img
-                            src="https://upload.wikimedia.org/wikipedia/en/thumb/d/d6/Avatar_%282009_film%29_poster.jpg/220px-Avatar_%282009_film%29_poster.jpg"
-                            alt=""
-                        />
-                    </div>
-                    <div class="story-name">thu_thao2</div>
-                </div>
-
-                <div class="story-headers__item mr-4">
-                    <div class="avatar active">
-                        <img
-                            src="https://upload.wikimedia.org/wikipedia/en/thumb/d/d6/Avatar_%282009_film%29_poster.jpg/220px-Avatar_%282009_film%29_poster.jpg"
-                            alt=""
-                        />
-                    </div>
-                    <div class="story-name">thu_thao2</div>
-                </div>
-
-                <!-- add new story -->
-                <div class="story-headers__item text-center" v-if="myProfile">
-                    <div
-                        class="avatar add-new d-flex justify-content-center align-items-center"
-                    >
-                        <i class="fa-solid fa-plus"></i>
-                    </div>
-                    <div class="story-name font-weight-bold">new</div>
-                </div>
-            </div>
+            <Stories :isMyProfile="myProfile" />
         </div>
         <!-- gallery list -->
         <GalleryItems
@@ -120,9 +101,13 @@ var userDataFromParam = ref({});
 var loading = ref(true);
 var myProfile = ref(true);
 var isUserFollowed = ref(false);
+var isModalVisible = ref(false);
+var dataBodyModal = ref("");
+var dataTitleModal = ref("");
 
 const route = useRoute();
 let username = route.params.username;
+const baseUrl = window.location.origin;
 
 const getUserLoggin = getUser()
     .then((response) => {
@@ -218,11 +203,73 @@ const isFollowed = () => {
     }
     return isFollowMe;
 };
+
+// handle display list follow
+const handleShowListFollow = (type)=>{
+    if(type == 'follower'){
+        dataTitleModal.value = "Followers";
+        let listFollower = userDataFromParam.value.follower_list;
+        if(listFollower.length){
+            let elList = `<div class="list-follows">`;
+            listFollower.forEach((val,index)=>{
+                elList+='<div class=" d-flex align-items-center mb-3">'
+                let avatarEl = '<img alt="avatar"/>';
+                if(val.avatar){
+                    avatarEl = `<img alt="avatar" src="${val.avatar}" style="width:30px"/>`;
+                }
+                elList += '<div class="img-avatar mr-2">'+avatarEl+'</div>';
+                elList += `<div class="name">
+                                <div class="font-weight-bold">${val.username}</div>
+                                <div>${val.name}</div>
+                            </div>`;
+                elList += '</div>'
+                elList+= `</div>`;
+
+                dataBodyModal.value = elList;
+            })
+        }else{
+            dataBodyModal.value = 'No follower';
+        }
+    }else{
+        dataTitleModal.value = "Following";
+        let listFollowing = userDataFromParam.value.following_list;
+        let elList = `<div class="list-follows">`;
+        if(listFollowing.length){
+            listFollowing.forEach((val,index)=>{
+                elList+='<div class=" d-flex align-items-center mb-3">'
+                let avatarEl = '<img alt="avatar"/>';
+                if(val.avatar){
+                    avatarEl = `<img alt="avatar" src="${val.avatar}" style="width:30px"/>`;
+                }
+                elList += '<div class="img-avatar mr-2">'+avatarEl+'</div>';
+                elList += `<div class="name">
+                                <div class="font-weight-bold"><a href="${baseUrl}/${val.username}">${val.username}<a/></div>
+                                <div>${val.name}</div>
+                            </div>`;
+                elList += '</div>'
+                elList+= `</div>`;
+                dataBodyModal.value = elList;
+            })
+        }else{
+            dataBodyModal.value = 'No following';
+        }
+    }
+}
+
+const showModal = (type) => {
+    isModalVisible.value = true;
+    handleShowListFollow(type);
+}
+const closeModal = (type)=> {
+            isModalVisible.value = false;
+        }
 </script>
 
 <script>
 import ModalLoading from "../../components/ModalLoading.vue";
 import GalleryItems from "../../components/Profile/GalleryItems.vue";
+import Stories from "../../components/Profile/Stories.vue";
+import ModalDynamic from "../../components/ModalDynamic/index.vue";
 
 export default {
     components: { ModalLoading, GalleryItems },
@@ -235,13 +282,7 @@ export default {
         userData: Object,
     },
     methods: {
-        showListFollow(type='followers'){
-            if(type == 'followers'){
-
-            }else{
-
-            }
-        }
+        
     },
 };
 </script>

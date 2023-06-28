@@ -9,27 +9,9 @@
     width: 100%;
     object-fit: contain;
 }
-
-.story-headers__item .avatar{
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    overflow: hidden;
-
-}
-.story-headers__item .avatar.add-new{
-    border: 1px solid #ccc; 
-    cursor: pointer;
-}
 .content-stories{
     border-bottom: 1px solid #ccc;
 }
-.story-headers__item img{
-    object-fit: cover;
-    width: 100%;
-}
-
 .count-follower, .count-following{
     cursor: pointer;
 }
-

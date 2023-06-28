@@ -45,7 +45,7 @@ Route::prefix('v1')->group(function () {
         Route::post('/user/unfollow', [UserController::class, 'unFollowUser'])->name('unFollowUser');
         // upload avatar
         Route::post('/user/upload-avatar', [UserController::class, 'uploadAvatar'])->name('uploadAvatar');
-        // show post
+        // show posts of following user
         Route::get('/posts/get_by_following', [PostController::class, 'getPostByFollowingId'])->name('getPost');
         // save post
         Route::post('/posts/save', [PostController::class, 'savePost'])->name('savePost');
