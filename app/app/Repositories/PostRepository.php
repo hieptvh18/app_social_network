@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Repositories;
 
 use App\Models\Follow;
@@ -9,29 +10,41 @@ use Illuminate\Support\Facades\Auth;
 
 class PostRepository implements PostRepositoryInterface
 {
-    public function getPostByFollowingId(){
-        $followingId = Auth::id();
-        $followingList = Follow::where('following_id',$followingId)->get('user_id');
-        $array = $followingList->map(function ($item) {
-            return $item->getAttributes();
-        })->all();
+    public function getPostByFollowingId()
+    {
+        $userId = Auth::id();
+        $followingList = Follow::where('user_id', $userId)->get('following_id');
 
-        $posts = Post::whereIn('user_id',$array)->get();
-        if ($posts) {
+        if ($followingList->isEmpty()) {
             return response()->json([
-                'data' => $posts,
-                'message' => 'Get post success',
-                'success' => true,
+                'data' => [],
+                'message' => 'You are not following anyone.',
+                'success' => false,
             ]);
         }
+
+        $posts = Post::whereIn('user_id', $followingList)
+                    ->orWhere('user_id', $userId)
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+
+        if ($posts->isEmpty()) {
+            return response()->json([
+                'data' => [],
+                'message' => 'No posts found from the users you are following.',
+                'success' => false,
+            ]);
+        }
+
         return response()->json([
-            'data' => [],
-            'message' => 'Post not found!',
-            'success' => false,
+            'data' => $posts,
+            'message' => 'Get post success',
+            'success' => true,
         ]);
     }
 
-    public function save($request){
+    public function save($request)
+    {
         $dataResponse = ['status' => true, 'data' => [], 'message' => ""];
         if (!$request->captions || !$request->tags) {
             return response()->json([
@@ -67,6 +80,4 @@ class PostRepository implements PostRepositoryInterface
             return response()->json($dataResponse);
         }
     }
-
 }
-?>

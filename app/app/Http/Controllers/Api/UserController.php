@@ -71,4 +71,9 @@ class UserController extends Controller
     public function uploadAvatar(FileUploadRequest $request){
         return $this->userRepository->uploadAvatar($request);
     }
+
+    public function recommendFollow(){
+
+        return $this->userRepository->recommendFollow();
+    }
 }

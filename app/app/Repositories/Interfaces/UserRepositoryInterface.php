@@ -54,5 +54,7 @@ Interface UserRepositoryInterface{
      */
     public function uploadAvatar(Request $request);
 
-    
+
+    public function recommendFollow();
+
 }
