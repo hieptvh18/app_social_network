@@ -30,6 +30,7 @@ class PostRepository implements PostRepositoryInterface
         $posts = Post::whereIn('user_id', $followingList)
             ->orWhere('user_id', $userId)
             ->orderBy('created_at', 'desc')
+            ->with(['author'])
             ->get();
 
         // Kiểm tra nếu danh sách bài viết rỗng

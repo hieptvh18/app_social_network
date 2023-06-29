@@ -219,7 +219,7 @@ const handleShowListFollow = (type)=>{
                 }
                 elList += '<div class="img-avatar mr-2">'+avatarEl+'</div>';
                 elList += `<div class="name">
-                                <div class="font-weight-bold">${val.username}</div>
+                            <div class="font-weight-bold"><a href="${baseUrl}/${val.username}">${val.username}<a/></div>
                                 <div>${val.name}</div>
                             </div>`;
                 elList += '</div>'

@@ -19,81 +19,8 @@
 
         
       </div>
-      <div class="list-post">
-        <div v-for="(post, key) in postListing" class="list-post__items">
-        
-          <div class="item mb-2 bg-success" v-bind:key="key">
-            <div class="item__top">
-              <div
-                class="item-profile-box d-flex justify-content-between p-2 align-items-center"
-              >
-                <div class="item-profile d-flex align-items-center">
-                  <div class="profile-avatar mr-2">
-                    <img
-                    :style="{width:'100%'}"
-                    :src="post.avatar"
-                    />
-                  </div>
-                  <div class="profile-name">
-                    <a href="./profile-following.html">{{ post.username }}</a>
-                  </div>
-                </div>
-                <div class="bars">...</div>
-              </div>
-            </div>
-            <div class="item__content">
-              <div class="content-photos">
-                <div class="photos__gallery">
-                  <img
-                      :style="{width:'100%'}"
-                    :src="post.image"
-                    :alt="post.caption"
-                  />
-                </div>
-                <div class="photos__content p-2">
-                  <div class="photos__icon d-flex">
-                    <div class="icon__likes mr-3">
-                      <i class="far fa-heart"></i>
-                      <span v-if="post.likes">{{ post.likes }} likes</span>
-                    </div>
-                    <div class="icon-comment">
-                      <i class="fa-regular fa-comment"></i>
-                      <span v-if="post.comments">{{ post.comments }} comments</span>
-                    </div>
-                  </div>
-                  <div class="photos__caption">
-                    <span class="font-weight-bold"
-                      >{{ post.username }}</span
-                    >
-                    {{ post.caption ?? post.caption }}
-                  </div>
-                  <a href class="show-comment text-secondary">more</a>
-                  <div class="photos__created-at text-secondary">
-                    {{ post.created_at }}
-                  </div>
-
-                  <div class="photos__comment mt-3">
-                    <form action="">
-                      <div class="form-group d-flex">
-                        <input
-                          type="text"
-                          placeholder="Add a comment..."
-                          name="comment"
-                          class="form-control"
-                          id=""
-                        />
-                        <button class="btn btn-light">Post</button>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="item__footer"></div>
-          </div>
-
-        </div>
-      </div>
+      <!-- List post component -->
+      <ListPost :postListing="postListing" />
     </section>
     <!-- my profile user login -->
     <section id="content__right" class="content__right col-3 p-2">
@@ -152,36 +79,18 @@
 
 <style scoped src="./index.css"></style>
 <script>
-    import {logout} from '../../api/auth';
+    import {logout,getUser} from '../../api/auth';
+    import {getListPostByFollowing} from "../../api/post";
     import {ref,computed} from 'vue';
-    import { getUser } from '../../api/auth';
     import ModalLoading from '../../components/ModalLoading.vue';
+    import ListPost from '../../components/Homepage/ListPost.vue';
 
     export default {
-      components:{ModalLoading},
+      components:{ModalLoading,ListPost},
       props:['userDataLogin'],
       setup(props){
         const loading = ref(true);
-        const postListing = ref([
-                  {
-                    username:'marchland_official',
-                    avatar:'https://upload.wikimedia.org/wikipedia/en/thumb/d/d6/Avatar_%282009_film%29_poster.jpg/220px-Avatar_%282009_film%29_poster.jpg',
-                    caption:'So beautiful...',
-                    image:'https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8&w=1000&q=80',
-                    likes:'100',
-                    comments:'30000',
-                    created_at:'2 day agos'
-                  },
-                  {
-                    username:'Leo Messi',
-                    avatar:'https://upload.wikimedia.org/wikipedia/en/thumb/d/d6/Avatar_%282009_film%29_poster.jpg/220px-Avatar_%282009_film%29_poster.jpg',
-                    caption:'Welcome America...',
-                    image:'https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8&w=1000&q=80',
-                    likes:'100',
-                    comments:'30000',
-                    created_at:'2 day agos'
-                  }
-                ]);
+        const postListing = ref([]);
         const userLoginData = ref(null);
 
         // fetch data user login
@@ -193,10 +102,20 @@
                   })
                   .catch(err=>{
                     console.log('fetch error: '+err);
-                  })
-                  .then(()=>{
-                    loading.value = false;
                   });
+        
+        // fetch list post 
+        getListPostByFollowing()
+        .then(response=>{
+          console.log(response.data);
+          if(response.data.success){
+            postListing.value = response.data.data;
+          }
+          loading.value = false;
+        })
+        .catch(err=>{
+          loading.value = true;
+        });          
 
         return {
           loading,
