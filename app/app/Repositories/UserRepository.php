@@ -327,15 +327,19 @@ class UserRepository implements UserRepositoryInterface
         try {
             $userId = Auth::id();
 
+            // Lấy danh sách người mà người dùng đang theo dõi
             $followingList = Follow::where('user_id', $userId)->pluck('following_id');
 
+            // Thêm người đang theo dõi người dùng đang đăng nhập vào danh sách gợi ý
             $followingList = $followingList->push($userId);
 
+            // Lấy danh sách người được follow bởi những người mà người dùng đang theo dõi
             $recommendedUsers = Follow::whereIn('user_id', $followingList)
                 ->whereNotIn('following_id', $followingList) // Loại bỏ những người mà người dùng đã theo dõi
                 ->pluck('following_id')
                 ->unique();
 
+            // Lấy thông tin chi tiết của người được recommend
             $users = User::whereIn('id', $recommendedUsers)->get();
 
             return response()->json([

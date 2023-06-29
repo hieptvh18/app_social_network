@@ -13,8 +13,11 @@ class PostRepository implements PostRepositoryInterface
     public function getPostByFollowingId()
     {
         $userId = Auth::id();
+
+        // Lấy danh sách người mà người dùng đang theo dõi
         $followingList = Follow::where('user_id', $userId)->get('following_id');
 
+        // Kiểm tra nếu danh sách người đang theo dõi rỗng
         if ($followingList->isEmpty()) {
             return response()->json([
                 'data' => [],
@@ -23,11 +26,13 @@ class PostRepository implements PostRepositoryInterface
             ]);
         }
 
+        // Lấy danh sách bài viết từ những người mà người dùng đang theo dõi hoặc từ chính người dùng đang đăng nhập
         $posts = Post::whereIn('user_id', $followingList)
-                    ->orWhere('user_id', $userId)
-                    ->orderBy('created_at', 'desc')
-                    ->get();
+            ->orWhere('user_id', $userId)
+            ->orderBy('created_at', 'desc')
+            ->get();
 
+        // Kiểm tra nếu danh sách bài viết rỗng
         if ($posts->isEmpty()) {
             return response()->json([
                 'data' => [],
