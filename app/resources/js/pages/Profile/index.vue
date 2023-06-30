@@ -66,7 +66,7 @@
                 </div>
 
                 <!-- modal -->
-                <ModalDynamic v-show="isModalVisible" @close="closeModal">
+                <ModalDynamic v-if="isModalVisible" v-show="isModalVisible" @close="closeModal">
                     <template v-slot:header>
                        {{ dataTitleModal }}
                     </template>
@@ -84,6 +84,7 @@
         <GalleryItems
             v-if="userDataFromParam.posts"
             :posts="userDataFromParam.posts"
+            :isMyProfile="myProfile"
         />
     </div>
     <ModalLoading v-if="loading" />
