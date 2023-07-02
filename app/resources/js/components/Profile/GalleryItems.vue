@@ -27,7 +27,14 @@
             v-show="isModalVisible"
             @close="closeModal"
         >
+        <template v-slot:header>
+            Create new posts
+        </template>
             <template v-slot:body>
+                <!-- caption -->
+                <div class="create-post__captions mb-3">
+                    <textarea name="caption"  class="form-control" cols="30" rows="6" placeholder="Your caption..."></textarea>
+                </div>
                 {{ labelUpload }}
                 <div id="uploading">
                     <button
@@ -45,21 +52,21 @@
                         ref="inputUploadPhotos"
                         style="display: none"
                     />
-                    <div v-for="(image, key) in images" :key="key">
-                        <div class="uploading-preview__item">
-                            <span
-                                class="removeImg"
-                                title="Remove"
-                                @click="removePhoto(image, key)"
-                                ><i class="fa-solid fa-xmark"></i
-                            ></span>
-                            <img class="preview-img" :ref="'image'" />
-                        </div>
+                    <div class="create-posts__preview-items">
+                            <div v-for="(image, key) in images" :key="key" class="uploading-preview__item">
+                                <span
+                                    class="removeImg"
+                                    title="Remove"
+                                    @click="removePhoto(image, key)"
+                                    ><i class="fa-solid fa-xmark"></i
+                                ></span>
+                                <img class="preview-img" :ref="'image'" />
+                            </div>
                     </div>
                 </div>
             </template>
             <template v-slot:footer>
-                <button class="btn btn-success">Next</button>
+                <button class="btn btn-success">Create</button>
             </template>
         </Modal>
     </div>

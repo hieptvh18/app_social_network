@@ -80,3 +80,11 @@
 	position: relative;
 	margin-bottom: 10px;
 }
+
+.create-posts__preview-items{
+    display: flex;
+    flex-wrap: wrap;
+}
+.uploading-preview__item{
+    width: 30%;
+}

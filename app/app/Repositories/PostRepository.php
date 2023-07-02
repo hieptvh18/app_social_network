@@ -69,7 +69,7 @@ class PostRepository implements PostRepositoryInterface
 
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $image) {
-                    $filename = $image->store('images'); // Lưu ảnh vào thư mục "storage/app/images"
+                    $filename = $image->store('images'); 
                     $postImg = new PostImage();
                     $postImg->post_id = $post->id;
                     $postImg->image = $filename;

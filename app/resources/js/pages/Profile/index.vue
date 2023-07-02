@@ -80,7 +80,7 @@
         <div class="content-stories mt-5 pb-5">
             <Stories :isMyProfile="myProfile" />
         </div>
-        <!-- gallery list -->
+
         <GalleryItems
             v-if="userDataFromParam.posts"
             :posts="userDataFromParam.posts"
