@@ -322,7 +322,7 @@ input.v3-emoji-picker-input{
 </style>
 <script>
 import EmojiPicker from "vue3-emoji-picker";
-import "../../../../../node_modules/vue3-emoji-picker/dist/style.css";
+import "vue3-emoji-picker/css";
 import { ref } from "vue";
 
 export default {
