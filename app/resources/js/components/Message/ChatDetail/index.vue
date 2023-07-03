@@ -304,18 +304,43 @@
     </div>
 
     <div class="flex-grow-0 py-3 px-4 border-top">
-        <form class="input-group">
-            <input
-                type="text"
-                class="form-control"
-                placeholder="Type your message"
-            />
+        <form class="input-group d-flex">
+            <EmojiPicker picker-type="input" @select="onSelectEmoji" />
             <button class="btn btn-primary">Send</button>
         </form>
     </div>
 </template>
 
-<style scoped></style>
 <style src="../../../pages/Message/index.css"></style>
+<style scoped>
+.v3-input-emoji-picker{
+    width: 80%;
+}
+input.v3-emoji-picker-input{
+    width: 100%;
+}
+</style>
+<script>
+import EmojiPicker from "vue3-emoji-picker";
+import "../../../../../node_modules/vue3-emoji-picker/dist/style.css";
+import { ref } from "vue";
 
-<script setup></script>
+export default {
+    components:{EmojiPicker},
+    data(){
+
+    },
+    setup() {
+        const input = ref("");
+
+        function onSelectEmoji(emoji) {
+            input.value += emoji.i;
+        }
+
+        return {
+        input,
+        onSelectEmoji,
+        };
+  },
+}
+</script>

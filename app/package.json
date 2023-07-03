@@ -13,10 +13,13 @@
         "@vitejs/plugin-vue": "^4.2.1",
         "ant-design-vue": "^3.2.20",
         "firebase": "^9.23.0",
+        "laravel-echo": "^1.15.1",
+        "pusher-js": "^8.2.0",
         "vue": "^3.3.4",
         "vue-axios": "^3.5.2",
         "vue-cookies": "^1.8.3",
         "vue-router": "^4.1.6",
+        "vue3-emoji-picker": "^1.1.7",
         "watch": "^0.13.0"
     }
 }

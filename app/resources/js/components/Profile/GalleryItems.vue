@@ -33,7 +33,9 @@
             <template v-slot:body>
                 <!-- caption -->
                 <div class="create-post__captions mb-3">
-                    <textarea name="caption"  class="form-control" cols="30" rows="6" placeholder="Your caption..."></textarea>
+                    <EmojiPicker picker-type="textarea" @select="onSelectEmoji" />
+
+                    <!-- <textarea name="caption"  class="form-control" cols="30" rows="6" placeholder="Your caption..."></textarea> -->
                 </div>
                 {{ labelUpload }}
                 <div id="uploading">
@@ -74,8 +76,12 @@
 
 <script>
 import Modal from "../ModalDynamic/index.vue";
+import EmojiPicker from "vue3-emoji-picker";
+import "../../../../node_modules/vue3-emoji-picker/dist/style.css";
+import { ref } from "vue";
+
 export default {
-    components:{Modal},
+    components:{Modal,EmojiPicker},
     data() {
         return {
             labelUpload: "Upload Photos",
@@ -124,6 +130,18 @@ export default {
             this.$refs.inputUploadPhotos.click();
         },
     },
+    setup() {
+        const input = ref("");
+
+        function onSelectEmoji(emoji) {
+            input.value += emoji.i;
+        }
+
+        return {
+        input,
+        onSelectEmoji,
+        };
+  },
 };
 </script>
 
