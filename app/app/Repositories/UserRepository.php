@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Follow;
+use App\Models\Post;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -28,6 +29,20 @@ class UserRepository implements UserRepositoryInterface
                 $listFollower = $this->getInfobyId($listFollowerId);
                 $listFollowing = $this->getInfobyId($listFollowingId);
 
+                // hdnale get list post
+                $posts = [];
+                if(count($user->posts)){
+                    foreach($user->posts as $key=>$post){
+                        $p = Post::find($post->id);
+                        $post = [
+                            'captions'=>$p->captions,
+                            'id'=>$p->id,
+                            'images' => $p->images
+                        ];
+                        array_push($posts,$post);
+                    }
+                }
+
                 $data = [
                     'id' => $user->id,
                     'name' => $user->name,
@@ -38,11 +53,9 @@ class UserRepository implements UserRepositoryInterface
                     'avatar' => $user->avatar,
                     'google_id' => $user->google_id,
                     'facebook_id' => $user->facebook_id,
-                    'follower' => count($user->follower),
-                    'following' => count($user->following),
                     'follower_list' => $listFollower,
                     'following_list' => $listFollowing,
-                    'posts' => $user->posts,
+                    'posts' => $posts,
 
                 ];
                 return response()->json([

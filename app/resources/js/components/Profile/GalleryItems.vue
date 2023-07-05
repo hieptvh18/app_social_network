@@ -16,13 +16,15 @@
                 v-for="(post, key) in posts"
                 v-bind:key="key"
             >
-                <img :src="post.images" alt="" />
-                <div class="gallery__modal-backdrop" style="display: none">
-                    <div class="modal-backdrop__box">
-                        <span class="mr-2"
-                            ><i class="far fa-heart"></i> 10</span
-                        >
-                        <span><i class="fa-regular fa-comment"></i> 20</span>
+                <div v-if="post.images.length">
+                    <img :src="post.images[0].image" alt="" />
+                    <div class="gallery__modal-backdrop" style="display: none">
+                        <div class="modal-backdrop__box">
+                            <span class="mr-2"
+                                ><i class="far fa-heart"></i> 10</span
+                            >
+                            <span><i class="fa-regular fa-comment"></i> 20</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -36,6 +38,8 @@
                 <div class="create-post__captions mb-3">
                     <EmojiPicker
                         picker-type="textarea"
+                        @update:text="changeCaption"
+                        @placeholder="'hihi'"
                         @select="onSelectEmoji"
                     />
                 </div>
@@ -75,6 +79,9 @@
             </template>
             <template v-slot:footer>
                 <Loader v-if="isLoader" />
+                <div class="message">
+                    <div class="" :class="{'text-danger':messages.error,'text-success':messages.success}" v-if="messages.success || messages.error">{{ messages.success || messages.error }}</div>
+                </div>
                 <button
                     :disabled="isDisableBtnCreate"
                     class="btn btn-success"
@@ -94,13 +101,13 @@ import Loader from "../LoaderResult.vue";
 import {
     getStorage,
     ref as refFirebase,
-    uploadBytesResumable,
     uploadBytes,
     getDownloadURL,
 } from "firebase/storage";
 import EmojiPicker from "vue3-emoji-picker";
 import "vue3-emoji-picker/css";
 import { ref } from "vue";
+import {savePostData} from "../../api/post";
 
 export default {
     components: { Modal, EmojiPicker, Loader },
@@ -113,8 +120,12 @@ export default {
             isDisableBtnCreate: true,
             uploadValue: null,
             isLoader: false,
-            messages: {},
-            imageData:[],// image url param call api save posts;
+            messages: {
+                success:"",
+                error:""
+            },
+            imageData: [], // image url param call api save posts;
+            caption:''
         };
     },
     props: ["posts", "isMyProfile"],
@@ -122,9 +133,11 @@ export default {
         closeModal() {
             this.isModalVisible = false;
         },
+
         showModal() {
             this.isModalVisible = true;
         },
+
         previewImgPhotos(e) {
             var selectedFiles = e.target.files;
             for (let i = 0; i < selectedFiles.length; i++) {
@@ -139,13 +152,14 @@ export default {
                         this.$refs.image[parseInt(i)].src = reader.result;
                     }.bind(this),
                     false
-                ); //add event listener
+                ); 
 
                 reader.readAsDataURL(this.images[i]);
             }
 
             if (this.images.length) this.isDisableBtnCreate = false;
         },
+
         removePhoto(image, key) {
             console.log("remove photo" + key);
             console.log(this.images);
@@ -153,66 +167,92 @@ export default {
             this.images.splice(key, 1);
             console.log(this.images);
         },
-        onUpload() {
+
+        async onUpload() {
             const self = this;
             const files = this.images;
-            console.log(files);
-            if (!files.length) return;
+            this.isLoader = true;
 
-            files.forEach((file) => {
-                self.uploadingToCloud(file);
-            });
+            if(!files.length && !this.caption) {
+                this.messages.error = "Caption or image is required!";
+                return;
+            }
+            this.messages.error = "";
+                        
+            if (!files.length && this.caption){
+                this.uploadPostNotImage();
+                return;
+            }
+
+            for (let file of files) {
+                await self.uploadingToCloud(file);
+            }
 
             // call api save posts
-            console.log("called api save posts");
+            var arrayToString = JSON.stringify(Object.assign({}, this.imageData));  // convert array to string
+            var imageJsons = JSON.parse(arrayToString);
+            const dataPost = {
+                captions:this.caption,
+                images:imageJsons
+            };
+            
+            this.savePost(dataPost);
         },
+        
         triggerClickInptUpload() {
             this.$refs.inputUploadPhotos.click();
         },
+
+        uploadPostNotImage(){
+            const dataPost = {
+                captions : this.caption
+            }
+            this.savePost(dataPost);
+        },
+        
         uploadingToCloud(file) {
             const storage = getStorage();
             const storageRef = refFirebase(storage, "posts/" + file.name);
-            const uploadTask = uploadBytesResumable(storageRef, file);
+            const uploadTask2 = uploadBytes(storageRef, file);
 
-            uploadTask.on(
-                "state_changed",
-                (snapshot) => {
-                    // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-                    const progress =
-                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    this.uploadValue = progress;
-                    this.isLoader = true;
+            return new Promise((resolve, reject) => {
+                uploadTask2.then((snapshot) => {
+                    getDownloadURL(snapshot.ref).then((downloadURL) => {
+                        let imageUrl = downloadURL;
+                        this.images = [];
+                        this.isLoader = false;
+                        this.imageData.push(imageUrl);
 
-                    switch (snapshot.state) {
-                        case "paused":
-                            console.log("Upload is paused");
-                            break;
-                        case "running":
-                            console.log("Upload is running");
-                            break;
-                    }
-                },
-                (error) => {
-                    this.isLoader = false;
-                    console.log("error when upload firebase storage.");
-                },
-                () => {
-                    // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-                    getDownloadURL(uploadTask.snapshot.ref).then(
-                        (downloadURL) => {
-                            let imageUrl = downloadURL;
-                            this.images = [];
-                            this.isLoader = false;
-                            console.log("upload done: " + imageUrl);
-                            this.imageData.push(imageUrl);
-
-                            // save success-> re load component page
-                            // window.location.reload();
-                        }
-                    );
-                }
-            );
+                        // save success-> re load component page
+                        resolve("upload success");
+                    });
+                });
+            });
         },
+        changeCaption(e){
+            this.caption = e;
+        },  
+        savePost(data){
+            savePostData(data)
+                .then(res=>{
+                    console.log(res);
+                    this.isLoader = false;
+                    if(res.data.success){
+                        this.messages.success = "Create successful!";
+                        this.messages.error = "";
+                        // reload component profile
+                        this.reloadComponent();
+                    }
+                })
+                .catch(er=>{
+                    this.isLoader = false;
+                    this.messages.error = "Create fail!";
+                    this.messages.success = "";
+                })
+        },
+        reloadComponent(){
+            this.$forceUpdate();
+        }
     },
     setup() {
         const input = ref("");

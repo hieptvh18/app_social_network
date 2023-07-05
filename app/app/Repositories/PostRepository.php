@@ -42,6 +42,13 @@ class PostRepository implements PostRepositoryInterface
             ]);
         }
 
+        // handle data res
+        if(count($posts)){
+            foreach($posts as $post){
+                $post->images;   
+            }
+        }
+
         return response()->json([
             'data' => $posts,
             'message' => 'Get post success',
@@ -52,7 +59,7 @@ class PostRepository implements PostRepositoryInterface
     public function save($request)
     {
         $dataResponse = ['status' => true, 'data' => [], 'message' => ""];
-        if (!$request->captions || !$request->tags) {
+        if (!$request->captions && !$request->images) {
             return response()->json([
                 'status' => false,
                 'message' => 'Data is not valid!',
@@ -63,16 +70,14 @@ class PostRepository implements PostRepositoryInterface
             // lưu post
             $post = new Post();
             $post->user_id = Auth::id();
-            $post->captions = $request->input('captions');
-            $post->tags = $request->input('tags');
+            $post->captions = $request->captions;
             $post->save();
 
-            if ($request->hasFile('images')) {
-                foreach ($request->file('images') as $image) {
-                    $filename = $image->store('images'); 
+            if (!empty($request->images)) {
+                foreach ($request->images as $image) {
                     $postImg = new PostImage();
                     $postImg->post_id = $post->id;
-                    $postImg->image = $filename;
+                    $postImg->image = $image;
                     $postImg->save();
                 }
             }

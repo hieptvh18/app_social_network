@@ -14,3 +14,17 @@ export const getListPostByFollowing = async () =>{
    
     return await axios(options);
 }
+
+// save post data
+export const savePostData = async (data) =>{
+    const url = '/posts/save';
+    const options = {
+        method: 'POST',
+        headers: header,
+        params: data,
+        url:baseURLApi+url
+    }
+   
+    return await axios(options);
+}
+

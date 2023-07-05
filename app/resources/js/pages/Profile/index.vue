@@ -45,13 +45,13 @@
                     >
                     <div class="count-follower mr-3" @click="showModal('follower')">
                         <span class="font-weight-bold">{{
-                            userDataFromParam.follower
+                            userDataFromParam.follower_list.length
                         }}</span>
                         followers
                     </div>
                     <div class="count-following" @click="showModal('following')">
                         <span class="font-weight-bold">{{
-                            userDataFromParam.following
+                            userDataFromParam.following_list.length
                         }}</span>
                         following
                     </div>

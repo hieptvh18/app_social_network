@@ -14,14 +14,13 @@ class Post extends Model
         "user_id",
         "captions",
         "images",
-        "tags"
     ];
 
     public $timestamps = true;
 
     // relashionship
-    public function getPostImages(){
-
+    public function images(){
+        return $this->hasMany(PostImage::class,'post_id','id');
     }
 
     public function author():BelongsTo

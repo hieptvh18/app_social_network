@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\PostRequest;
 use App\Repositories\Interfaces\PostRepositoryInterface;
-
+use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
@@ -20,7 +19,7 @@ class PostController extends Controller
         return $this->postRepository->getPostByFollowingId();
     }
 
-    public function savePost(PostRequest $request){
+    public function savePost(Request $request){
 
         return $this->postRepository->save($request);
     }

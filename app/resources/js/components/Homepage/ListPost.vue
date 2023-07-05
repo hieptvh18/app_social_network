@@ -28,7 +28,7 @@
                 <div class="photos__gallery">
                   <img
                       :style="{width:'100%'}"
-                    :src="post.images"
+                    :src="post.images[0].image"
                     :alt="post.captions"
                   />
                 </div>
