@@ -1,74 +1,272 @@
 <template>
     <div class="content-gallery">
-        <div class="gallery__header">Posts</div>
-        <div
-            class="gallery__items d-flex"
-            v-if="posts.length"
-        >
+        <div class="gallery__header">
+            <h5>Posts</h5>
+            <button
+                v-if="isMyProfile"
+                class="btn btn-primary mb-3"
+                @click="showModal"
+            >
+                Create posts
+            </button>
+        </div>
+        <div class="gallery__items d-flex" v-if="posts.length">
             <div
                 class="gallery__item"
                 v-for="(post, key) in posts"
                 v-bind:key="key"
             >
-                <img :src="post.images" alt="" />
-                <div class="gallery__modal-backdrop" style="display: none;">
-                    <div class="modal-backdrop__box">
-                        <span class="mr-2"><i class="far fa-heart"></i> 10</span>
-                        <span><i class="fa-regular fa-comment"></i> 20</span>
+                <div v-if="post.images.length">
+                    <img :src="post.images[0].image" alt="" />
+                    <div class="gallery__modal-backdrop" style="display: none">
+                        <div class="modal-backdrop__box">
+                            <span class="mr-2"
+                                ><i class="far fa-heart"></i> 10</span
+                            >
+                            <span><i class="fa-regular fa-comment"></i> 20</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- modal create post -->
+        <Modal v-if="isModalVisible" @close="closeModal">
+            <template v-slot:header> Create new posts </template>
+            <template v-slot:body>
+                <!-- caption -->
+                <div class="create-post__captions mb-3">
+                    <EmojiPicker
+                        picker-type="textarea"
+                        @update:text="changeCaption"
+                        @placeholder="'hihi'"
+                        @select="onSelectEmoji"
+                    />
+                </div>
+                {{ labelUpload }}
+                <div id="uploading">
+                    <button
+                        class="btn btn-secondary"
+                        @click="triggerClickInptUpload"
+                    >
+                        Choose Files...
+                    </button>
+                    <input
+                        type="file"
+                        name="photos"
+                        multiple
+                        accept="image/*"
+                        @change="previewImgPhotos"
+                        ref="inputUploadPhotos"
+                        style="display: none"
+                    />
+                    <div class="create-posts__preview-items">
+                        <div
+                            v-for="(image, key) in images"
+                            :key="key"
+                            class="uploading-preview__item"
+                        >
+                            <span
+                                class="removeImg"
+                                title="Remove"
+                                @click="removePhoto(image, key)"
+                                ><i class="fa-solid fa-xmark"></i
+                            ></span>
+                            <img class="preview-img" :ref="'image'" />
+                        </div>
+                    </div>
+                </div>
+            </template>
+            <template v-slot:footer>
+                <Loader v-if="isLoader" />
+                <div class="message">
+                    <div class="" :class="{'text-danger':messages.error,'text-success':messages.success}" v-if="messages.success || messages.error">{{ messages.success || messages.error }}</div>
+                </div>
+                <button
+                    :disabled="isDisableBtnCreate"
+                    class="btn btn-success"
+                    style="width: 100%"
+                    @click="onUpload"
+                >
+                    Create
+                </button>
+            </template>
+        </Modal>
     </div>
 </template>
 
 <script>
-export default
-{
-    data()
-    {
-        return { }
+import Modal from "../ModalDynamic/index.vue";
+import Loader from "../LoaderResult.vue";
+import {
+    getStorage,
+    ref as refFirebase,
+    uploadBytes,
+    getDownloadURL,
+} from "firebase/storage";
+import EmojiPicker from "vue3-emoji-picker";
+import "vue3-emoji-picker/css";
+import { ref } from "vue";
+import {savePostData} from "../../api/post";
+
+export default {
+    components: { Modal, EmojiPicker, Loader },
+    data() {
+        return {
+            labelUpload: "Upload Photos",
+            count: 1,
+            images: [],
+            isModalVisible: false,
+            isDisableBtnCreate: true,
+            uploadValue: null,
+            isLoader: false,
+            messages: {
+                success:"",
+                error:""
+            },
+            imageData: [], // image url param call api save posts;
+            caption:''
+        };
     },
-    props:['posts'],
-    method:{}
-}
+    props: ["posts", "isMyProfile"],
+    methods: {
+        closeModal() {
+            this.isModalVisible = false;
+        },
+
+        showModal() {
+            this.isModalVisible = true;
+        },
+
+        previewImgPhotos(e) {
+            var selectedFiles = e.target.files;
+            for (let i = 0; i < selectedFiles.length; i++) {
+                this.images.push(selectedFiles[i]);
+            }
+
+            for (let i = 0; i < this.images.length; i++) {
+                let reader = new FileReader(); //instantiate a new file reader
+                reader.addEventListener(
+                    "load",
+                    function () {
+                        this.$refs.image[parseInt(i)].src = reader.result;
+                    }.bind(this),
+                    false
+                ); 
+
+                reader.readAsDataURL(this.images[i]);
+            }
+
+            if (this.images.length) this.isDisableBtnCreate = false;
+        },
+
+        removePhoto(image, key) {
+            console.log("remove photo" + key);
+            console.log(this.images);
+            // delete this.images[key];
+            this.images.splice(key, 1);
+            console.log(this.images);
+        },
+
+        async onUpload() {
+            const self = this;
+            const files = this.images;
+            this.isLoader = true;
+
+            if(!files.length && !this.caption) {
+                this.messages.error = "Caption or image is required!";
+                return;
+            }
+            this.messages.error = "";
+                        
+            if (!files.length && this.caption){
+                this.uploadPostNotImage();
+                return;
+            }
+
+            for (let file of files) {
+                await self.uploadingToCloud(file);
+            }
+
+            // call api save posts
+            var arrayToString = JSON.stringify(Object.assign({}, this.imageData));  // convert array to string
+            var imageJsons = JSON.parse(arrayToString);
+            const dataPost = {
+                captions:this.caption,
+                images:imageJsons
+            };
+            
+            this.savePost(dataPost);
+        },
+        
+        triggerClickInptUpload() {
+            this.$refs.inputUploadPhotos.click();
+        },
+
+        uploadPostNotImage(){
+            const dataPost = {
+                captions : this.caption
+            }
+            this.savePost(dataPost);
+        },
+        
+        uploadingToCloud(file) {
+            const storage = getStorage();
+            const storageRef = refFirebase(storage, "posts/" + file.name);
+            const uploadTask2 = uploadBytes(storageRef, file);
+
+            return new Promise((resolve, reject) => {
+                uploadTask2.then((snapshot) => {
+                    getDownloadURL(snapshot.ref).then((downloadURL) => {
+                        let imageUrl = downloadURL;
+                        this.images = [];
+                        this.isLoader = false;
+                        this.imageData.push(imageUrl);
+
+                        // save success-> re load component page
+                        resolve("upload success");
+                    });
+                });
+            });
+        },
+        changeCaption(e){
+            this.caption = e;
+        },  
+        savePost(data){
+            savePostData(data)
+                .then(res=>{
+                    console.log(res);
+                    this.isLoader = false;
+                    if(res.data.success){
+                        this.messages.success = "Create successful!";
+                        this.messages.error = "";
+                        // reload component profile
+                        this.reloadComponent();
+                    }
+                })
+                .catch(er=>{
+                    this.isLoader = false;
+                    this.messages.error = "Create fail!";
+                    this.messages.success = "";
+                })
+        },
+        reloadComponent(){
+            this.$forceUpdate();
+        }
+    },
+    setup() {
+        const input = ref("");
+
+        function onSelectEmoji(emoji) {
+            input.value += emoji.i;
+        }
+
+        return {
+            input,
+            onSelectEmoji,
+        };
+    },
+};
 </script>
 
-<style scoped>
-.content-gallery .gallery__item:hover .gallery__modal-backdrop{
-    display: flex !important;
-}
-.gallery__items{
-    column-gap: 20px;
-}
-
-.gallery__item{
-    width:29% ;
-    max-height:250px ;
-    position: relative;
-    cursor: pointer;
-}
-.gallery__item img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.gallery__modal-backdrop{
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%,-50%);
-    color: #fff;
-    background: #3333336b;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.modal-backdrop__box{
-
-}
-</style>
+<style scoped src="./galleries.css"></style>

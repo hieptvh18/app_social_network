@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Follow;
+use App\Models\Post;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -28,6 +29,20 @@ class UserRepository implements UserRepositoryInterface
                 $listFollower = $this->getInfobyId($listFollowerId);
                 $listFollowing = $this->getInfobyId($listFollowingId);
 
+                // hdnale get list post
+                $posts = [];
+                if(count($user->posts)){
+                    foreach($user->posts as $key=>$post){
+                        $p = Post::find($post->id);
+                        $post = [
+                            'captions'=>$p->captions,
+                            'id'=>$p->id,
+                            'images' => $p->images
+                        ];
+                        array_push($posts,$post);
+                    }
+                }
+
                 $data = [
                     'id' => $user->id,
                     'name' => $user->name,
@@ -38,11 +53,9 @@ class UserRepository implements UserRepositoryInterface
                     'avatar' => $user->avatar,
                     'google_id' => $user->google_id,
                     'facebook_id' => $user->facebook_id,
-                    'follower' => count($user->follower),
-                    'following' => count($user->following),
                     'follower_list' => $listFollower,
                     'following_list' => $listFollowing,
-                    'posts' => $user->posts,
+                    'posts' => $posts,
 
                 ];
                 return response()->json([
@@ -327,15 +340,19 @@ class UserRepository implements UserRepositoryInterface
         try {
             $userId = Auth::id();
 
+            // Lấy danh sách người mà người dùng đang theo dõi
             $followingList = Follow::where('user_id', $userId)->pluck('following_id');
 
+            // Thêm người đang theo dõi người dùng đang đăng nhập vào danh sách gợi ý
             $followingList = $followingList->push($userId);
 
+            // Lấy danh sách người được follow bởi những người mà người dùng đang theo dõi
             $recommendedUsers = Follow::whereIn('user_id', $followingList)
                 ->whereNotIn('following_id', $followingList) // Loại bỏ những người mà người dùng đã theo dõi
                 ->pluck('following_id')
                 ->unique();
 
+            // Lấy thông tin chi tiết của người được recommend
             $users = User::whereIn('id', $recommendedUsers)->get();
 
             return response()->json([

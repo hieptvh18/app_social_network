@@ -45,13 +45,13 @@
                     >
                     <div class="count-follower mr-3" @click="showModal('follower')">
                         <span class="font-weight-bold">{{
-                            userDataFromParam.follower
+                            userDataFromParam.follower_list.length
                         }}</span>
                         followers
                     </div>
                     <div class="count-following" @click="showModal('following')">
                         <span class="font-weight-bold">{{
-                            userDataFromParam.following
+                            userDataFromParam.following_list.length
                         }}</span>
                         following
                     </div>
@@ -66,7 +66,7 @@
                 </div>
 
                 <!-- modal -->
-                <ModalDynamic v-show="isModalVisible" @close="closeModal">
+                <ModalDynamic v-if="isModalVisible" v-show="isModalVisible" @close="closeModal">
                     <template v-slot:header>
                        {{ dataTitleModal }}
                     </template>
@@ -80,10 +80,11 @@
         <div class="content-stories mt-5 pb-5">
             <Stories :isMyProfile="myProfile" />
         </div>
-        <!-- gallery list -->
+
         <GalleryItems
             v-if="userDataFromParam.posts"
             :posts="userDataFromParam.posts"
+            :isMyProfile="myProfile"
         />
     </div>
     <ModalLoading v-if="loading" />
@@ -219,7 +220,7 @@ const handleShowListFollow = (type)=>{
                 }
                 elList += '<div class="img-avatar mr-2">'+avatarEl+'</div>';
                 elList += `<div class="name">
-                                <div class="font-weight-bold">${val.username}</div>
+                            <div class="font-weight-bold"><a href="${baseUrl}/${val.username}">${val.username}<a/></div>
                                 <div>${val.name}</div>
                             </div>`;
                 elList += '</div>'

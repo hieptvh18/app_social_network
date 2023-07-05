@@ -1,1 +1,3 @@
-# clone instagram using vue3 && laravel 10
+# instagram_clone
+# Tech: laravel 10, vue3, firebase storage, pusher...
+

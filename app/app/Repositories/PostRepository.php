@@ -13,8 +13,11 @@ class PostRepository implements PostRepositoryInterface
     public function getPostByFollowingId()
     {
         $userId = Auth::id();
+
+        // Lấy danh sách người mà người dùng đang theo dõi
         $followingList = Follow::where('user_id', $userId)->get('following_id');
 
+        // Kiểm tra nếu danh sách người đang theo dõi rỗng
         if ($followingList->isEmpty()) {
             return response()->json([
                 'data' => [],
@@ -23,17 +26,27 @@ class PostRepository implements PostRepositoryInterface
             ]);
         }
 
+        // Lấy danh sách bài viết từ những người mà người dùng đang theo dõi hoặc từ chính người dùng đang đăng nhập
         $posts = Post::whereIn('user_id', $followingList)
-                    ->orWhere('user_id', $userId)
-                    ->orderBy('created_at', 'desc')
-                    ->get();
+            ->orWhere('user_id', $userId)
+            ->orderBy('created_at', 'desc')
+            ->with(['author'])
+            ->get();
 
+        // Kiểm tra nếu danh sách bài viết rỗng
         if ($posts->isEmpty()) {
             return response()->json([
                 'data' => [],
                 'message' => 'No posts found from the users you are following.',
                 'success' => false,
             ]);
+        }
+
+        // handle data res
+        if(count($posts)){
+            foreach($posts as $post){
+                $post->images;   
+            }
         }
 
         return response()->json([
@@ -46,7 +59,7 @@ class PostRepository implements PostRepositoryInterface
     public function save($request)
     {
         $dataResponse = ['status' => true, 'data' => [], 'message' => ""];
-        if (!$request->captions || !$request->tags) {
+        if (!$request->captions && !$request->images) {
             return response()->json([
                 'status' => false,
                 'message' => 'Data is not valid!',
@@ -57,16 +70,14 @@ class PostRepository implements PostRepositoryInterface
             // lưu post
             $post = new Post();
             $post->user_id = Auth::id();
-            $post->captions = $request->input('captions');
-            $post->tags = $request->input('tags');
+            $post->captions = $request->captions;
             $post->save();
 
-            if ($request->hasFile('images')) {
-                foreach ($request->file('images') as $image) {
-                    $filename = $image->store('images'); // Lưu ảnh vào thư mục "storage/app/images"
+            if (!empty($request->images)) {
+                foreach ($request->images as $image) {
                     $postImg = new PostImage();
                     $postImg->post_id = $post->id;
-                    $postImg->image = $filename;
+                    $postImg->image = $image;
                     $postImg->save();
                 }
             }

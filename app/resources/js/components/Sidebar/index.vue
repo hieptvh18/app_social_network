@@ -22,8 +22,6 @@
             </router-link>
           </li>
 
-          <!-- create post -->
-          <li><ModalCreatePost/></li>
           <li>
             <router-link :to="{name:'profile',params:{username:userData.username}}">
                     <i class="fas fa-home-alt"></i>Profile
@@ -35,12 +33,11 @@
 <style scoped src="./index.css">
 </style>
 <script>
-import ModalCreatePost from '../ModalCreatePost/index.vue';
 import ModalSearchUser from '../ModalSearchUser/index.vue';
 import ModalDynamic from '../ModalDynamic/index.vue';
 
 export default {
-  components:{ModalCreatePost,ModalSearchUser,ModalDynamic},
+  components:{ModalSearchUser,ModalDynamic},
   // props: ['userData'],
   data() {
       return {
