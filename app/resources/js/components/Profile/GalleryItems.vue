@@ -152,7 +152,7 @@ export default {
                         this.$refs.image[parseInt(i)].src = reader.result;
                     }.bind(this),
                     false
-                ); 
+                );
 
                 reader.readAsDataURL(this.images[i]);
             }
@@ -178,7 +178,7 @@ export default {
                 return;
             }
             this.messages.error = "";
-                        
+
             if (!files.length && this.caption){
                 this.uploadPostNotImage();
                 return;
@@ -195,10 +195,10 @@ export default {
                 captions:this.caption,
                 images:imageJsons
             };
-            
+
             this.savePost(dataPost);
         },
-        
+
         triggerClickInptUpload() {
             this.$refs.inputUploadPhotos.click();
         },
@@ -209,7 +209,7 @@ export default {
             }
             this.savePost(dataPost);
         },
-        
+
         uploadingToCloud(file) {
             const storage = getStorage();
             const storageRef = refFirebase(storage, "posts/" + file.name);
@@ -231,7 +231,7 @@ export default {
         },
         changeCaption(e){
             this.caption = e;
-        },  
+        },
         savePost(data){
             savePostData(data)
                 .then(res=>{
@@ -242,16 +242,22 @@ export default {
                         this.messages.error = "";
                         // reload component profile
                         this.reloadComponent();
+                        return;
                     }
+                    this.messages.error = "Create error! try again!";
+                    this.messages.success = "";
+
                 })
                 .catch(er=>{
                     this.isLoader = false;
-                    this.messages.error = "Create fail!";
+                    this.messages.error = "Create error! try again!";
                     this.messages.success = "";
                 })
         },
         reloadComponent(){
-            this.$forceUpdate();
+            console.log('reload current component');
+            // window.location.reload();
+
         }
     },
     setup() {

@@ -45,7 +45,7 @@ class PostRepository implements PostRepositoryInterface
         // handle data res
         if(count($posts)){
             foreach($posts as $post){
-                $post->images;   
+                $post->images;
             }
         }
 
@@ -58,10 +58,10 @@ class PostRepository implements PostRepositoryInterface
 
     public function save($request)
     {
-        $dataResponse = ['status' => true, 'data' => [], 'message' => ""];
+        $dataResponse = ['success' => true, 'data' => [], 'message' => ""];
         if (!$request->captions && !$request->images) {
             return response()->json([
-                'status' => false,
+                'success' => false,
                 'message' => 'Data is not valid!',
                 'data' => $request->all()
             ]);
@@ -86,7 +86,7 @@ class PostRepository implements PostRepositoryInterface
             return response()->json($dataResponse);
         } catch (\Throwable $th) {
             report($th);
-            $dataResponse['status'] = false;
+            $dataResponse['success'] = false;
             $dataResponse['message'] = 'Error: ' . $th->getMessage();
             return response()->json($dataResponse);
         }
