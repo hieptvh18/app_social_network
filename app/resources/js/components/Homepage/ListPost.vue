@@ -1,8 +1,7 @@
 <template>
     <div class="list-post">
         <div v-for="(post, key) in postListing" class="list-post__items">
-        
-          <div class="item mb-2 bg-success" v-bind:key="key">
+          <div class="item mb-2" v-bind:key="key">
             <div class="item__top">
               <div
                 class="item-profile-box d-flex justify-content-between p-2 align-items-center"
@@ -26,15 +25,24 @@
             <div class="item__content">
               <div class="content-photos">
                 <div class="photos__gallery">
-                  <img
-                      :style="{width:'100%'}"
-                    :src="post.images[0].image"
-                    :alt="post.captions"
-                  />
+<!--                    using swiper slider-->
+                    <swiper
+                        :navigation="true"
+                        :modules="modules"
+                        class="mySwiper"
+                    >
+                        <swiper-slide v-for="(image, keyImg) in post.images">
+                            <img
+                                :style="{width:'100%'}"
+                                :src="image.image"
+                                :alt="post.captions"
+                            />
+                        </swiper-slide>
+                    </swiper>
                 </div>
                 <div class="photos__content p-2">
                   <div class="photos__icon d-flex">
-                    <div class="icon__likes mr-3">
+                    <div class="icon__likes mr-3" @click="clickIconLike">
                       <i class="far fa-heart"></i>
                       <span v-if="post.likes">{{ post.likes }} likes</span>
                     </div>
@@ -78,9 +86,47 @@
       </div>
 </template>
 
+<script>
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import { Pagination, Navigation } from 'swiper/modules';
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/navigation';
+    export default{
+        components: {
+            Swiper,
+            SwiperSlide,
+        },
+        data(){
+
+        },
+        methods:{
+          clickIconLike(){
+              console.log('liked')
+          }
+        },
+        props:['postListing'],
+        setup() {
+            return {
+                modules: [ Navigation],
+            };
+        },
+    }
+
+</script>
 <style scoped>
+.photos__icon div{
+    cursor: pointer;
+}
+.photos__icon i{
+    font-size: 25px;
+}
+.icon__likes .liked{
+    color: red;
+}
 .list-post .item{
     border-radius: 5px;
+    background: #e7e7e7;
 }
 .photos__gallery{
     height: 578px;
@@ -89,12 +135,31 @@
     height: 100%;
     object-fit: cover;
 }
-</style>
-<script>
-    export default{
-        data(){
 
-        },
-        props:['postListing']
-    }
-</script>
+.swiper {
+    width: 100%;
+    height: 100%;
+}
+
+.swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+
+    /* Center slide text vertically */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.swiper-button-prev{
+    background: #e7e7e7;
+}
+</style>
