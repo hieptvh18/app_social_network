@@ -255,9 +255,7 @@ export default {
                 })
         },
         reloadComponent(){
-            console.log('reload current component');
-            // window.location.reload();
-
+            this.$emit('reloadComponent');
         }
     },
     setup() {
