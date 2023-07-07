@@ -32,6 +32,14 @@ class UserController extends Controller
     }
 
     /**
+     * get user by username
+     */
+    public function getUserFollowing()
+    {
+        return $this->userRepository->getUserFollowing();
+    }
+
+    /**
      * update user profile
      * @method PUT
      */

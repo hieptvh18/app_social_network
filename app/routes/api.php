@@ -37,6 +37,8 @@ Route::prefix('v1')->group(function () {
         Route::get('/user/search', [UserController::class, 'searchUser'])->name('searchUser');
         // get user by username
         Route::get('/user/get-user', [UserController::class, 'getUserByUsername'])->name('getUserByUsername');
+        // get list user followed
+        Route::get('/user/following', [UserController::class, 'getUserFollowing'])->name('getUserFollowing');
         // update profile user
         Route::put('/user/update', [UserController::class, 'update'])->name('updateUser');
         // following user

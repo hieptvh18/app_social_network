@@ -13,6 +13,12 @@ Interface UserRepositoryInterface{
     public function getUserByUsername($username);
 
     /**
+     * get list user followed
+     * @return object
+     */
+    public function getUserFollowing();
+
+    /**
      * @param mixed $requestData
      * @return object
      */

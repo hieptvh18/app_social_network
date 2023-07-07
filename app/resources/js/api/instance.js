@@ -1,7 +1,9 @@
 import axios from 'axios';
 
+export const baseURLApi = 'http://127.0.0.1:8000/api/v1';
+
 const Instance = axios.create({
-    baseURL:'http://127.0.0.1:8000/api/v1'
+    baseURL:baseURLApi
 });
 
 export default Instance;
@@ -10,9 +12,8 @@ export default Instance;
  const token = window.localStorage.getItem('tokenLogin');
  const headers = {
      'Authorization':'Bearer '+token,
-     'X-Requested-With':'XMLHttpRequest' 
+     'X-Requested-With':'XMLHttpRequest'
    };
- 
+
  export const header = headers;
 
- export const baseURLApi = 'http://127.0.0.1:8000/api/v1';

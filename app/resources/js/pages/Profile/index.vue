@@ -126,10 +126,8 @@ const getUserLoggin = getUser()
 // .then(()=> loading.value = false)
 
 // get user data from username param
-let formdata = new FormData();
-formdata.username = username;
 const getUserDataFromParam = () => {
-    getUserByUsername(formdata)
+    getUserByUsername(username)
         .then((response) => {
             console.log(response);
             if (response.data.success == true) {
