@@ -23,4 +23,8 @@ class PostController extends Controller
 
         return $this->postRepository->save($request);
     }
+
+    public function getById($postId){
+        return $this->postRepository->getById($postId);
+    }
 }

@@ -91,4 +91,41 @@ class PostRepository implements PostRepositoryInterface
             return response()->json($dataResponse);
         }
     }
+
+    public function getById($postId){
+        try{
+            if(!$postId){
+                return response()->json([
+                    'success'=>false,
+                    'message'=>'Missing param postId!',
+                    'data'=>[]
+                ]);
+            }
+
+            $post = Post::find($postId);
+            return response()->json([
+                'success'=>true,
+                'message'=>'Get post by id success!',
+                'data'=>[
+                    'contents'=>[
+                        'id'=>$post->id,
+                        'captions'=>$post->captions,
+                        'created_at'=>$post->created_at->format('Y-m-d'),
+                        'updated_at'=>$post->updated_at->format('Y-m-d'),
+                    ],
+                    'author'=> [
+                        'username'=>$post->author->name,
+                        'avatar'=>$post->author->avatar,
+                    ],
+                    'images'=>$post->images
+                ]
+            ]);
+        }catch(\Exception $e){
+            return response()->json([
+                'success'=>false,
+                'message'=>'Get post by id fail!',
+                'data'=>[]
+            ]);
+        }
+    }
 }

@@ -10,13 +10,14 @@
                 Create posts
             </button>
         </div>
+        <!-- list post -->
         <div class="gallery__items d-flex" v-if="posts.length">
             <div
                 class="gallery__item"
                 v-for="(post, key) in posts"
                 v-bind:key="key"
             >
-                <div v-if="post.images.length">
+                <div v-if="post.images.length" @click="showPostDetail(post.id)">
                     <img :src="post.images[0].image" alt="" />
                     <div class="gallery__modal-backdrop" style="display: none">
                         <div class="modal-backdrop__box">
@@ -92,12 +93,16 @@
                 </button>
             </template>
         </Modal>
+
+        <!-- modal show post detail -->
+        <GalleryItem v-if="postId && isShowModalPost" @closeModal="closeModal" :postId="postId" :isShowModalPost="isShowModalPost"/>
     </div>
 </template>
 
 <script>
 import Modal from "../ModalDynamic/index.vue";
 import Loader from "../LoaderResult.vue";
+import GalleryItem from "./GalleryItem.vue";
 import {
     getStorage,
     ref as refFirebase,
@@ -108,15 +113,21 @@ import EmojiPicker from "vue3-emoji-picker";
 import "vue3-emoji-picker/css";
 import { ref } from "vue";
 import {savePostData} from "../../api/post";
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import { Pagination, Navigation } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 
 export default {
-    components: { Modal, EmojiPicker, Loader },
+    components: { Modal,GalleryItem, EmojiPicker, Loader,Swiper,SwiperSlide },
     data() {
         return {
             labelUpload: "Upload Photos",
             count: 1,
             images: [],
             isModalVisible: false,
+            isShowModalPost:false,
             isDisableBtnCreate: true,
             uploadValue: null,
             isLoader: false,
@@ -125,17 +136,26 @@ export default {
                 error:""
             },
             imageData: [], // image url param call api save posts;
-            caption:''
+            caption:'',
+            postId:'',
+            postDetailKey:0
         };
     },
     props: ["posts", "isMyProfile"],
     methods: {
         closeModal() {
             this.isModalVisible = false;
+            this.isShowModalPost = false;
         },
 
         showModal() {
             this.isModalVisible = true;
+        },
+
+        showPostDetail(postId){
+            console.log(postId);
+            this.isShowModalPost = true;
+            this.postId = postId;
         },
 
         previewImgPhotos(e) {
@@ -268,6 +288,7 @@ export default {
         return {
             input,
             onSelectEmoji,
+            modules: [Pagination, Navigation]
         };
     },
 };

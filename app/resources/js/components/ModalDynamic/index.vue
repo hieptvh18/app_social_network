@@ -52,7 +52,7 @@ export default {
     z-index: 998;
 }
 .modal-layout {
-    width: 500px;
+    width: 95vh;
     height: auto;
 }
 

@@ -93,3 +93,12 @@
 .uploading-preview__item{
     width: 30%;
 }
+
+
+/* post detail */
+.post-detail{
+    gap: 30px;
+}
+.slider-post-wrapper{
+    width: 70%;
+}

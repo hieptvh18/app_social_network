@@ -37,8 +37,9 @@
     width: 70px;
     height: 70px;
     border-radius: 50%;
+    border: 2px solid orange;
     overflow: hidden;
-
+    cursor: pointer;
 }
 
 .story-headers__item .avatar.add-new{
