@@ -7,7 +7,7 @@ const baseURLApi = 'http://127.0.0.1:8000/api/v1';
 const token = window.localStorage.getItem('tokenLogin');
 const headers = {
     'Authorization':'Bearer '+token,
-    'X-Requested-With':'XMLHttpRequest' 
+    'X-Requested-With':'XMLHttpRequest'
   };
   const headersUploadFile = {
     headers:{
@@ -17,15 +17,28 @@ const headers = {
     }
   };
 // get data current user login
-export const getUserByUsername = async (formData) =>{
+export const getUserByUsername = async (username) =>{
     const url = '/user/get-user';
     const options = {
         method: 'GET',
         headers: headers,
-        params: formData,
+        params: {username:username},
         url:baseURLApi+url
     }
-   
+
+    return await axios(options);
+}
+
+// get data current user login
+export const getListUserFollowed = async () =>{
+    const url = '/user/following';
+    const options = {
+        method: 'GET',
+        headers: headers,
+        params: {},
+        url:baseURLApi+url
+    }
+
     return await axios(options);
 }
 
@@ -38,7 +51,7 @@ export const searchUserByUsername = async (formData) =>{
         params: formData,
         url:baseURLApi+url
     }
-   
+
     return await axios(options);
 }
 
@@ -51,7 +64,7 @@ export const updateUser = async(formData)=>{
         params: formData,
         url:baseURLApi+url
     }
-   
+
     return await axios(options);
 }
 
@@ -64,7 +77,7 @@ export const followUser = async(formData)=>{
         params: formData,
         url:baseURLApi+url
     }
-   
+
     return await axios(options);
 }
 
@@ -77,7 +90,7 @@ export const unFollowUser = async(formData)=>{
         params: formData,
         url:baseURLApi+url
     }
-   
+
     return await axios(options);
 }
 

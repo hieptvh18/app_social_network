@@ -45,7 +45,7 @@ class PostRepository implements PostRepositoryInterface
         // handle data res
         if(count($posts)){
             foreach($posts as $post){
-                $post->images;   
+                $post->images;
             }
         }
 
@@ -58,10 +58,10 @@ class PostRepository implements PostRepositoryInterface
 
     public function save($request)
     {
-        $dataResponse = ['status' => true, 'data' => [], 'message' => ""];
+        $dataResponse = ['success' => true, 'data' => [], 'message' => ""];
         if (!$request->captions && !$request->images) {
             return response()->json([
-                'status' => false,
+                'success' => false,
                 'message' => 'Data is not valid!',
                 'data' => $request->all()
             ]);
@@ -86,9 +86,46 @@ class PostRepository implements PostRepositoryInterface
             return response()->json($dataResponse);
         } catch (\Throwable $th) {
             report($th);
-            $dataResponse['status'] = false;
+            $dataResponse['success'] = false;
             $dataResponse['message'] = 'Error: ' . $th->getMessage();
             return response()->json($dataResponse);
+        }
+    }
+
+    public function getById($postId){
+        try{
+            if(!$postId){
+                return response()->json([
+                    'success'=>false,
+                    'message'=>'Missing param postId!',
+                    'data'=>[]
+                ]);
+            }
+
+            $post = Post::find($postId);
+            return response()->json([
+                'success'=>true,
+                'message'=>'Get post by id success!',
+                'data'=>[
+                    'contents'=>[
+                        'id'=>$post->id,
+                        'captions'=>$post->captions,
+                        'created_at'=>$post->created_at->format('Y-m-d'),
+                        'updated_at'=>$post->updated_at->format('Y-m-d'),
+                    ],
+                    'author'=> [
+                        'username'=>$post->author->name,
+                        'avatar'=>$post->author->avatar,
+                    ],
+                    'images'=>$post->images
+                ]
+            ]);
+        }catch(\Exception $e){
+            return response()->json([
+                'success'=>false,
+                'message'=>'Get post by id fail!',
+                'data'=>[]
+            ]);
         }
     }
 }

@@ -78,6 +78,31 @@ class UserRepository implements UserRepositoryInterface
         }
     }
 
+    /**
+     * order by history...
+     * @return \Illuminate\Http\JsonResponse|object
+     */
+    public function getUserFollowing(){
+        try{
+            $userId = Auth::id();
+            $followingIds = Follow::where('user_id',$userId)->pluck('following_id');
+            $users = User::select('id','name','username','avatar')->whereIn('id',$followingIds)
+                            ->get();
+            return response()->json([
+                'success'=>true,
+                'message'=>'Get list user followed success.',
+                'data'=>$users
+            ]);
+        }catch(\Exception $e){
+            report($e->getMessage());
+            return response()->json([
+               'success'=>false,
+               'data'=>[],
+               'message'=> 'get list user followed fail->detail: '.$e->getMessage()
+            ]);
+        }
+    }
+
     public function updateUserById($request)
     {
         try {
@@ -340,26 +365,32 @@ class UserRepository implements UserRepositoryInterface
         try {
             $userId = Auth::id();
 
-            // Lấy danh sách người mà người dùng đang theo dõi
             $followingList = Follow::where('user_id', $userId)->pluck('following_id');
-
-            // Thêm người đang theo dõi người dùng đang đăng nhập vào danh sách gợi ý
             $followingList = $followingList->push($userId);
-
-            // Lấy danh sách người được follow bởi những người mà người dùng đang theo dõi
             $recommendedUsers = Follow::whereIn('user_id', $followingList)
                 ->whereNotIn('following_id', $followingList) // Loại bỏ những người mà người dùng đã theo dõi
                 ->pluck('following_id')
                 ->unique();
 
-            // Lấy thông tin chi tiết của người được recommend
-            $users = User::whereIn('id', $recommendedUsers)->get();
+            if(count($recommendedUsers)){
+                $users = User::whereIn('id', $recommendedUsers)->get();
+                return response()->json([
+                    'data' => $users,
+                    'message' => 'Recommended users to follow',
+                    'success' => true,
+                ]);
+            }
 
+            // case many followers
+
+            // random
+            $users = User::whereNotIn('id',$followingList)->get();
             return response()->json([
                 'data' => $users,
                 'message' => 'Recommended users to follow',
                 'success' => true,
             ]);
+
         } catch (\Exception $e) {
             return response()->json([
                 'data' => [],

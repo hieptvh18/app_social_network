@@ -2,23 +2,8 @@
 <template>
   <div class="d-flex content" v-if="!loading">
     <section id="main" class="content__left justify-content-end col-9">
-      <div class="story-header d-flex mb-3">
-        <div class="story-header__item mr-2">
-          <div class="avatar active">
-              <img src="https://upload.wikimedia.org/wikipedia/en/thumb/d/d6/Avatar_%282009_film%29_poster.jpg/220px-Avatar_%282009_film%29_poster.jpg" alt="">
-          </div>
-          <div class="friend-name">thu_thao2</div>
-        </div>
-
-        <div class="story-header__item">
-          <div class="avatar active">
-              <img src="https://upload.wikimedia.org/wikipedia/en/thumb/d/d6/Avatar_%282009_film%29_poster.jpg/220px-Avatar_%282009_film%29_poster.jpg" alt="">
-          </div>
-          <div class="friend-name">thu_thao2</div>
-        </div>
-
-        
-      </div>
+      <!--  Stories section  -->
+      <Stories/>
       <!-- List post component -->
       <ListPost :postListing="postListing" />
     </section>
@@ -84,9 +69,10 @@
     import {ref,computed} from 'vue';
     import ModalLoading from '../../components/ModalLoading.vue';
     import ListPost from '../../components/Homepage/ListPost.vue';
+    import Stories from "../../components/Homepage/Stories.vue";
 
     export default {
-      components:{ModalLoading,ListPost},
+      components:{Stories, ModalLoading,ListPost},
       props:['userDataLogin'],
       setup(props){
         const loading = ref(true);
@@ -103,8 +89,8 @@
                   .catch(err=>{
                     console.log('fetch error: '+err);
                   });
-        
-        // fetch list post 
+
+        // fetch list post
         getListPostByFollowing()
         .then(response=>{
           console.log(response.data);
@@ -115,7 +101,7 @@
         })
         .catch(err=>{
           loading.value = true;
-        });          
+        });
 
         return {
           loading,
@@ -139,6 +125,6 @@
       computed:{
 
       }
-      
+
     }
 </script>

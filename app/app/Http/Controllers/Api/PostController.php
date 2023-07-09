@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\api;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\Interfaces\PostRepositoryInterface;
@@ -22,5 +22,9 @@ class PostController extends Controller
     public function savePost(Request $request){
 
         return $this->postRepository->save($request);
+    }
+
+    public function getById($postId){
+        return $this->postRepository->getById($postId);
     }
 }

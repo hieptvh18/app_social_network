@@ -3,13 +3,18 @@
 }
 .gallery__items {
     column-gap: 20px;
+    flex-wrap:wrap;
 }
 
 .gallery__item {
     width: 29%;
-    max-height: 250px;
+    height: 250px;
     position: relative;
     cursor: pointer;
+    margin-bottom:20px;
+}
+.gallery__item div{
+    height: 100%;
 }
 .gallery__item img {
     width: 100%;
@@ -59,7 +64,7 @@
 #modalCreatePost input.uploading {
 	border: 0;
     clip: rect(1px, 1px, 1px, 1px);
-    height: 1px; 
+    height: 1px;
     margin: -1px;
     overflow: hidden;
     padding: 0;
@@ -87,4 +92,13 @@
 }
 .uploading-preview__item{
     width: 30%;
+}
+
+
+/* post detail */
+.post-detail{
+    gap: 30px;
+}
+.slider-post-wrapper{
+    width: 70%;
 }

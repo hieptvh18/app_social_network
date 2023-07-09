@@ -5,13 +5,13 @@
                 <img
                     src="https://bootdey.com/img/Content/avatar/avatar3.png"
                     class="rounded-circle mr-1"
-                    alt="Sharon Lessman"
+                    alt="{{user.name}}"
                     width="40"
                     height="40"
                 />
             </div>
             <div class="flex-grow-1 pl-3">
-                <strong>Sharon Lessman</strong>
+                <strong>{{user.name}}</strong>
                 <div class="text-muted small"><em>Typing...</em></div>
             </div>
             <div>
@@ -304,8 +304,8 @@
     </div>
 
     <div class="flex-grow-0 py-3 px-4 border-top">
-        <form class="input-group d-flex">
-            <EmojiPicker picker-type="input" @select="onSelectEmoji" />
+        <form @submit.prevent="sendMessages" class="input-group d-flex">
+            <EmojiPicker picker-type="input" @update:text="changeMessage" @select="onSelectEmoji" />
             <button class="btn btn-primary">Send</button>
         </form>
     </div>
@@ -320,27 +320,59 @@ input.v3-emoji-picker-input{
     width: 100%;
 }
 </style>
+
+<script setup>
+import {ref} from 'vue';
+import { useRoute } from "vue-router";
+import {getUserByUsername} from "../../../api/user";
+
+var user = ref({});
+var loaderChatDetail = ref(true);
+
+// get user data and chat content
+const getUserByUserParam = ()=>{
+    const route = useRoute();
+    const username = route.params.username;
+
+    // fetch user
+    getUserByUsername(username)
+        .then(res=>{
+            loaderChatDetail.value = false;
+            if(res.data.success) user.value = res.data.data;
+            else console.log('not found user chat detail');
+        })
+        .catch(er=> {
+            loaderChatDetail.value = false;
+            console.log(er)
+        })
+}
+getUserByUserParam();
+
+</script>
+
 <script>
 import EmojiPicker from "vue3-emoji-picker";
 import "vue3-emoji-picker/css";
-import { ref } from "vue";
+import {ref} from "vue";
 
 export default {
     components:{EmojiPicker},
     data(){
-
-    },
-    setup() {
-        const input = ref("");
-
-        function onSelectEmoji(emoji) {
-            input.value += emoji.i;
+        return{
+            messages:[],
+            input:''
         }
+    },
+    methods:{
+        onSelectEmoji (emoji) {
+            this.input += emoji.i;
+        },
+        changeMessage (message){
+            this.input = message;
+        },
+        sendMessages(){
 
-        return {
-        input,
-        onSelectEmoji,
-        };
-  },
+        }
+    }
 }
 </script>

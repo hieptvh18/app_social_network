@@ -1,4 +1,5 @@
-<template>
+<template :key="keyParentComponent"
+>
     <div v-if="!loading" class="profile m-5">
         <div class="content-profile d-flex align-items-center">
             <div class="content-profile__img">
@@ -85,6 +86,8 @@
             v-if="userDataFromParam.posts"
             :posts="userDataFromParam.posts"
             :isMyProfile="myProfile"
+            @reloadComponent="reloadComponent"
+            :key="keyParentComponent"
         />
     </div>
     <ModalLoading v-if="loading" />
@@ -105,6 +108,7 @@ var isUserFollowed = ref(false);
 var isModalVisible = ref(false);
 var dataBodyModal = ref("");
 var dataTitleModal = ref("");
+var keyParentComponent = ref(0);
 
 const route = useRoute();
 let username = route.params.username;
@@ -122,10 +126,8 @@ const getUserLoggin = getUser()
 // .then(()=> loading.value = false)
 
 // get user data from username param
-let formdata = new FormData();
-formdata.username = username;
 const getUserDataFromParam = () => {
-    getUserByUsername(formdata)
+    getUserByUsername(username)
         .then((response) => {
             console.log(response);
             if (response.data.success == true) {
@@ -264,6 +266,11 @@ const showModal = (type) => {
 const closeModal = (type)=> {
             isModalVisible.value = false;
         }
+// reload component when change data
+const reloadComponent = ()=>{
+    keyParentComponent.value = 1;
+    getUserDataFromParam();
+}
 </script>
 
 <script>
@@ -276,14 +283,14 @@ export default {
     components: { ModalLoading, GalleryItems },
     data() {
         return {
-            userData: this.userData,
+            userData: this.userData
         };
     },
     props: {
         userData: Object,
     },
     methods: {
-        
+
     },
 };
 </script>

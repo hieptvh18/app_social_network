@@ -28,3 +28,15 @@ export const savePostData = async (data) =>{
     return await axios(options);
 }
 
+// get post by id
+export const getPostById = async (id) =>{
+    const url = '/posts/'+id;
+    const options = {
+        method: 'GET',
+        headers: header,
+        params: {},
+        url:baseURLApi+url
+    }
+   
+    return await axios(options);
+}

@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\api\PostController;
+use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -37,6 +37,8 @@ Route::prefix('v1')->group(function () {
         Route::get('/user/search', [UserController::class, 'searchUser'])->name('searchUser');
         // get user by username
         Route::get('/user/get-user', [UserController::class, 'getUserByUsername'])->name('getUserByUsername');
+        // get list user followed
+        Route::get('/user/following', [UserController::class, 'getUserFollowing'])->name('getUserFollowing');
         // update profile user
         Route::put('/user/update', [UserController::class, 'update'])->name('updateUser');
         // following user
@@ -49,6 +51,8 @@ Route::prefix('v1')->group(function () {
         Route::get('/posts/get_by_following', [PostController::class, 'getPostByFollowingId'])->name('getPost');
         // save post
         Route::post('/posts/save', [PostController::class, 'savePost'])->name('savePost');
+        // get post by id
+        Route::get('/posts/{id}', [PostController::class, 'getById'])->name('getById');
         // recommend follow
         Route::get('recommend-follows', [UserController::class, 'recommendFollow'])->name('recommend-follows');
     });

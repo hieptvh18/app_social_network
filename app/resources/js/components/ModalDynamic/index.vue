@@ -5,7 +5,7 @@
                 <div class="modal-layout__container md">
                     <div class="modal-layout">
                         <header class="modal-header" id="modalTitle">
-                            <slot name="header"> User Following! </slot>
+                            <slot name="header">  </slot>
                             <button
                                 type="button"
                                 class="btn-close"
@@ -52,7 +52,7 @@ export default {
     z-index: 998;
 }
 .modal-layout {
-    width: 500px;
+    width: 95vh;
     height: auto;
 }
 
@@ -76,7 +76,7 @@ export default {
 }
 
 .wrapper-modal-layout {
-  
+
 }
 .modal-backdrop {
     position: fixed;
