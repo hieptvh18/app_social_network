@@ -14,7 +14,6 @@
         "ant-design-vue": "^3.2.20",
         "firebase": "^9.23.0",
         "laravel-echo": "^1.15.1",
-        "pusher-js": "^8.2.0",
         "swiper": "^10.0.3",
         "vue": "^3.3.4",
         "vue-axios": "^3.5.2",
