@@ -82,7 +82,7 @@
     </div>
 
     <div class="position-relative">
-        <div class="chat-messages p-4">
+        <div class="chat-messages p-4" ref="message_content">
             <div class="chat-message-right pb-4">
                 <div>
                     <img
@@ -372,7 +372,31 @@ export default {
         },
         sendMessages(){
 
-        }
+        },
+        loadMessage(){
+
+        },
+        scrollToBottom(){
+            setTimeout(() => {
+                const heightScroll = this.$refs.message_content.scrollHeight;
+                this.$refs.message_content.scrollTo({
+                    top:heightScroll,
+                    left:0,
+                    behavior:"smooth"
+                })
+            });
+        },
+        
+    },
+    mounted(){
+        setTimeout(() => {
+                const heightScroll = this.$refs.message_content.scrollHeight;
+                this.$refs.message_content.scrollTo({
+                    top:heightScroll,
+                    left:0,
+                    behavior:"smooth"
+                })
+            });
     }
 }
 </script>
