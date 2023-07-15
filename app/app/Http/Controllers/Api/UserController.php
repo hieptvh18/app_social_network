@@ -31,6 +31,14 @@ class UserController extends Controller
         return $this->userRepository->getUserByUsername($request->username);
     }
 
+        /**
+     * get user by id
+     */
+    public function getUserById($id)
+    {
+        return $this->userRepository->getUserById($id);
+    }
+
     /**
      * get user by username
      */

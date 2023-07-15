@@ -29,9 +29,21 @@ export const getUserByUsername = async (username) =>{
     return await axios(options);
 }
 
-// get data current user login
-export const getListUserFollowed = async () =>{
-    const url = '/user/following';
+export const getUserById = async (id) =>{
+    const url = '/user/'+id;
+    const options = {
+        method: 'GET',
+        headers: headers,
+        params: {},
+        url:baseURLApi+url
+    }
+
+    return await axios(options);
+}
+
+// get List friend
+export const getListFriend = async () =>{
+    const url = '/list-friend-user';
     const options = {
         method: 'GET',
         headers: headers,

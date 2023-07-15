@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ChatController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
@@ -37,8 +38,10 @@ Route::prefix('v1')->group(function () {
         Route::get('/user/search', [UserController::class, 'searchUser'])->name('searchUser');
         // get user by username
         Route::get('/user/get-user', [UserController::class, 'getUserByUsername'])->name('getUserByUsername');
+         // get user by id
+         Route::get('/user/{id}', [UserController::class, 'getUserById'])->name('getUserById');
         // get list user followed
-        Route::get('/user/following', [UserController::class, 'getUserFollowing'])->name('getUserFollowing');
+        Route::get('/list-friend-user', [UserController::class, 'getUserFollowing'])->name('getUserFollowing');
         // update profile user
         Route::put('/user/update', [UserController::class, 'update'])->name('updateUser');
         // following user
@@ -55,5 +58,10 @@ Route::prefix('v1')->group(function () {
         Route::get('/posts/{id}', [PostController::class, 'getById'])->name('getById');
         // recommend follow
         Route::get('recommend-follows', [UserController::class, 'recommendFollow'])->name('recommend-follows');
+
+        // handle chat
+        Route::get('/chat/fetch-message/{receiver}',[ChatController::class,'fetchMessage']);
+        Route::post('/chat/save',[ChatController::class,'saveMessage']);
+
     });
 });

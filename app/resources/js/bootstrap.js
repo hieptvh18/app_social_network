@@ -32,4 +32,8 @@ import Echo from 'laravel-echo';
 // });
 
 // using redis and socket.io handle realtime
+window.Echo = new Echo({
+    broadcaster: 'socket.io',
+    host: window.location.hostname + ':6001'
+});
 

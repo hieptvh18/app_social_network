@@ -6,6 +6,7 @@ use App\Models\Follow;
 use App\Models\Post;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Throwable;
@@ -78,6 +79,31 @@ class UserRepository implements UserRepositoryInterface
         }
     }
 
+    public function getUserById($id)
+    {
+        try{
+            if(!User::find($id)) {
+                return response()->json([
+                    'success'=>false,
+                    'message'=>'User not found!',
+                    'data'=>[]
+                ]);
+            }
+            return response()->json([
+                'success'=>true,
+                'message'=>'Get user by id success!',
+                'data'=> User::find($id)
+            ]);
+        }catch(Exception $e){
+            report($e->getMessage());
+            return response()->json([
+                'success'=>false,
+                'message'=>'Get user by id fail: '.$e->getMessage(),
+                'data'=>[]
+            ]);
+        }
+    }
+
     /**
      * order by history...
      * @return \Illuminate\Http\JsonResponse|object
@@ -85,7 +111,8 @@ class UserRepository implements UserRepositoryInterface
     public function getUserFollowing(){
         try{
             $userId = Auth::id();
-            $followingIds = Follow::where('user_id',$userId)->pluck('following_id');
+            $followingIds = Follow::where('user_id',$userId)
+                            ->pluck('following_id');
             $users = User::select('id','name','username','avatar')->whereIn('id',$followingIds)
                             ->get();
             return response()->json([

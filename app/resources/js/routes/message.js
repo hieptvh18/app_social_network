@@ -11,7 +11,7 @@ const message = [
                 
                 children:[
                     {
-                        path:":username",
+                        path:":id",
                         name:'chatdetail',
                         component: ()=>import("../components/Message/ChatDetail/index.vue")
                     }

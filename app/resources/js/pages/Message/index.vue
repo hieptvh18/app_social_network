@@ -17,7 +17,7 @@
 						</div>
 					</div>
 
-					<router-link v-for="(user,index) in listFriends" :to="{name:'chatdetail',params:{username:user.username}}" class="list-group-item list-group-item-action border-0" :key="index">
+					<router-link v-for="(user,index) in listFriends" :to="{name:'chatdetail',params:{id:user.id}}" class="list-group-item list-group-item-action border-0" :key="index">
 						<div class="badge bg-success float-right">5</div>
 						<div class="d-flex align-items-start">
 							<img :src="user.avatar" class="rounded-circle mr-1" alt="Vanessa Tucker" width="40" height="40">
@@ -54,21 +54,19 @@
 import axios from 'axios';
 import { ref } from 'vue';
 import { useRoute } from "vue-router";
-import {getListUserFollowed} from "../../api/user";
+import {getListFriend} from "../../api/user";
 
 const listFriends = ref([]) ;
 
 const showRouterView = ref(false);
 const route = useRoute();
-let username = route.params.username;
+let id = route.params.id;
 
-if(username) showRouterView.value = true;
+if(id) showRouterView.value = true;
 else showRouterView.value = false;
 
-getListUserFollowed()
+getListFriend()
     .then(res=>{
-        console.log('list friend');
-        console.log(res);
         if(res.data.success) listFriends.value = res.data.data;
     })
     .catch(er=>{
