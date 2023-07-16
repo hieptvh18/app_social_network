@@ -1,5 +1,4 @@
-<template :key="keyParentComponent"
->
+<template :key="keyParentComponent">
     <div v-if="!loading" class="profile m-5">
         <div class="content-profile d-flex align-items-center">
             <div class="content-profile__img">
@@ -21,7 +20,7 @@
                     </router-link>
 
                     <button
-                        class="btn"
+                        class="btn mr-3"
                         :class="{
                             'btn-secondary': isUserFollowed,
                             'btn-success': !isUserFollowed,
@@ -32,6 +31,17 @@
                     >
                         {{ isUserFollowed ? "UnFollow" : "Follow +" }}
                     </button>
+
+                    <router-link
+                        :to="{
+                            name: 'chatdetail',
+                            params: { id: userDataFromParam.id },
+                        }"
+                    >
+                        <button class=" mr-3 btn btn-warning">
+                            <span>Chat</span>
+                        </button>
+                    </router-link>
 
                     <button v-if="myProfile"><i class="fa fa-cog"></i></button>
                 </div>
@@ -44,13 +54,19 @@
                         }}</span>
                         post</span
                     >
-                    <div class="count-follower mr-3" @click="showModal('follower')">
+                    <div
+                        class="count-follower mr-3"
+                        @click="showModal('follower')"
+                    >
                         <span class="font-weight-bold">{{
                             userDataFromParam.follower_list.length
                         }}</span>
                         followers
                     </div>
-                    <div class="count-following" @click="showModal('following')">
+                    <div
+                        class="count-following"
+                        @click="showModal('following')"
+                    >
                         <span class="font-weight-bold">{{
                             userDataFromParam.following_list.length
                         }}</span>
@@ -67,15 +83,18 @@
                 </div>
 
                 <!-- modal -->
-                <ModalDynamic v-if="isModalVisible" v-show="isModalVisible" @close="closeModal">
+                <ModalDynamic
+                    v-if="isModalVisible"
+                    v-show="isModalVisible"
+                    @close="closeModal"
+                >
                     <template v-slot:header>
-                       {{ dataTitleModal }}
+                        {{ dataTitleModal }}
                     </template>
                     <template v-slot:body>
-                       <div v-html="dataBodyModal"></div>
+                        <div v-html="dataBodyModal"></div>
                     </template>
                 </ModalDynamic>
-
             </div>
         </div>
         <div class="content-stories mt-5 pb-5">
@@ -150,7 +169,7 @@ getUserDataFromParam();
 
 // handle follows
 const handleFollow = (following_id) => {
-    console.log('type: '+isUserFollowed.value);
+    console.log("type: " + isUserFollowed.value);
     if (isUserFollowed.value) {
         unFollow(following_id);
     } else {
@@ -173,7 +192,9 @@ const follow = (following_id) => {
                 isUserFollowed.value = isFollowed();
             }
         })
-        .catch((err) => {console.log(err);});
+        .catch((err) => {
+            console.log(err);
+        });
 };
 
 // unfollow action
@@ -189,7 +210,9 @@ const unFollow = (following_id) => {
                 isUserFollowed.value = isFollowed();
             }
         })
-        .catch((err) => {console.log(err);});
+        .catch((err) => {
+            console.log(err);
+        });
 };
 
 const isFollowed = () => {
@@ -208,69 +231,69 @@ const isFollowed = () => {
 };
 
 // handle display list follow
-const handleShowListFollow = (type)=>{
-    if(type == 'follower'){
+const handleShowListFollow = (type) => {
+    if (type == "follower") {
         dataTitleModal.value = "Followers";
         let listFollower = userDataFromParam.value.follower_list;
-        if(listFollower.length){
+        if (listFollower.length) {
             let elList = `<div class="list-follows">`;
-            listFollower.forEach((val,index)=>{
-                elList+='<div class=" d-flex align-items-center mb-3">'
+            listFollower.forEach((val, index) => {
+                elList += '<div class=" d-flex align-items-center mb-3">';
                 let avatarEl = '<img alt="avatar"/>';
-                if(val.avatar){
+                if (val.avatar) {
                     avatarEl = `<img alt="avatar" src="${val.avatar}" style="width:30px"/>`;
                 }
-                elList += '<div class="img-avatar mr-2">'+avatarEl+'</div>';
+                elList += '<div class="img-avatar mr-2">' + avatarEl + "</div>";
                 elList += `<div class="name">
                             <div class="font-weight-bold"><a href="${baseUrl}/${val.username}">${val.username}<a/></div>
                                 <div>${val.name}</div>
                             </div>`;
-                elList += '</div>'
-                elList+= `</div>`;
+                elList += "</div>";
+                elList += `</div>`;
 
                 dataBodyModal.value = elList;
-            })
-        }else{
-            dataBodyModal.value = 'No follower';
+            });
+        } else {
+            dataBodyModal.value = "No follower";
         }
-    }else{
+    } else {
         dataTitleModal.value = "Following";
         let listFollowing = userDataFromParam.value.following_list;
         let elList = `<div class="list-follows">`;
-        if(listFollowing.length){
-            listFollowing.forEach((val,index)=>{
-                elList+='<div class=" d-flex align-items-center mb-3">'
+        if (listFollowing.length) {
+            listFollowing.forEach((val, index) => {
+                elList += '<div class=" d-flex align-items-center mb-3">';
                 let avatarEl = '<img alt="avatar"/>';
-                if(val.avatar){
+                if (val.avatar) {
                     avatarEl = `<img alt="avatar" src="${val.avatar}" style="width:30px"/>`;
                 }
-                elList += '<div class="img-avatar mr-2">'+avatarEl+'</div>';
+                elList += '<div class="img-avatar mr-2">' + avatarEl + "</div>";
                 elList += `<div class="name">
                                 <div class="font-weight-bold"><a href="${baseUrl}/${val.username}">${val.username}<a/></div>
                                 <div>${val.name}</div>
                             </div>`;
-                elList += '</div>'
-                elList+= `</div>`;
+                elList += "</div>";
+                elList += `</div>`;
                 dataBodyModal.value = elList;
-            })
-        }else{
-            dataBodyModal.value = 'No following';
+            });
+        } else {
+            dataBodyModal.value = "No following";
         }
     }
-}
+};
 
 const showModal = (type) => {
     isModalVisible.value = true;
     handleShowListFollow(type);
-}
-const closeModal = (type)=> {
-            isModalVisible.value = false;
-        }
+};
+const closeModal = (type) => {
+    isModalVisible.value = false;
+};
 // reload component when change data
-const reloadComponent = ()=>{
+const reloadComponent = () => {
     keyParentComponent.value = 1;
     getUserDataFromParam();
-}
+};
 </script>
 
 <script>
@@ -283,14 +306,12 @@ export default {
     components: { ModalLoading, GalleryItems },
     data() {
         return {
-            userData: this.userData
+            userData: this.userData,
         };
     },
     props: {
         userData: Object,
     },
-    methods: {
-
-    },
+    methods: {},
 };
 </script>

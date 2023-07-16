@@ -49,7 +49,6 @@
 </template>
 
 <style scoped src="./index.css"></style>
-
 <script setup>
 import axios from 'axios';
 import { ref } from 'vue';
