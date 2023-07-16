@@ -66,7 +66,7 @@
         </div>
     </div>
 
-    <div class="flex-grow-0 mb-4 border-top">
+    <div class="flex-grow-0 mb-4 border-top" style="position: absolute; bottom: 0;right: 0;left: 0;">
         <form @submit.prevent="sendMessages" class="input-group d-flex">
             <EmojiPicker picker-type="input" @update:text="changeMessage" @select="onSelectEmoji" />
             <button class="btn btn-primary">Send</button>

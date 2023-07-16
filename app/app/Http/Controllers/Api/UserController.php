@@ -42,9 +42,9 @@ class UserController extends Controller
     /**
      * get user by username
      */
-    public function getUserFollowing()
+    public function getFriendsUser()
     {
-        return $this->userRepository->getUserFollowing();
+        return $this->userRepository->getFriendsUser();
     }
 
     /**

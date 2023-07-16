@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Follow;
 use App\Models\Post;
+use App\Models\Room;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Models\User;
 use Exception;
@@ -108,13 +109,31 @@ class UserRepository implements UserRepositoryInterface
      * order by history...
      * @return \Illuminate\Http\JsonResponse|object
      */
-    public function getUserFollowing(){
+    public function getFriendsUser(){
         try{
             $userId = Auth::id();
+            // condition 1: get following
             $followingIds = Follow::where('user_id',$userId)
-                            ->pluck('following_id');
-            $users = User::select('id','name','username','avatar')->whereIn('id',$followingIds)
+                            ->pluck('following_id')->toArray();
+
+            // condition 2: get history chat
+            $userChatIds = Room::select('from','to')->where('from',$userId)
+                            ->orWhere('to',$userId)
+                            ->get()->toArray();
+
+            $userChatIdsArr = array_unique(array_values(collect($userChatIds)->flatten()->toArray()));
+
+            $userIdOutPut = array_unique(array_merge($followingIds,$userChatIdsArr));
+            
+            // unset my id
+            if($key = array_search($userId,$userIdOutPut)){
+                unset($userIdOutPut[$key]);
+            }
+                            
+            $users = User::select('id','name','username','avatar')
+                            ->whereIn('id',$userIdOutPut)
                             ->get();
+                          
             return response()->json([
                 'success'=>true,
                 'message'=>'Get list user followed success.',

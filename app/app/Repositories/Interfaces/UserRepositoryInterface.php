@@ -23,7 +23,7 @@ Interface UserRepositoryInterface{
      * get list user followed
      * @return object
      */
-    public function getUserFollowing();
+    public function getFriendsUser();
 
     /**
      * @param mixed $requestData
