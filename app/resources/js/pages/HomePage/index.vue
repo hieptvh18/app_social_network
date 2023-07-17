@@ -43,19 +43,8 @@
         </div>
 
       </div>
-      <div class="content__right-following mb-3">
-        <div class="following-title row">
-          <div class="col-6">Suggestions for you</div>
-          <a href="" class="col-6">See All</a>
-        </div>
-        <ul class="following-list">
-          <li><a href="" class="mr-2">tranthai123</a><span>Follow</span></li>
-          <li><a href="" class="mr-2">tranthai123</a><span>Follow</span></li>
-          <li><a href="" class="mr-2">tranthai123</a><span>Follow</span></li>
-          <li><a href="" class="mr-2">tranthai123</a><span>Follow</span></li>
-          <li><a href="" class="mr-2">tranthai123</a><span>Follow</span></li>
-        </ul>
-      </div>
+      <!-- list suggest following -->
+      <RecommendFollow/>
       <div class="copy-right text-secondary">© 2023 INSTAGRAM FROM META</div>
     </section>
   </div>
@@ -70,9 +59,10 @@
     import ModalLoading from '../../components/ModalLoading.vue';
     import ListPost from '../../components/Homepage/ListPost.vue';
     import Stories from "../../components/Homepage/Stories.vue";
+    import RecommendFollow from "../../components/Homepage/RecommendFollow.vue";
 
     export default {
-      components:{Stories, ModalLoading,ListPost},
+      components:{Stories, ModalLoading,ListPost,RecommendFollow},
       props:['userDataLogin'],
       setup(props){
         const loading = ref(true);

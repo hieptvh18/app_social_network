@@ -67,6 +67,19 @@ export const searchUserByUsername = async (formData) =>{
     return await axios(options);
 }
 
+// get list recommend following in homepage
+export const getRecomendFollowing = async () =>{
+    const url = '/recommend-follows';
+    const options = {
+        method: 'GET',
+        headers: headers,
+        params: {},
+        url:baseURLApi+url
+    }
+
+    return await axios(options);
+}
+
 // update user info
 export const updateUser = async(formData)=>{
     const url = '/user/update';

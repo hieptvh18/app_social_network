@@ -430,7 +430,7 @@ class UserRepository implements UserRepositoryInterface
             // case many followers
 
             // random
-            $users = User::whereNotIn('id',$followingList)->get();
+            $users = User::inRandomOrder()->whereNotIn('id',$followingList)->get();
             return response()->json([
                 'data' => $users,
                 'message' => 'Recommended users to follow',
