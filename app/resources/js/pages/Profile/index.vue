@@ -38,7 +38,7 @@
                             params: { id: userDataFromParam.id },
                         }"
                     >
-                        <button class=" mr-3 btn btn-warning">
+                        <button v-if="!myProfile" class=" mr-3 btn btn-warning">
                             <span>Chat</span>
                         </button>
                     </router-link>

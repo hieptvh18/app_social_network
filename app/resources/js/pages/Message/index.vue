@@ -12,7 +12,7 @@
 					<div class="px-4 d-none d-md-block">
 						<div class="d-flex align-items-center">
 							<div class="flex-grow-1">
-								<input type="text" class="form-control my-3" placeholder="Search...">
+								<input @keyup="searchFriend" @change="searchFriend" type="text" class="form-control my-3" placeholder="Search...">
 							</div>
 						</div>
 					</div>
@@ -64,11 +64,39 @@ let id = route.params.id;
 if(id) showRouterView.value = true;
 else showRouterView.value = false;
 
+let listFriendsCore = [];
 getListFriend()
     .then(res=>{
-        if(res.data.success) listFriends.value = res.data.data;
+        if(res.data.success) {
+			listFriendsCore = listFriends.value = res.data.data;
+		}
     })
     .catch(er=>{
         console.log(er);
-    })
+    });
+
+	// function search user by name
+let listFriendTemp = [];
+const searchFriend = (e)=> {
+	let keySearch = e.target.value;
+	
+	if(keySearch == ''){
+		listFriends.value = listFriendsCore;
+		return;
+	}
+
+	listFriendTemp = listFriendsCore.filter(val=>
+	{
+		if(typeof isExistResultSearch(listFriendsCore,val.id) != 'Array' && val.name.toLowerCase().search(keySearch.toLowerCase()) != -1){
+			return val
+		}
+	});
+
+	listFriends.value = listFriendTemp;
+}
+
+const isExistResultSearch = (array, id)=>{
+	return array.filter(val=>val.id == id);
+}
+
 </script>

@@ -17,9 +17,9 @@
                 <div class="text-muted small"><em>Typing...</em></div>
             </div>
             <div>
-                
-                <button class="btn btn-light border btn-lg px-3">
-                    <svg
+                <div class="btn-group dropleft">
+                    <button type="button" class="btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="24"
                         height="24"
@@ -35,7 +35,11 @@
                         <circle cx="19" cy="12" r="1"></circle>
                         <circle cx="5" cy="12" r="1"></circle>
                     </svg>
-                </button>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a @click="blockMessage" class="dropdown-item" href="#">Block message</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -145,8 +149,9 @@ export default {
                 if(response.data.success){
                     this.input = '';
                     this.list_messages.push(response.data.message);
-                    console.log(this.list_messages);
+                    
                     this.scrollToBottom();
+                    document.querySelector('input.v3-emoji-picker-input').value = '';
                 }
             }catch(er){
                 console.log(er);
@@ -175,6 +180,9 @@ export default {
                 })
             });
         },
+        blockMessage(){
+            console.log('block')
+        }
         
     },
     async created(){
@@ -182,8 +190,8 @@ export default {
         // init realtime
         Echo.channel('chatroom.' + this.roomId)
             .listen('MessageSent', (data) => {
-                console.log('realtime log');
-                console.log(data);
+                // console.log('realtime log');
+                // console.log(data);
                 
                 let message = data.message
                 message.from = data.from
