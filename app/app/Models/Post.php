@@ -28,6 +28,10 @@ class Post extends Model
         return $this->belongsTo(User::class, 'user_id', 'id'); 
     }
 
+    public function likes(){
+        return $this->hasMany(LikePost::class,'post_id','id');
+    }
+
     // format timestamp
     protected $casts = [
         'created_at' => 'datetime:Y-m-d',

@@ -42,9 +42,9 @@
                 </div>
                 <div class="photos__content p-2">
                   <div class="photos__icon d-flex">
-                    <div class="icon__likes mr-3" @click="clickIconLike">
-                      <i class="far fa-heart"></i>
-                      <span v-if="post.likes">{{ post.likes }} likes</span>
+                    <div class="icon__likes mr-3" @click="clickIconLike(post.id)">
+                      <i :class="{'active':isLiked}" class="far fa-heart"></i>
+                      <span v-if="post.likes.length">{{ post.likes.length }} likes</span>
                     </div>
                     <div class="icon-comment">
                       <i class="fa-regular fa-comment"></i>
@@ -89,6 +89,9 @@
 <script>
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Pagination, Navigation } from 'swiper/modules';
+import { likePost } from '../../api/post';
+import {ref} from 'vue';
+
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -97,24 +100,42 @@ import 'swiper/css/navigation';
             Swiper,
             SwiperSlide,
         },
-        data(){
-
-        },
         methods:{
-          clickIconLike(){
-              console.log('liked')
-          }
+          
         },
         props:['postListing'],
-        setup() {
+        setup(props) {
+            console.log(props.postListing);
+            let isLiked = ref(false);
+
+            const clickIconLike = async (postId)=>{
+              isLiked.value = !isLiked.value;
+
+              const response = await likePost({
+                'userId':window.userLogginIn.id,
+                'postId':postId
+              });
+
+              console.log(response);
+
+              if(response.data.success) {
+                console.log('liked');
+              }
+            }
+
             return {
                 modules: [ Navigation],
+                clickIconLike,
+                isLiked: isLiked
             };
         },
     }
 
 </script>
 <style scoped>
+.icon__likes i.active{
+  color:red;
+}
 .photos__icon div{
     cursor: pointer;
 }

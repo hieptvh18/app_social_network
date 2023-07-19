@@ -27,4 +27,15 @@ class PostController extends Controller
     public function getById($postId){
         return $this->postRepository->getById($postId);
     }
+
+    public function likePost(Request $request){
+        if(!$request->userId || !$request->postId){
+            return response()->json([
+                'success'=>false,
+                'message'=>'Data param fail',
+                'data'=>[]
+            ]);
+        }
+        return $this->postRepository->likePost($request->userId,$request->postId);
+    }
 }

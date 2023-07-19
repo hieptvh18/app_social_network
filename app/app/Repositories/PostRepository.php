@@ -5,7 +5,9 @@ namespace App\Repositories;
 use App\Models\Follow;
 use App\Models\Post;
 use App\Models\PostImage;
+use App\Models\LikePost;
 use App\Repositories\Interfaces\PostRepositoryInterface;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 
 class PostRepository implements PostRepositoryInterface
@@ -36,6 +38,7 @@ class PostRepository implements PostRepositoryInterface
         // handle data res
         if(count($posts)){
             foreach($posts as $post){
+                $post->likes;
                 $post->images;
             }
         }
@@ -115,6 +118,45 @@ class PostRepository implements PostRepositoryInterface
             return response()->json([
                 'success'=>false,
                 'message'=>'Get post by id fail!',
+                'data'=>[]
+            ]);
+        }
+    }
+
+    public function likePost($userId, $postId)
+    {
+        try{
+            $isLiked = LikePost::where('user_id',$userId)
+                    ->where('post_id',$postId)
+                    ->exists();
+            if($isLiked){
+                // reset like
+                LikePost::where('user_id',$userId)
+                ->where('post_id',$postId)
+                ->delete();
+
+                return response()->json([
+                    'success'=>true,
+                    'message'=>'unLike',
+                    'data'=>[]
+                ]);
+            }
+
+             $likePost = new LikePost();
+             $likePost->user_id = $userId;
+             $likePost->post_id = $postId;
+             $likePost->save();
+
+             return response()->json([
+                'success'=>true,
+                'message'=>'like',
+                'data'=>$likePost
+             ]);
+        }catch(Exception $e){
+            report($e->getMessage());
+            return response()->json([
+                'success'=>false,
+                'message'=>'Like post fail: '.$e->getMessage(),
                 'data'=>[]
             ]);
         }

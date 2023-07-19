@@ -6,7 +6,7 @@
                 <router-link :to="{name:'homepage'}"><img :src="'../../../../assets/images/in.png'" /></router-link>
               </div>
               <p>Sign up to see photos and videos from your friends.</p>
-              <button><i class="fab fa-facebook-square"></i> Log in with Facebook</button>
+              <button><i class="fab fa-google-square"></i> Log in with Google</button>
               <div>
                 <hr>
                 <p>OR</p>

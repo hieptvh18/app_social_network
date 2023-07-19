@@ -40,3 +40,16 @@ export const getPostById = async (id) =>{
    
     return await axios(options);
 }
+
+// like post action
+export const likePost = async (data) =>{
+    const url = '/post/like';
+    const options = {
+        method: 'POST',
+        headers: header,
+        params: data,
+        url:baseURLApi+url
+    }
+   
+    return await axios(options);
+}
