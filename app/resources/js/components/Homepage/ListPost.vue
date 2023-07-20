@@ -42,8 +42,8 @@
                 </div>
                 <div class="photos__content p-2">
                   <div class="photos__icon d-flex">
-                    <div class="icon__likes mr-3" @click="clickIconLike(post.id)">
-                      <i :class="{'active':isLiked}" class="far fa-heart"></i>
+                    <div class="icon__likes mr-3" @click="clickIconLike(post)">
+                      <i :class="{'active':checkLiked(post) || isLiked ? true : false}" class="far fa-heart"></i>
                       <span v-if="post.likes.length">{{ post.likes.length }} likes</span>
                     </div>
                     <div class="icon-comment">
@@ -106,14 +106,24 @@ import 'swiper/css/navigation';
         props:['postListing'],
         setup(props) {
             console.log(props.postListing);
-            let isLiked = ref(false);
+            let isLiked = false;
 
-            const clickIconLike = async (postId)=>{
-              isLiked.value = !isLiked.value;
+            // check liked
+            const checkLiked = (post)=>{
+              let currenUserId = window.userLogginIn.id;
+              let result = post.likes.filter(val=>val.user_id == currenUserId);
+              
+              result.length ? isLiked = true : isLiked = false;
+              
+              return result.length;
+            }
+
+            const clickIconLike = async (post)=>{
+              isLiked = !isLiked;
 
               const response = await likePost({
                 'userId':window.userLogginIn.id,
-                'postId':postId
+                'postId':post.id
               });
 
               console.log(response);
@@ -126,7 +136,8 @@ import 'swiper/css/navigation';
             return {
                 modules: [ Navigation],
                 clickIconLike,
-                isLiked: isLiked
+                checkLiked,
+                isLiked
             };
         },
     }

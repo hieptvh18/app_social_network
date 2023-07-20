@@ -29,7 +29,7 @@ class Post extends Model
     }
 
     public function likes(){
-        return $this->hasMany(LikePost::class,'post_id','id');
+        return $this->hasMany(LikePost::class,'post_id','id')->select('user_id');
     }
 
     // format timestamp

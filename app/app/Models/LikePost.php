@@ -12,4 +12,8 @@ class LikePost extends Model
     public $timestamps = false;
 
     protected $fillable = ['user_id','post_id'];
+
+    public function users(){
+        return $this->hasMany(User::class,'id','user_id');
+    }
 }
