@@ -9,6 +9,7 @@ use App\Models\LikePost;
 use App\Repositories\Interfaces\PostRepositoryInterface;
 use Exception;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PostRepository implements PostRepositoryInterface
 {
@@ -32,6 +33,7 @@ class PostRepository implements PostRepositoryInterface
                     }
                 ]
             )
+            ->withCount('comments')
             ->get();
 
         if ($posts->isEmpty()) {
@@ -121,7 +123,7 @@ class PostRepository implements PostRepositoryInterface
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Get post by id fail!',
+                'message' => 'Get post by id fail! '.$e->getMessage(),
                 'data' => []
             ]);
         }

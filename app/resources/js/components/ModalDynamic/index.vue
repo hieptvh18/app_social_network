@@ -52,19 +52,22 @@ export default {
     z-index: 998;
 }
 .modal-layout {
-    width: 95vh;
+    /* max-width: 100vh; */
+    width: 88vw;
     height: auto;
+    border-radius: 5px;
 }
 
 .modal-layout__container{
   transition: all ease-in-out .8s;
     position: fixed;
-    top: 200px;
+    top: 5%;
     left: 0;
     /* height: 100%; */
     /* width: 100%; */
     transform: translate(calc(50vw - 50%));
-    max-height: 70vh;
+    max-height: 90vh;
+    max-width: 99vh;
     display: flex;
     flex-flow: column nowrap;
     justify-content: center; /* aligns on vertical for column */

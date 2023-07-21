@@ -21,4 +21,9 @@ class Comment extends Model
         return $this->belongsTo(Post::class,'post_id','id');
     }
 
+    // format timestamp
+    protected $casts = [
+        'created_at' => 'datetime:Y M d H:i',
+        'updated_at' => 'datetime:Y M d H:i',
+    ];
 }

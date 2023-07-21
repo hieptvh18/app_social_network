@@ -18,14 +18,14 @@ class CommentRepository implements CommentRepositoryInterface
                 ->get();
             return response()->json([
                 'success' => true,
-                'message' => 'Fetch messages success!',
+                'message' => 'Fetch comment success!',
                 'comments' => $comments
             ]);
         } catch (Exception $e) {
             report($e->getMessage());
             return response()->json([
                 'success' => false,
-                'message' => 'Fetch messages fail! '.$e->getMessage(),
+                'message' => 'Fetch comment fail! '.$e->getMessage(),
                 'comments' => []
             ]);
         }
@@ -40,14 +40,14 @@ class CommentRepository implements CommentRepositoryInterface
             
             return response()->json([
                 'success'=>true,
-                'message'=>'save message success',
-                'comment'=>['id'=>$comment->id,'message'=>$comment->message]
+                'message'=>'save comment success',
+                'comment'=>['id'=>$comment->id,'message'=>$comment->message,'created_at'=>$comment->created_at]
             ]);
         }catch(Exception $e){
             report($e->getMessage());
             return response()->json([
                 'success'=>false,
-                'message'=>'save message fail! '.$e->getMessage(),
+                'message'=>'save comment fail! '.$e->getMessage(),
                 'comment'=>[]
             ]);
         }
