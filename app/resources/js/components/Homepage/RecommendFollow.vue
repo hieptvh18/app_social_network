@@ -59,7 +59,7 @@
 .following-list li{
     display: flex;
     justify-content: space-between;
-    line-height: 30px;
+    line-height: 35px;
 }
 .following-list li a{
     display: flex;

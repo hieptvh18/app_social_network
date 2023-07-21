@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ChatController;
+use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
@@ -59,6 +60,10 @@ Route::prefix('v1')->group(function () {
         Route::get('/posts/{id}', [PostController::class, 'getById'])->name('getById');
         // action like post
         Route::post('/post/like', [PostController::class, 'likePost'])->name('likePost');
+
+        // comment api
+        Route::get('/comments/post/{id}', [CommentController::class, 'fetchComments']);
+        Route::post('/comments/post/save', [CommentController::class, 'saveComment']);
 
         // recommend follow
         Route::get('recommend-follows', [UserController::class, 'recommendFollow'])->name('recommend-follows');

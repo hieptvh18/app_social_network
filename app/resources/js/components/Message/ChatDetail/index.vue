@@ -70,7 +70,7 @@
         </div>
     </div>
 
-    <div class="flex-grow-0 mb-4 border-top" style="position: absolute; bottom: 0;right: 0;left: 0;">
+    <div class="flex-grow-0 pb-4 border-top bg-light" style="position: absolute; bottom: 0;right: 0;left: 0;">
         <form @submit.prevent="sendMessages" class="input-group d-flex">
             <EmojiPicker picker-type="input" @update:text="changeMessage" @select="onSelectEmoji" />
             <button class="btn btn-primary">Send</button>
@@ -81,7 +81,7 @@
 <style src="../../../pages/Message/index.css"></style>
 <style scoped>
 .v3-input-emoji-picker{
-    width: 80%;
+    width: 90%;
 }
 input.v3-emoji-picker-input{
     width: 100%;

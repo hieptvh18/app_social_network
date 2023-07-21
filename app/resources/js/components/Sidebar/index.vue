@@ -1,7 +1,7 @@
 <template>
     <aside class="sidebar-menu col-3 bg-light">
         <div class="logo">
-          <a href="">Instagram</a>
+          <router-link :to="{name:'homepage'}">Instagram</router-link>
         </div>
         <ul class="nav-menu">
           <li>

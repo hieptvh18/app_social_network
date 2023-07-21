@@ -57,25 +57,12 @@
                     >
                     {{ post.captions ?? post.captions }}
                   </div>
-                  <a href class="show-comment text-secondary">more</a>
+                  <!-- <a href class="show-comment text-secondary">more</a> -->
                   <div class="photos__created-at text-secondary">
                     {{ post.created_at }}
                   </div>
 
-                  <div class="photos__comment mt-3">
-                    <form action="">
-                      <div class="form-group d-flex">
-                        <input
-                          type="text"
-                          placeholder="Add a comment..."
-                          name="comment"
-                          class="form-control"
-                          id=""
-                        />
-                        <button class="btn btn-light">Post</button>
-                      </div>
-                    </form>
-                  </div>
+                  <FormComment :postId="post.id"/>
                 </div>
               </div>
             </div>
@@ -91,6 +78,7 @@ import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Pagination, Navigation } from 'swiper/modules';
 import { likePost } from '../../api/post';
 import {ref} from 'vue';
+import FormComment from '../FormComment.vue';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -99,6 +87,7 @@ import 'swiper/css/navigation';
         components: {
             Swiper,
             SwiperSlide,
+            FormComment
         },
         methods:{
           
@@ -107,6 +96,7 @@ import 'swiper/css/navigation';
         setup(props) {
             console.log(props.postListing);
             let isLiked = false;
+            const listMyComment = [];
 
             // check liked
             const checkLiked = (post)=>{
@@ -133,11 +123,17 @@ import 'swiper/css/navigation';
               }
             }
 
+            // handle comment action
+            const commentPost = ()=>{
+
+            }
+
             return {
                 modules: [ Navigation],
                 clickIconLike,
                 checkLiked,
-                isLiked
+                isLiked,
+                listMyComment
             };
         },
     }
