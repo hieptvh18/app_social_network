@@ -47,7 +47,7 @@
     font-size: 18px;
   }
   
-  .page .header > button{
+  .page .header button{
     width: inherit;
     padding: 10px 20px;
     border-radius: 5px;
@@ -221,12 +221,12 @@
     }
     
     .page .header{
-      width: 270px;
+      width: 330px;
       margin-top: 15px;
     }
     
     .page .container{
-      width: 270px;
+      width: 330px;
     }
     
     .option{

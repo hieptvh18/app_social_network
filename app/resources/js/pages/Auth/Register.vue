@@ -6,7 +6,10 @@
                 <router-link :to="{name:'homepage'}"><img :src="'../../../../assets/images/in.png'" /></router-link>
               </div>
               <p>Sign up to see photos and videos from your friends.</p>
-              <button><i class="fab fa-facebook-square"></i> Log in with Facebook</button>
+              <div class="login-social d-flex justify-content-between">
+                <button><i class="fab fa-facebook-square"></i> Facebook Login</button>
+                <button><i class="fa-brands fa-google"></i> Google Login</button>
+              </div>
               <div>
                 <hr>
                 <p>OR</p>
@@ -46,27 +49,11 @@
             <router-link :to="{name:'login'}">Log in</router-link>
             </p>
         </div>
-        <div class="otherapps">
+        <!-- <div class="otherapps">
           <p>Get the app.</p>
           <button type="button"><i class="fab fa-apple"></i> App Store</button>
           <button type="button"><i class="fab fa-google-play"></i> Google Play</button>
-        </div>
-        <div class="footer">
-          <ul>
-            <li><a href="">ABOUT</a></li>
-            <li><a href="">HELP</a></li>
-            <li><a href="">PRESS</a></li>
-            <li><a href="">API</a></li>
-            <li><a href="">JOBS</a></li>
-            <li><a href="">PRIVACY</a></li>
-            <li><a href="">TEMS</a></li>
-            <li><a href="">LOCATIONS</a></li>
-            <li><a href="">TOP ACCOUNTS</a></li>
-            <li><a href="">HASHTAGS</a></li>
-            <li><a href="">LANGUAGE</a></li>
-          </ul>
-          <p>© 2023 PICTUREGRAM</p>
-        </div>
+        </div> -->
       </main>
 </template>
 
