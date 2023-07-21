@@ -4,8 +4,10 @@ namespace App\Repositories;
 
 use App\Models\Follow;
 use App\Models\Post;
+use App\Models\Room;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Throwable;
@@ -78,16 +80,60 @@ class UserRepository implements UserRepositoryInterface
         }
     }
 
+    public function getUserById($id)
+    {
+        try{
+            if(!User::find($id)) {
+                return response()->json([
+                    'success'=>false,
+                    'message'=>'User not found!',
+                    'data'=>[]
+                ]);
+            }
+            return response()->json([
+                'success'=>true,
+                'message'=>'Get user by id success!',
+                'data'=> User::find($id)
+            ]);
+        }catch(Exception $e){
+            report($e->getMessage());
+            return response()->json([
+                'success'=>false,
+                'message'=>'Get user by id fail: '.$e->getMessage(),
+                'data'=>[]
+            ]);
+        }
+    }
+
     /**
      * order by history...
      * @return \Illuminate\Http\JsonResponse|object
      */
-    public function getUserFollowing(){
+    public function getFriendsUser(){
         try{
             $userId = Auth::id();
-            $followingIds = Follow::where('user_id',$userId)->pluck('following_id');
-            $users = User::select('id','name','username','avatar')->whereIn('id',$followingIds)
+            // condition 1: get following
+            $followingIds = Follow::where('user_id',$userId)
+                            ->pluck('following_id')->toArray();
+
+            // condition 2: get history chat
+            $userChatIds = Room::select('from','to')->where('from',$userId)
+                            ->orWhere('to',$userId)
+                            ->get()->toArray();
+
+            $userChatIdsArr = array_unique(array_values(collect($userChatIds)->flatten()->toArray()));
+
+            $userIdOutPut = array_unique(array_merge($followingIds,$userChatIdsArr));
+            
+            // unset my id
+            if($key = array_search($userId,$userIdOutPut)){
+                unset($userIdOutPut[$key]);
+            }
+                            
+            $users = User::select('id','name','username','avatar')
+                            ->whereIn('id',$userIdOutPut)
                             ->get();
+                          
             return response()->json([
                 'success'=>true,
                 'message'=>'Get list user followed success.',
@@ -384,7 +430,8 @@ class UserRepository implements UserRepositoryInterface
             // case many followers
 
             // random
-            $users = User::whereNotIn('id',$followingList)->get();
+            $users = User::inRandomOrder()->whereNotIn('id',$followingList)
+                            ->limit(10)->get();
             return response()->json([
                 'data' => $users,
                 'message' => 'Recommended users to follow',

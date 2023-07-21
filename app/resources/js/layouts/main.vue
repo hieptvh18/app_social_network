@@ -37,9 +37,10 @@ var loading = ref(true);
 // fetch data user login
 getUser()
     .then((response) => {
-        console.log(response);
         if ((response.data.success = true)) {
             userDataLogin.value = response.data.data;
+            //  save global current user login
+            window.userLogginIn = response.data.data;
         }
     })
     .catch((err) => {

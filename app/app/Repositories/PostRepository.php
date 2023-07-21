@@ -5,7 +5,9 @@ namespace App\Repositories;
 use App\Models\Follow;
 use App\Models\Post;
 use App\Models\PostImage;
+use App\Models\LikePost;
 use App\Repositories\Interfaces\PostRepositoryInterface;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 
 class PostRepository implements PostRepositoryInterface
@@ -14,26 +16,24 @@ class PostRepository implements PostRepositoryInterface
     {
         $userId = Auth::id();
 
-        // Lấy danh sách người mà người dùng đang theo dõi
         $followingList = Follow::where('user_id', $userId)->get('following_id');
 
-        // Kiểm tra nếu danh sách người đang theo dõi rỗng
-        if ($followingList->isEmpty()) {
-            return response()->json([
-                'data' => [],
-                'message' => 'You are not following anyone.',
-                'success' => false,
-            ]);
-        }
-
-        // Lấy danh sách bài viết từ những người mà người dùng đang theo dõi hoặc từ chính người dùng đang đăng nhập
-        $posts = Post::whereIn('user_id', $followingList)
+        $posts = Post::query()
+            ->whereIn('user_id', $followingList)
             ->orWhere('user_id', $userId)
             ->orderBy('created_at', 'desc')
-            ->with(['author'])
+            ->with(
+                [
+                    'images' => function ($query) {
+                        $query->select('id', 'image', 'post_id');
+                    },
+                    'author' => function ($query) {
+                        $query->select('id', 'username', 'avatar');
+                    }
+                ]
+            )
             ->get();
 
-        // Kiểm tra nếu danh sách bài viết rỗng
         if ($posts->isEmpty()) {
             return response()->json([
                 'data' => [],
@@ -42,11 +42,8 @@ class PostRepository implements PostRepositoryInterface
             ]);
         }
 
-        // handle data res
-        if(count($posts)){
-            foreach($posts as $post){
-                $post->images;
-            }
+        foreach ($posts as $post) {
+            $post->likes;
         }
 
         return response()->json([
@@ -92,39 +89,79 @@ class PostRepository implements PostRepositoryInterface
         }
     }
 
-    public function getById($postId){
-        try{
-            if(!$postId){
+    public function getById($postId)
+    {
+        try {
+            if (!$postId) {
                 return response()->json([
-                    'success'=>false,
-                    'message'=>'Missing param postId!',
-                    'data'=>[]
+                    'success' => false,
+                    'message' => 'Missing param postId!',
+                    'data' => []
                 ]);
             }
 
             $post = Post::find($postId);
             return response()->json([
-                'success'=>true,
-                'message'=>'Get post by id success!',
-                'data'=>[
-                    'contents'=>[
-                        'id'=>$post->id,
-                        'captions'=>$post->captions,
-                        'created_at'=>$post->created_at->format('Y-m-d'),
-                        'updated_at'=>$post->updated_at->format('Y-m-d'),
+                'success' => true,
+                'message' => 'Get post by id success!',
+                'data' => [
+                    'contents' => [
+                        'id' => $post->id,
+                        'captions' => $post->captions,
+                        'created_at' => $post->created_at->format('Y-m-d'),
+                        'updated_at' => $post->updated_at->format('Y-m-d'),
                     ],
-                    'author'=> [
-                        'username'=>$post->author->name,
-                        'avatar'=>$post->author->avatar,
+                    'author' => [
+                        'username' => $post->author->name,
+                        'avatar' => $post->author->avatar,
                     ],
-                    'images'=>$post->images
+                    'images' => $post->images
                 ]
             ]);
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             return response()->json([
-                'success'=>false,
-                'message'=>'Get post by id fail!',
-                'data'=>[]
+                'success' => false,
+                'message' => 'Get post by id fail!',
+                'data' => []
+            ]);
+        }
+    }
+
+    public function likePost($userId, $postId)
+    {
+        try {
+            $isLiked = LikePost::where('user_id', $userId)
+                ->where('post_id', $postId)
+                ->exists();
+            if ($isLiked) {
+                // reset like
+                LikePost::where('user_id', $userId)
+                    ->where('post_id', $postId)
+                    ->delete();
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'unLike',
+                    'data' => []
+                ]);
+            }
+
+            $likePost = new LikePost();
+            $likePost->user_id = $userId;
+            $likePost->post_id = $postId;
+            $likePost->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'like',
+                'data' => $likePost
+            ]);
+        } catch (Exception $e) {
+            report($e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Like post fail: ' . $e->getMessage(),
+                'data' => []
             ]);
         }
     }
