@@ -41,7 +41,7 @@ class CommentRepository implements CommentRepositoryInterface
             return response()->json([
                 'success'=>true,
                 'message'=>'save comment success',
-                'comment'=>['id'=>$comment->id,'message'=>$comment->message,'created_at'=>$comment->created_at]
+                'comment'=>['id'=>$comment->id,'message'=>$comment->message,'created_at'=>date_format($comment->created_at,'Y M d H:i')]
             ]);
         }catch(Exception $e){
             report($e->getMessage());

@@ -124,7 +124,7 @@ import { Swiper, SwiperSlide } from "swiper/vue";
 import { Pagination, Navigation } from "swiper/modules";
 import { likePost } from "../../api/post";
 import { ref } from "vue";
-import FormComment from "../FormComment.vue";
+import FormComment from "./FormComment.vue";
 import ModalPostDetail from "./ModalPostDetail.vue";
 
 // Import Swiper styles

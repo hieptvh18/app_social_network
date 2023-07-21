@@ -95,14 +95,14 @@
         </Modal>
 
         <!-- modal show post detail -->
-        <GalleryItem v-if="postId && isShowModalPost" @closeModal="closeModal" :postId="postId" :isShowModalPost="isShowModalPost"/>
+        <ModalPostDetail v-if="postId && isShowModalPost" @closeModal="closeModal" :postId="postId" :isShowModalPost="isShowModalPost"/>
     </div>
 </template>
 
 <script>
 import Modal from "../ModalDynamic/index.vue";
 import Loader from "../LoaderResult.vue";
-import GalleryItem from "./GalleryItem.vue";
+import ModalPostDetail from "../Homepage/ModalPostDetail.vue";
 import {
     getStorage,
     ref as refFirebase,
@@ -120,7 +120,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
 export default {
-    components: { Modal,GalleryItem, EmojiPicker, Loader,Swiper,SwiperSlide },
+    components: { Modal,ModalPostDetail, EmojiPicker, Loader,Swiper,SwiperSlide },
     data() {
         return {
             labelUpload: "Upload Photos",

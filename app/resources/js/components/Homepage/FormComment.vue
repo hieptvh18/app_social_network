@@ -24,7 +24,7 @@
 </template>
 <script>
     import { message } from 'ant-design-vue';
-    import {fetchComments,saveComment} from '../api/comment'; 
+    import {fetchComments,saveComment} from '../../api/comment'; 
     import {ref} from 'vue';
 
     export default{
