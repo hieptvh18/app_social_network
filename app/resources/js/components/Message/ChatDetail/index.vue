@@ -3,7 +3,7 @@
         <div class="d-flex align-items-center py-1">
             <div class="position-relative">
                 <img
-                    src="https://bootdey.com/img/Content/avatar/avatar3.png"
+                    :src="user.avatar"
                     class="rounded-circle mr-1"
                     alt="{{user.name}}"
                     width="40"
@@ -188,7 +188,7 @@ export default {
     async created(){
         await this.loadMessage();
         // init realtime
-        Echo.channel('chatroom.' + this.roomId)
+        Echo.private('chatroom.' + this.roomId)
             .listen('MessageSent', (data) => {
                 // console.log('realtime log');
                 // console.log(data);
