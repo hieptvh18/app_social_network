@@ -7,8 +7,9 @@ use App\Repositories\Interfaces\CommentRepositoryInterface;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Events\PushNotifications;
 
-class CommentRepository implements CommentRepositoryInterface
+class CommentRepository extends AbstractApi implements CommentRepositoryInterface
 {
     public function fetchComments($postId)
     {
@@ -16,18 +17,12 @@ class CommentRepository implements CommentRepositoryInterface
             $comments = Comment::where('post_id', $postId)
                 ->with(['user'])
                 ->get();
-            return response()->json([
-                'success' => true,
-                'message' => 'Fetch comment success!',
-                'comments' => $comments
-            ]);
+            
+                return $this->respSuccess(['comments'=>$comments],'Fetch comment success!');
         } catch (Exception $e) {
             report($e->getMessage());
-            return response()->json([
-                'success' => false,
-                'message' => 'Fetch comment fail! '.$e->getMessage(),
-                'comments' => []
-            ]);
+            
+            return $this->respError([],'Fetch comments fail! '.$e->getMessage());
         }
     }
 
@@ -37,19 +32,18 @@ class CommentRepository implements CommentRepositoryInterface
             $comment = new Comment();
             $comment->fill($request->all());
             $comment->save();
+
+            // save notification
             
-            return response()->json([
-                'success'=>true,
-                'message'=>'save comment success',
-                'comment'=>['id'=>$comment->id,'message'=>$comment->message,'created_at'=>date_format($comment->created_at,'Y M d H:i')]
-            ]);
+            // broadcast to envent -> response to frontend
+            broadcast(new PushNotifications($comment->post_id));
+            
+            $dataResp = ['id'=>$comment->id,'message'=>$comment->message,'created_at'=>date_format($comment->created_at,'Y M d H:i')];
+           
+            return $this->respSuccess($dataResp,'Save comment success!');
         }catch(Exception $e){
             report($e->getMessage());
-            return response()->json([
-                'success'=>false,
-                'message'=>'save comment fail! '.$e->getMessage(),
-                'comment'=>[]
-            ]);
+            return $this->respError([],'save comment fail! '.$e->getMessage());
         }
     }
 }

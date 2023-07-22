@@ -190,9 +190,6 @@ export default {
         // init realtime
         Echo.private('chatroom.' + this.roomId)
             .listen('MessageSent', (data) => {
-                // console.log('realtime log');
-                // console.log(data);
-                
                 let message = data.message
                 message.from = data.from
                 this.list_messages.push(message);

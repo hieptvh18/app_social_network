@@ -60,7 +60,7 @@
                             </swiper>
                         </div>
                         <div class="photos__content p-2">
-                            <div class="photos__icon d-flex">
+                            <div class="photos__icon d-flex align-items-center">
                                 <div
                                     class="icon__likes mr-3"
                                     @click="clickIconLike(post)"

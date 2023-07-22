@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Storage;
 use URL;
 
-class UserRepository implements UserRepositoryInterface
+class UserRepository extends AbstractApi implements UserRepositoryInterface
 {
 
     public function getUserByUsername($username)

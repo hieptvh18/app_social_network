@@ -53,6 +53,14 @@
         },
         beforeMount(){
             this.fetchComments();
+        },
+        created(){
+            // init realtime notifi
+            console.log('created func');
+             Echo.private('notifications.' + this.postId)
+            .listen('PushNotifications', (data) => {
+                console.log('listen event notifi when comment post==========');
+            })
         }
     }
 </script>

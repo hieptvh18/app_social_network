@@ -145,5 +145,10 @@ export default {
     font-size: 13px;
     color: #444;
 }
+.post-content.list-comments{
+    max-height: 100vh;
+    min-height: 100vh;
+    overflow-y: scroll;
+}
 </style>
 <style scoped src="../Profile/galleries.css"></style>
