@@ -47,7 +47,7 @@ class PostRepository extends AbstractApi implements PostRepositoryInterface
     
             return $this->respSuccess(['data'=>$posts],'Get posts success');
         }catch(\Throwable $e){
-            $this->respError([],'Something went wrong when fetch posts of friend! '.$e->getMessage());
+            return $this->respError([],'Something went wrong when fetch posts of friend! '.$e->getMessage());
         }
     }
 
@@ -100,9 +100,9 @@ class PostRepository extends AbstractApi implements PostRepositoryInterface
                 ],
                 'images' => $post->images
             ];
-            $this->respSuccess(['data'=>$data],'Get post by id success!');
+            return $this->respSuccess(['data'=>$data],'Get post by id success!');
         } catch (\Throwable $e) {
-            $this->respError([],'Something went wrong when get post by id! '.$e->getMessage());
+            return $this->respError([],'Something went wrong when get post by id! '.$e->getMessage());
         }
     }
 
@@ -126,10 +126,10 @@ class PostRepository extends AbstractApi implements PostRepositoryInterface
             $likePost->post_id = $postId;
             $likePost->save();
 
-            $this->respSuccess(['data'=>$likePost],'like');
+            return $this->respSuccess(['data'=>$likePost],'like');
         } catch (\Throwable $e) {
             report($e->getMessage());
-            $this->respError([],'Something went wrong when like! '.$e->getMessage());
+            return $this->respError([],'Something went wrong when like! '.$e->getMessage());
         }
     }
 }

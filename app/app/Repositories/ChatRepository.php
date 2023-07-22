@@ -57,7 +57,7 @@ class ChatRepository extends AbstractApi implements ChatRepositoryInterface
             $currentRoomId = DB::selectOne('select id from rooms where (`from` = ? and `to` = ?) or (`to` = ? and `from` = ?)', [auth()->id(), $reciever, auth()->id(), $reciever]);
 
             if (!$currentRoomId) {
-                $this->respError(['list_message'=>[]]);
+                return $this->respError(['list_message'=>[]]);
             }
 
             $messages = Message::select('messages.*')->with('from')->with('to')
@@ -68,7 +68,7 @@ class ChatRepository extends AbstractApi implements ChatRepositoryInterface
             return $this->respSuccess(['list_message'=>$messages]);
         } catch (Exception $e) {
             report($e->getMessage());
-            $this->respError();
+            return $this->respError();
         }
     }
 }

@@ -10,6 +10,7 @@
         <form @submit.prevent="postComment">
             <div class="form-group d-flex">
                 <input
+                required
                     v-model="message"
                     type="text"
                     placeholder="Add a comment..."
@@ -23,7 +24,6 @@
     </div>
 </template>
 <script>
-    import { message } from 'ant-design-vue';
     import {fetchComments,saveComment} from '../../api/comment'; 
     import {ref} from 'vue';
 
@@ -44,7 +44,6 @@
             async postComment(){
                 const response  = await saveComment({user_id:window.userLogginIn.id,message:this.message,post_id:this.postId});
 
-                console.log(response);
                 if(response.data.success){
                     this.myComments.push(response.data.comment);
                     this.message = '';

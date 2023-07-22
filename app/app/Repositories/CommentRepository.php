@@ -40,7 +40,7 @@ class CommentRepository extends AbstractApi implements CommentRepositoryInterfac
             
             $dataResp = ['id'=>$comment->id,'message'=>$comment->message,'created_at'=>date_format($comment->created_at,'Y M d H:i')];
            
-            return $this->respSuccess($dataResp,'Save comment success!');
+            return $this->respSuccess(['comment'=>$dataResp],'Save comment success!');
         }catch(Exception $e){
             report($e->getMessage());
             return $this->respError([],'save comment fail! '.$e->getMessage());
