@@ -20,7 +20,7 @@ class RepositoryServiceProvider extends ServiceProvider
          // comment repository
          $this->app->bind(\App\Repositories\Interfaces\CommentRepositoryInterface::class,\App\Repositories\CommentRepository::class);
          // notification repository
-         $this->app->bind(\App\Repositories\Interfaces\NotificationRepositoryInterface::class,\App\Repositories\Notification::class);
+         $this->app->bind(\App\Repositories\Interfaces\NotificationRepositoryInterface::class,\App\Repositories\NotificationRepository::class);
     }
 
     /**

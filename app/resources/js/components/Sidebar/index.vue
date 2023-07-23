@@ -40,7 +40,6 @@ import ModalDynamic from '../ModalDynamic/index.vue';
 
 export default {
   components:{ModalSearchUser,ModalDynamic},
-  // props: ['userData'],
   data() {
       return {
         isModalVisible: false,
@@ -57,16 +56,8 @@ export default {
     props:{
       userData: Object
     },
-    setup(props){
-      // const userData = props.userData;
-
-      // return {
-      //   userData
-      // }
-    },
     created(){
-      // fetch notifi count is_read = false
-
+      // fetch count noti
     }
 }
 </script>

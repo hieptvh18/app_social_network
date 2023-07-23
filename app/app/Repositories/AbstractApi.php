@@ -4,8 +4,12 @@ namespace App\Repositories;
 abstract class AbstractApi
 {
 
-    public function respSuccess($dataParams=['data'=>[]],$message='')
+    public function respSuccess($dataParams,$message='')
     {
+        if(!$dataParams || !is_array($dataParams) || !count($dataParams)){
+            $dataParams = ['data'=>[]];
+        }
+
         return response()->json([
             'success'=>true,
             'message'=>$message,
@@ -13,7 +17,11 @@ abstract class AbstractApi
         ]);
     }
 
-    public function respError($dataParams=['data'=>[]],$message=''){
+    public function respError($dataParams,$message=''){
+        if(!$dataParams || !is_array($dataParams) || !count($dataParams)){
+            $dataParams = ['data'=>[]];
+        }
+        
         return response()->json([
             'success'=>false,
             'message'=>$message,

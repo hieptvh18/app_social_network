@@ -10,13 +10,15 @@ class NotificationController extends Controller
 {
     protected $notifiRepository;
 
-    public function __construct(NotificationRepositoryInterface $notifiRepository)
+    public function __construct(
+        NotificationRepositoryInterface $notifiRepository
+    )
     {
         $this->notifiRepository = $notifiRepository;
     }
 
     public function fetchNotifications($userId){
-        return $this->fetchNotifications($userId);
+        return $this->notifiRepository->fetchNotifications($userId);
     }
 
     public function saveNotification(Request $request){

@@ -11,5 +11,11 @@ class Notifications extends Model
 
     public $timestamps = true;
 
-    protected $fillable = ['user_id','message','is_read'];
+    protected $fillable = ['user_id', 'message', 'is_read'];
+
+    // format timestamp
+    protected $casts = [
+        'created_at' => 'datetime:Y M d H:i',
+        'updated_at' => 'datetime:Y M d H:i',
+    ];
 }

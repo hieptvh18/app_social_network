@@ -36,14 +36,12 @@ class CommentRepository extends AbstractApi implements CommentRepositoryInterfac
             $comment->save();
 
             // save notification
-            $notifi = new Notifications();
-            $notifi->user_id = $comment->post->user_id;
-            $notifi->message = $comment->user->name . ' commented to your post - ' . '"' . substr($comment->post->captions, 0, 30) . '"';
-            return $notifi;
-            $notifi->save();
+            $notifi = $this->saveNotification($comment);
+            if($notifi){
+                // broadcast to event -> response to frontend
+                broadcast(new PushNotifications($comment->user_id, $notifi->message, $notifi->user_id, $notifi->id,$notifi->created_at))->toOthers();
+            }
 
-            // broadcast to envent -> response to frontend
-            broadcast(new PushNotifications());
 
             $dataResp = ['id' => $comment->id, 'message' => $comment->message, 'created_at' => date_format($comment->created_at, 'Y M d H:i')];
 
@@ -54,13 +52,34 @@ class CommentRepository extends AbstractApi implements CommentRepositoryInterfac
         }
     }
 
-    public function delete($id){
+    private function saveNotification($comment)
+    {
         try{
-            Comment::destroy($id);
-            return $this->respSuccess([],'Delete success comment');
+            // check if current user as author -> ignore
+            if(auth()->id() == $comment->post->user_id){
+                return false;
+            }
+            
+            $notifi = new Notifications();
+            $notifi->user_id = $comment->post->user_id;
+            $notifi->message = $comment->user->name . ' commented to your post - ' . '"' . substr($comment->post->captions, 0, 30) . '"';
+            $notifi->save();
+
+            return $notifi;
         }catch(\Throwable $e){
             report($e->getMessage());
-            return $this->respError([],'Delete comment fail! '.$e->getMessage());
+            return false;
+        }
+    }
+
+    public function delete($id)
+    {
+        try {
+            Comment::destroy($id);
+            return $this->respSuccess([], 'Delete success comment');
+        } catch (\Throwable $e) {
+            report($e->getMessage());
+            return $this->respError([], 'Delete comment fail! ' . $e->getMessage());
         }
     }
 }

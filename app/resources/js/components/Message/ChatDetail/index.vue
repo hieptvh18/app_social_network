@@ -195,6 +195,10 @@ export default {
                 this.list_messages.push(message);
                 this.scrollToBottom()
             })
-    }
+    },
+    destroyed() {
+        // leave channel chat
+        
+    },
 }
 </script>

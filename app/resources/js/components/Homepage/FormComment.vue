@@ -38,9 +38,6 @@
         },
         props:['postId'],
         methods:{
-            fetchComments(){
-                
-            },
             async postComment(){
                 const response  = await saveComment({user_id:window.userLogginIn.id,message:this.message,post_id:this.postId});
 
@@ -50,17 +47,7 @@
                 }
             }
         },
-        beforeMount(){
-            this.fetchComments();
-        },
-        created(){
-            // init realtime notifi
-            console.log('created func');
-             Echo.private('notifications.' + this.postId)
-            .listen('PushNotifications', (data) => {
-                console.log('listen event notifi when comment post==========');
-            })
-        }
+       
     }
 </script>
 <style scoped>

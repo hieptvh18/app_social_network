@@ -14,6 +14,24 @@ class PushNotifications implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    protected $currentUserId;
+
+    protected $notifiOfUserId;
+
+    protected $message;
+    
+    protected $id;
+
+    protected $created_at;
+
+    public function __construct($currentUserId,$message,$notifiOfUserId,$id,$created_at)
+    {   
+        $this->currentUserId = $currentUserId;
+        $this->notifiOfUserId = $notifiOfUserId;
+        $this->message = $message;
+        $this->id = $id;
+        $this->created_at = $created_at;
+    }
     /**
      * Get the channels the event should broadcast on.
      *
@@ -21,9 +39,20 @@ class PushNotifications implements ShouldBroadcast
      */
     public function broadcastOn(): array
     {
-        logger('noti + post of user '.auth()->id());
+        // get current channel = current user login ID
         return [
-            new PrivateChannel('notifications.'.auth()->id()),
+            new PrivateChannel('notifications'),
+        ];
+    }
+
+    public function broadcastWith():array
+    {
+        return [
+            'id'=>$this->id,
+            'current_user'=>$this->currentUserId,
+            'notifiOfUserId'=>$this->notifiOfUserId,
+            'message'=>$this->message,
+            'created_at'=>$this->created_at
         ];
     }
 }

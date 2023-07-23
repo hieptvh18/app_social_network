@@ -185,9 +185,6 @@ export default {
             }
         };
 
-        // handle comment action
-        const commentPost = () => {};
-
         return {
             modules: [Navigation],
             clickIconLike,
