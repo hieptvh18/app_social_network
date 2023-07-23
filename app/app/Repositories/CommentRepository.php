@@ -39,7 +39,7 @@ class CommentRepository extends AbstractApi implements CommentRepositoryInterfac
             $notifi = $this->saveNotification($comment);
             if($notifi){
                 // broadcast to event -> response to frontend
-                broadcast(new PushNotifications($comment->user_id, $notifi->message, $notifi->user_id, $notifi->id,$notifi->created_at))->toOthers();
+                broadcast(new PushNotifications($comment->user_id, $notifi->message, $comment->post->author->avatar, $notifi->user_id, $notifi->id,$notifi->created_at))->toOthers();
             }
 
 
@@ -62,7 +62,7 @@ class CommentRepository extends AbstractApi implements CommentRepositoryInterfac
             
             $notifi = new Notifications();
             $notifi->user_id = $comment->post->user_id;
-            $notifi->message = $comment->user->name . ' commented to your post - ' . '"' . substr($comment->post->captions, 0, 30) . '"';
+            $notifi->message = $comment->user->name . ' commented to your post - <a href="#">View detail</a> - ' . '"' . substr($comment->post->captions, 0, 30) . '"';
             $notifi->save();
 
             return $notifi;

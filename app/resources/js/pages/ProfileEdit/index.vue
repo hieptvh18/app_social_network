@@ -35,6 +35,12 @@
             </div>
         </form>
 
+        <!-- tab active -->
+        <div class="tab mt-4 mb-4 d-flex">
+            <button @click="changeTabActive(false)" class="tab-info mr-4" :class="{'active':!tabActive}">Update Info</button>
+            <button @click="changeTabActive(true)" class="tab-change-pass" :class="{'active':tabActive}">Change Password</button>
+        </div>
+
         <div
             class="alert alert-danger"
             v-if="message.errors.length"
@@ -42,12 +48,13 @@
         >
             {{ error }}
         </div>
-        <form @submit.prevent="submitUpdate">
+        <!-- form update info -->
+        <form @submit.prevent="submitUpdate" class="form-info" v-show="!tabActive">
             <input type="hidden" name="id" :value="formData.id" />
 
             <div class="form-group d-flex">
                 <label for="" class="col-1">Name</label>
-                <div class="ml-3">
+                <div class="ml-3 form-group-items">
                     <input
                         type="text"
                         name="name"
@@ -65,7 +72,7 @@
 
             <div class="form-group d-flex">
                 <label for="" class="col-1">Username</label>
-                <div class="ml-3">
+                <div class="ml-3 form-group-items">
                     <input
                         type="text"
                         name="username"
@@ -82,7 +89,7 @@
 
             <div class="form-group d-flex">
                 <label for="" class="col-1">Bio</label>
-                <div class="ml-3">
+                <div class="ml-3 form-group-items">
                     <textarea
                         name="bio"
                         id=""
@@ -101,7 +108,7 @@
 
             <div class="form-group d-flex">
                 <label for="" class="col-1">Email</label>
-                <div class="ml-3">
+                <div class="ml-3 form-group-items">
                     <input
                         type="email"
                         name="email"
@@ -113,7 +120,7 @@
 
             <div class="form-group d-flex">
                 <label for="" class="col-1">Phone</label>
-                <div class="ml-3">
+                <div class="ml-3 form-group-items">
                     <input
                         type="text"
                         name="phone"
@@ -126,7 +133,54 @@
             <button type="submit" class="btn btn-primary">Submit</button>
             <!-- <router-link :to="{name:'profile',params:{username:userLoggin.username}}">Back to profile</router-link> -->
         </form>
-        <div class="text-secondary">© 2023 Instagram from Meta</div>
+
+        <!-- form change pass -->
+        <form class="form-info" v-show="tabActive">
+            <div class="form-group d-flex">
+                <label for="" class="col-1">Old pass</label>
+                <div class="ml-3 form-group-items">
+                    <input
+                        type="password"
+                        name="name"
+                        class="form-control-sm"
+                    />
+                    <br />
+                    <small
+                        >This is old password
+                    </small>
+                </div>
+            </div>
+            <div class="form-group d-flex">
+                <label for="" class="col-1">New pass</label>
+                <div class="ml-3 form-group-items">
+                    <input
+                        type="password"
+                        name="new_password"
+                        class="form-control-sm"
+                    />
+                    <br />
+                    <small
+                        >This is new password
+                    </small>
+                </div>
+            </div>
+            <div class="form-group d-flex">
+                <label for="" class="col-1">Confirm new pass</label>
+                <div class="ml-3 form-group-items">
+                    <input
+                        type="password"
+                        name="password_confirm"
+                        class="form-control-sm"
+                    />
+                    <br />
+                    <small
+                        >This is password confirm
+                    </small>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <div class="text-secondary mt-4 text-center">© 2023 Instagram from Meta</div>
     </div>
     <ModalLoading v-if="loading || loader" />
 </template>
@@ -164,7 +218,8 @@ export default {
                 error: "",
                 errors: [],
             },
-            avatar:''
+            avatar:'',
+            tabActive:false
         };
     },
     methods: {
@@ -262,6 +317,11 @@ export default {
                     this.message.errors = errorAvatar;
                 }
             })
+        },
+        changeTabActive(flag){
+            if(flag != this.tabActive){
+                this.tabActive = !this.tabActive;
+            }
         }
     },
     beforeMount() {

@@ -16,6 +16,8 @@ class PushNotifications implements ShouldBroadcast
 
     protected $currentUserId;
 
+    protected $avatar;
+
     protected $notifiOfUserId;
 
     protected $message;
@@ -24,11 +26,12 @@ class PushNotifications implements ShouldBroadcast
 
     protected $created_at;
 
-    public function __construct($currentUserId,$message,$notifiOfUserId,$id,$created_at)
+    public function __construct($currentUserId,$message, $avatar,$notifiOfUserId,$id,$created_at)
     {   
         $this->currentUserId = $currentUserId;
         $this->notifiOfUserId = $notifiOfUserId;
         $this->message = $message;
+        $this->avatar = $avatar;
         $this->id = $id;
         $this->created_at = $created_at;
     }
@@ -52,6 +55,7 @@ class PushNotifications implements ShouldBroadcast
             'current_user'=>$this->currentUserId,
             'notifiOfUserId'=>$this->notifiOfUserId,
             'message'=>$this->message,
+            'avatar'=>$this->avatar,
             'created_at'=>$this->created_at
         ];
     }

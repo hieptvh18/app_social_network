@@ -29,9 +29,9 @@
                             </div>
                             <div class="font-weight-bold mr-3">
                                 <div class="text-truncate">
-                                    DAILY RUNDOWN: WEDNESDAY
+                                    
                                 </div>
-                                <div class="small">
+                                <div class="small" style="font-size: 16px !important;">
                                     {{ val.message }}
                                 </div>
                             </div>

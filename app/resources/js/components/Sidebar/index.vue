@@ -11,16 +11,17 @@
         </li>
           <li><i class="fas fa-search"></i><ModalSearchUser/></li>
           <li><a href="">Explore</a></li>
-          <li>
-            <router-link :to="{name:'messagepage'}">
-              <i class="fab fa-facebook-messenger"></i>Message
-            </router-link>
-          </li>
+          <router-link :to="{name:'messagepage'}">
+            <li class="d-flex justify-content-between">
+              <div class=""><i class="fab fa-facebook-messenger"></i>Message</div>
+              <div class="count-noti messages">2</div>
+            </li>
+          </router-link>
           
           <router-link :to="{name:'notificationpage'}">
             <li class="d-flex justify-content-between ">
               <div class=""><i class="far fa-heart"></i>Notification</div>
-              <div class="count-noti">5</div>
+              <div class="count-noti notifications">5</div>
             </li>
           </router-link>
 
