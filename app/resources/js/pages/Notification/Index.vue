@@ -169,20 +169,23 @@ export default {
         const self = this;
         this.fetchNotifications();
         // init realtime notifi
-        console.log("userid = " + this.currentUser.id);
         Echo.private("notifications").listen(
             "PushNotifications",
             (data) => {
                 console.log("listen event notifi when comment post==========");
                 console.log(data);
                 console.log(this.notifications);
-                this.notifications.push(data);
+                this.notifications.unshift(data);
             }
         );
     },
-    destroyed() {
+    beforeUnmount() {
         //  leave channel notifi
-        
+        try{
+            Echo.leave('notifications')
+        }catch(er){
+            console.log('leave channel notifi err is: '+ er);
+        }
     },
 };
 </script>

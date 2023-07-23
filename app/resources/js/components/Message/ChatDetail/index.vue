@@ -196,9 +196,14 @@ export default {
                 this.scrollToBottom()
             })
     },
-    destroyed() {
-        // leave channel chat
-        
-    },
+   
+    beforeUnmount(){
+         // leave channel chat
+        try{
+            Echo.leave('chatroom.' + this.roomId);
+        }catch(er){
+            console.log('leave channel chat 1-1 err is: '+ er);
+        }
+    }
 }
 </script>
