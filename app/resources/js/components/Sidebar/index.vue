@@ -16,11 +16,13 @@
               <i class="fab fa-facebook-messenger"></i>Message
             </router-link>
           </li>
-          <li>
-            <router-link :to="{name:'notificationpage'}">
-              <i class="far fa-heart"></i>Notification
-            </router-link>
-          </li>
+          
+          <router-link :to="{name:'notificationpage'}">
+            <li class="d-flex justify-content-between ">
+              <div class=""><i class="far fa-heart"></i>Notification</div>
+              <div class="count-noti">5</div>
+            </li>
+          </router-link>
 
           <li>
             <router-link :to="{name:'profile',params:{username:userData.username}}">
@@ -62,5 +64,22 @@ export default {
       //   userData
       // }
     },
+    created(){
+      // fetch notifi count is_read = false
+
+    }
 }
 </script>
+<style scoped>
+.count-noti{
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  color: #fff;
+  background: green;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>

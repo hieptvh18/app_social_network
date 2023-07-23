@@ -14,16 +14,6 @@ class PushNotifications implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    protected $myPostId;
-
-    /**
-     * Create a new event instance.
-     */
-    public function __construct($myPostId)
-    {
-        $this->myPostId = $myPostId;
-    }
-
     /**
      * Get the channels the event should broadcast on.
      *
@@ -31,9 +21,9 @@ class PushNotifications implements ShouldBroadcast
      */
     public function broadcastOn(): array
     {
-        logger('noti + post = '.$this->myPostId);
+        logger('noti + post of user '.auth()->id());
         return [
-            new PrivateChannel('notifications.'.$this->myPostId),
+            new PrivateChannel('notifications.'.auth()->id()),
         ];
     }
 }
