@@ -59,7 +59,7 @@
 .following-list li{
     display: flex;
     justify-content: space-between;
-    line-height: 35px;
+    margin-bottom: 20px;
 }
 .following-list li a{
     display: flex;
@@ -68,6 +68,8 @@
 .avatar-recommend-user{
     width: 30px;
     height: 30px;
+    min-height: 30px;
+    min-width: 30px;
     border-radius: 50%;
     overflow: hidden;
 }

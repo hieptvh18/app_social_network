@@ -50,7 +50,7 @@
                         <!-- form comment- reply comment -->
                         <div class="created_at mb-2">Posted at {{ postData.contents.created_at }}</div>
                         <form @submit.prevent="postComment" class="d-flex">
-                            <input v-model="message" class="form-control" type="text" placeholder="Add a comment" />
+                            <input required v-model="message" class="form-control" type="text" placeholder="Add a comment" />
                             <button class="btn btn-light"><i class="fa-regular fa-paper-plane"></i></button>
                         </form>
                     </div>
@@ -152,6 +152,11 @@ button.btn-op-comment__item{
 .time-comment{
     font-size: 13px;
     color: #444;
+}
+.post-content.list-comments{
+    max-height: 100vh;
+    min-height: 100vh;
+    overflow-y: scroll;
 }
 </style>
 <style scoped src="../Profile/galleries.css"></style>

@@ -35,6 +35,12 @@
             </div>
         </form>
 
+        <!-- tab active -->
+        <div class="tab mt-4 mb-4 d-flex">
+            <button @click="changeTabActive(false)" class="tab-info mr-4" :class="{'active':!tabActive}">Update Info</button>
+            <button @click="changeTabActive(true)" class="tab-change-pass" :class="{'active':tabActive}">Change Password</button>
+        </div>
+
         <div
             class="alert alert-danger"
             v-if="message.errors.length"
@@ -42,12 +48,13 @@
         >
             {{ error }}
         </div>
-        <form @submit.prevent="submitUpdate">
+        <!-- form update info -->
+        <form @submit.prevent="submitUpdate" class="form-info" v-show="!tabActive">
             <input type="hidden" name="id" :value="formData.id" />
 
             <div class="form-group d-flex">
                 <label for="" class="col-1">Name</label>
-                <div class="ml-3">
+                <div class="ml-3 form-group-items">
                     <input
                         type="text"
                         name="name"
@@ -65,7 +72,7 @@
 
             <div class="form-group d-flex">
                 <label for="" class="col-1">Username</label>
-                <div class="ml-3">
+                <div class="ml-3 form-group-items">
                     <input
                         type="text"
                         name="username"
@@ -82,7 +89,7 @@
 
             <div class="form-group d-flex">
                 <label for="" class="col-1">Bio</label>
-                <div class="ml-3">
+                <div class="ml-3 form-group-items">
                     <textarea
                         name="bio"
                         id=""
@@ -101,7 +108,7 @@
 
             <div class="form-group d-flex">
                 <label for="" class="col-1">Email</label>
-                <div class="ml-3">
+                <div class="ml-3 form-group-items">
                     <input
                         type="email"
                         name="email"
@@ -113,7 +120,7 @@
 
             <div class="form-group d-flex">
                 <label for="" class="col-1">Phone</label>
-                <div class="ml-3">
+                <div class="ml-3 form-group-items">
                     <input
                         type="text"
                         name="phone"
@@ -219,7 +226,8 @@ export default {
                 error: "",
                 errors: [],
             },
-            avatar:''
+            avatar:'',
+            tabActive:false
         };
     },
     methods: {

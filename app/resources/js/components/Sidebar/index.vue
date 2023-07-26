@@ -11,16 +11,19 @@
         </li>
           <li><i class="fas fa-search"></i><ModalSearchUser/></li>
           <li><a href="">Explore</a></li>
-          <li>
-            <router-link :to="{name:'messagepage'}">
-              <i class="fab fa-facebook-messenger"></i>Message
-            </router-link>
-          </li>
-          <li>
-            <router-link :to="{name:'notificationpage'}">
-              <i class="far fa-heart"></i>Notification
-            </router-link>
-          </li>
+          <router-link :to="{name:'messagepage'}">
+            <li class="d-flex justify-content-between">
+              <div class=""><i class="fab fa-facebook-messenger"></i>Message</div>
+              <div class="count-noti messages">2</div>
+            </li>
+          </router-link>
+          
+          <router-link :to="{name:'notificationpage'}">
+            <li class="d-flex justify-content-between ">
+              <div class=""><i class="far fa-heart"></i>Notification</div>
+              <div class="count-noti notifications">5</div>
+            </li>
+          </router-link>
 
           <li>
             <router-link :to="{name:'profile',params:{username:userData.username}}">
@@ -38,7 +41,6 @@ import ModalDynamic from '../ModalDynamic/index.vue';
 
 export default {
   components:{ModalSearchUser,ModalDynamic},
-  // props: ['userData'],
   data() {
       return {
         isModalVisible: false,
@@ -55,12 +57,21 @@ export default {
     props:{
       userData: Object
     },
-    setup(props){
-      // const userData = props.userData;
-
-      // return {
-      //   userData
-      // }
-    },
+    created(){
+      // fetch count noti
+    }
 }
 </script>
+<style scoped>
+.count-noti{
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  color: #fff;
+  background: green;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>

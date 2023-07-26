@@ -1,3 +1,7 @@
+a:hover{
+  text-decoration: none !important;
+}
+
 .logo a{
     color: #000;
     font-size: 25px;

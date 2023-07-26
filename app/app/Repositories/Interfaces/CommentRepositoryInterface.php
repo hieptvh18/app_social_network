@@ -16,6 +16,12 @@ Interface CommentRepositoryInterface
      * post comments
      */
     public function saveComment($request);
+
+        /**
+     * Delete comment
+     * @param $id
+     */
+    public function delete($id);
 }
 
 ?>

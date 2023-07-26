@@ -7,8 +7,11 @@ use App\Repositories\Interfaces\CommentRepositoryInterface;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Events\PushNotifications;
+use App\Models\Notifications;
+use App\Models\Post;
 
-class CommentRepository implements CommentRepositoryInterface
+class CommentRepository extends AbstractApi implements CommentRepositoryInterface
 {
     public function fetchComments($postId)
     {
@@ -16,31 +19,24 @@ class CommentRepository implements CommentRepositoryInterface
             $comments = Comment::where('post_id', $postId)
                 ->with(['user'])
                 ->get();
-            return response()->json([
-                'success' => true,
-                'message' => 'Fetch comment success!',
-                'comments' => $comments
-            ]);
+
+            return $this->respSuccess(['comments' => $comments], 'Fetch comment success!');
         } catch (Exception $e) {
             report($e->getMessage());
-            return response()->json([
-                'success' => false,
-                'message' => 'Fetch comment fail! '.$e->getMessage(),
-                'comments' => []
-            ]);
+
+            return $this->respError([], 'Fetch comments fail! ' . $e->getMessage());
         }
     }
 
     public function saveComment($request)
     {
-        try{
+        try {
             $comment = new Comment();
             $comment->fill($request->all());
             $comment->save();
 
             // save notification
             $notifi = $this->saveNotification($comment);
-            logger('notiis '.$notifi);
             if($notifi){
                 // broadcast to event -> response to frontend
                 broadcast(new PushNotifications($comment->user_id, $notifi->message, $comment->post->author->avatar, $notifi->user_id, $notifi->id,$notifi->created_at))->toOthers();
@@ -60,7 +56,7 @@ class CommentRepository implements CommentRepositoryInterface
         try{
             // check if current user as author -> ignore
             if(auth()->id() == $comment->post->user_id){
-//                return false;
+                return false;
             }
 
             $notifi = new Notifications();
@@ -70,7 +66,6 @@ class CommentRepository implements CommentRepositoryInterface
 
             return $notifi;
         }catch(\Throwable $e){
-            logger('notierrrrr ==========='.$e->getMessage());
             report($e->getMessage());
             return false;
         }
@@ -83,11 +78,7 @@ class CommentRepository implements CommentRepositoryInterface
             return $this->respSuccess([], 'Delete success comment');
         } catch (\Throwable $e) {
             report($e->getMessage());
-            return response()->json([
-                'success'=>false,
-                'message'=>'save comment fail! '.$e->getMessage(),
-                'comment'=>[]
-            ]);
+            return $this->respError([], 'Delete comment fail! ' . $e->getMessage());
         }
     }
 }

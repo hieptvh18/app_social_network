@@ -24,4 +24,8 @@ class CommentController extends Controller
     public function saveComment(CommentRequest $request){
         return $this->commentRepository->saveComment($request);
     }
+
+    public function delete($postId){
+        return $this->commentRepository->delete($postId);
+    }
 }

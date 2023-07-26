@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ChatController;
 use App\Http\Controllers\Api\CommentController;
+use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
@@ -66,6 +67,7 @@ Route::prefix('v1')->group(function () {
         // comment api
         Route::get('/comments/post/{id}', [CommentController::class, 'fetchComments']);
         Route::post('/comments/post/save', [CommentController::class, 'saveComment']);
+        Route::delete('/comments/delete/{id}',[CommentController::class,'delete']);
 
         // recommend follow
         Route::get('recommend-follows', [UserController::class, 'recommendFollow'])->name('recommend-follows');
@@ -73,6 +75,11 @@ Route::prefix('v1')->group(function () {
         // handle chat
         Route::get('/chat/fetch-message/{receiver}',[ChatController::class,'fetchMessage']);
         Route::post('/chat/save',[ChatController::class,'saveMessage']);
+
+        // notifications
+        Route::get('/notification/{userId}',[NotificationController::class,'fetchNotifications']);
+        Route::post('/notification/save',[NotificationController::class,'saveNotification']);
+        Route::delete('/notification/delete/{id}',[NotificationController::class,'delete']);
 
     });
 });
