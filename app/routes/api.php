@@ -35,6 +35,8 @@ Route::prefix('v1')->group(function () {
         Route::get('/accounts/user', [AuthController::class, 'getUser'])->name('getUser');
         // logout
         Route::post('/accounts/logout', [AuthController::class, 'logout'])->name('logout');
+        // change password
+        Route::put('/user/change-pass', [UserController::class, 'changePassword']);
         // serahc user by username
         Route::get('/user/search', [UserController::class, 'searchUser'])->name('searchUser');
         // get user by username

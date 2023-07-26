@@ -57,13 +57,6 @@ class UserController extends Controller
     }
 
     /**
-     * check exist customer by username
-     */
-    public function checkExistUsername(Request $request)
-    {
-    }
-
-    /**
      * search
      */
     public function searchUser(Request $request)
@@ -91,5 +84,9 @@ class UserController extends Controller
     public function recommendFollow(){
 
         return $this->userRepository->recommendFollow();
+    }
+
+    public function changePassword(Request $request){
+        return $this->userRepository->updatePassword($request->oldPass,$request->newPass);
     }
 }

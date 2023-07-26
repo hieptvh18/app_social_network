@@ -126,7 +126,57 @@
             <button type="submit" class="btn btn-primary">Submit</button>
             <!-- <router-link :to="{name:'profile',params:{username:userLoggin.username}}">Back to profile</router-link> -->
         </form>
-        <div class="text-secondary">© 2023 Instagram from Meta</div>
+
+        <!-- form change pass -->
+        <form @submit.prevent="submitChangePassForm" class="form-info" v-show="tabActive">
+            <div class="form-group d-flex">
+                <label for="" class="col-1">Old pass</label>
+                <div class="ml-3 form-group-items">
+                    <input
+                        type="password"
+                        name="old_password"
+                        class="form-control-sm"
+                        v-model="formChangePass.old_pass"
+                    />
+                    <br />
+                    <small
+                        >This is old password
+                    </small>
+                </div>
+            </div>
+            <div class="form-group d-flex">
+                <label for="" class="col-1">New pass</label>
+                <div class="ml-3 form-group-items">
+                    <input
+                        type="password"
+                        name="new_password"
+                        class="form-control-sm"
+                        v-model="formChangePass.new_pass"
+                    />
+                    <br />
+                    <small
+                        >This is new password
+                    </small>
+                </div>
+            </div>
+            <div class="form-group d-flex">
+                <label for="" class="col-1">Confirm new pass</label>
+                <div class="ml-3 form-group-items">
+                    <input
+                        type="password"
+                        name="password_confirm"
+                        class="form-control-sm"
+                        v-model="formChangePass.pass_confirm"
+                    />
+                    <br />
+                    <small
+                        >This is password confirm
+                    </small>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <div class="text-secondary mt-4 text-center">© 2023 Instagram from Meta</div>
     </div>
     <ModalLoading v-if="loading || loader" />
 </template>
@@ -138,7 +188,7 @@ import { getUser } from "../../api/auth";
 import { ref } from "vue";
 import ModalLoading from "../../components/ModalLoading.vue";
 import LoaderResult from "../../components/LoaderResult.vue";
-import { updateUser, uploadAvatar } from "../../api/user";
+import { updateUser, uploadAvatar,updatePassword } from "../../api/user";
 import {
     validateUsername,
     validatePhoneNumber,
@@ -156,6 +206,11 @@ export default {
                 email: "",
                 password: "",
                 phone: "",
+            },
+            formChangePass:{
+                old_pass:"",
+                new_pass:"",
+                pass_confirm:""
             },
             loading: ref(true),
             loader: ref(false),
@@ -262,6 +317,37 @@ export default {
                     this.message.errors = errorAvatar;
                 }
             })
+        },
+        changeTabActive(flag){
+            if(flag != this.tabActive){
+                this.tabActive = !this.tabActive;
+            }
+        },
+
+        async submitChangePassForm(){
+            if(!this.checkPassAndPassConfirm(this.formChangePass.new_pass,this.formChangePass.pass_confirm)){
+                this.message.error = "New password and password confirm do not match!";
+                return;
+            }
+
+            const response = await updatePassword({
+                oldPass:this.formChangePass.old_pass,
+                newPass:this.formChangePass.new_pass
+            });
+            console.log(response);
+
+            if(response.data.success){
+                this.message.success = response.data.message;
+                this.message.error = "";
+            }
+            else{
+                this.message.error = response.data.message;
+                this.message.success = "";
+            }
+        },
+        checkPassAndPassConfirm(pass,passConfirm){
+            if(pass == passConfirm) return true;
+            else return false;
         }
     },
     beforeMount() {

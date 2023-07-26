@@ -127,3 +127,16 @@ export const uploadAvatar = async(formData)=>{
 
     return await axios.post(baseURLApi+url,data,config);
 }
+
+// following
+export const updatePassword = async(formData)=>{
+    const url = '/user/change-pass';
+    const options = {
+        method: 'PUT',
+        headers: headers,
+        params: formData,
+        url:baseURLApi+url
+    }
+
+    return await axios(options);
+}

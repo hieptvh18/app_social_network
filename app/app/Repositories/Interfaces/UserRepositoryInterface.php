@@ -70,4 +70,10 @@ Interface UserRepositoryInterface{
 
     public function recommendFollow();
 
+    /**
+     * @param $oldPassRequest
+     * @param $newPassRequest
+     */
+    public function updatePassword($oldPassRequest,$newPassRequest);
+
 }

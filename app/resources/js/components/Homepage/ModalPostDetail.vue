@@ -25,7 +25,7 @@
                 <div class="post-detail-content__right">
                     <div class="post-top profile-items mb-3 font-weight-bold">{{ postData.author.username }}</div>
                     <div class="post-content list-comments">
-                        <div class="comment-item">
+                        <div class="comment-item d-flex justify-content-between">
                             <div class="comment-item__profile d-flex mb-4" v-if="comments.length" v-for="(comment,index) in comments" :key="index">
                                 <div class="profile-avatar mr-2">
                                     <img
@@ -40,6 +40,9 @@
                                     <span>{{ comment.message }}</span>
                                     <p class="time-comment">{{ comment.created_at }}</p>
                                 </div>
+                            </div>
+                            <div class="mr-2">
+                                <button class="btn-op-comment__item"><i class="fa-solid fa-ellipsis-vertical"></i></button>
                             </div>
                         </div>
                     </div>
@@ -141,6 +144,11 @@ export default {
 </script>
 
 <style scoped>
+button.btn-op-comment__item{
+    background: none;
+    border: none;
+    outline: none;
+}
 .time-comment{
     font-size: 13px;
     color: #444;

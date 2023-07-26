@@ -60,23 +60,13 @@ class UserRepository implements UserRepositoryInterface
                     'posts' => $posts,
 
                 ];
-                return response()->json([
-                    'data' => $data,
-                    'message' => 'Get user data by username success',
-                    'success' => true,
-                ]);
+
+                return $this->respSuccess(['data'=>$data],'Get user data by username success!');
             }
-            return response()->json([
-                'data' => [],
-                'message' => 'User not found!',
-                'success' => false,
-            ]);
+
+            return $this->respError(false,'User not found!');
         } catch (Throwable $e) {
-            return response()->json([
-                'data' => [],
-                'message' => 'Get user by username fail!! ' . $e->getMessage(),
-                'success' => false,
-            ]);
+            return $this->respError(false,'User user by username fail! '.$e->getMessage());
         }
     }
 
@@ -90,18 +80,11 @@ class UserRepository implements UserRepositoryInterface
                     'data'=>[]
                 ]);
             }
-            return response()->json([
-                'success'=>true,
-                'message'=>'Get user by id success!',
-                'data'=> User::find($id)
-            ]);
-        }catch(Exception $e){
+
+            return $this->respSuccess(['data'=>User::find($id)],'Get user by id success!');
+        }catch(\Throwable $e){
             report($e->getMessage());
-            return response()->json([
-                'success'=>false,
-                'message'=>'Get user by id fail: '.$e->getMessage(),
-                'data'=>[]
-            ]);
+            return $this->respError(false,'Something wrong when get user by id! '.$e->getMessage());
         }
     }
 
@@ -124,28 +107,20 @@ class UserRepository implements UserRepositoryInterface
             $userChatIdsArr = array_unique(array_values(collect($userChatIds)->flatten()->toArray()));
 
             $userIdOutPut = array_unique(array_merge($followingIds,$userChatIdsArr));
-            
+
             // unset my id
             if($key = array_search($userId,$userIdOutPut)){
                 unset($userIdOutPut[$key]);
             }
-                            
+
             $users = User::select('id','name','username','avatar')
                             ->whereIn('id',$userIdOutPut)
                             ->get();
-                          
-            return response()->json([
-                'success'=>true,
-                'message'=>'Get list user followed success.',
-                'data'=>$users
-            ]);
+
+            return $this->respSuccess(['data'=>$users],'Get list user followed success!');
         }catch(\Exception $e){
             report($e->getMessage());
-            return response()->json([
-               'success'=>false,
-               'data'=>[],
-               'message'=> 'get list user followed fail->detail: '.$e->getMessage()
-            ]);
+            return $this->respError(false,'get list user followed fail->detail: '.$e->getMessage());
         }
     }
 
@@ -161,30 +136,16 @@ class UserRepository implements UserRepositoryInterface
 
                 $userSave = $user->save();
                 if ($userSave) {
-                    return response()->json([
-                        'success' => true,
-                        'data' => $user,
-                        'message' => 'Update profile success'
-                    ]);
+                    return $this->respSuccess(['data'=>$user],'Update profile success!');
                 }
-                return response()->json([
-                    'success' => false,
-                    'data' => [],
-                    'message' => 'Update fail!'
-                ], 500);
+
+                return $this->respError(false,'Update fail!');
             }
-            return response()->json([
-                'success' => false,
-                'data' => [],
-                'message' => 'Params id is invalid!'
-            ]);
+
+            return $this->respError(false,'Params id is invalid!');
         } catch (Throwable $e) {
             report($e->getMessage());
-            return response()->json([
-                'success' => false,
-                'data' => [],
-                'message' => 'Update profile fail! ' . $e->getMessage()
-            ]);
+            return $this->respError(false,'Something wrong when update profile! '.$e->getMessage());
         }
     }
 
@@ -192,34 +153,18 @@ class UserRepository implements UserRepositoryInterface
     {
         try {
             if (!$username) {
-                return response()->json([
-                    "success" => false,
-                    "data" => [],
-                    "message" => "Params username is required!"
-                ]);
+                return $this->respError(false,'Params username is required!');
             }
             $user = User::select('id', 'name', 'email', 'username', 'avatar')->where('username', 'like', $username . '%')->get();
 
             if ($user) {
-                return response()->json([
-                    "success" => true,
-                    "data" => $user,
-                    "message" => "Get success user!"
-                ]);
+                return $this->respSuccess(['data'=>$user],'Get user success!');
             }
 
-            return response()->json([
-                "success" => true,
-                "data" => [],
-                "message" => "User not found!"
-            ]);
+            return $this->respError(false,'User not found!');
         } catch (Throwable $e) {
             report($e->getMessage());
-            return response()->json([
-                "success" => false,
-                "data" => [],
-                "message" => $e->getMessage()
-            ]);
+            return $this->respError(false,'Something wrong when get user! '.$e->getMessage());
         }
     }
 
@@ -228,11 +173,7 @@ class UserRepository implements UserRepositoryInterface
         $dataResponse = ['status' => true, 'data' => [], 'message' => ""];
 
         if (!$request->username || !$request->name || !$request->email || !$request->password) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Data is not valid!',
-                'data' => $request->all()
-            ]);
+            return $this->respError(['data'=>$request->all()],'Data is not valid!');
         }
 
         try {
@@ -240,15 +181,11 @@ class UserRepository implements UserRepositoryInterface
             $userExistUsername = User::where('username', $request->username)->first();
 
             if ($userExistEmail) {
-                $dataResponse['status'] = false;
-                $dataResponse['message'] = 'Email exist customer!';
-                return response()->json($dataResponse);
+                return $this->respError(false,'Email exist customer!');
             }
 
             if ($userExistUsername) {
-                $dataResponse['status'] = false;
-                $dataResponse['message'] = 'Username exist customer!';
-                return response()->json($dataResponse);
+                return $this->respError(false,'Username exist customer!');
             }
 
             $model = new User();
@@ -256,14 +193,10 @@ class UserRepository implements UserRepositoryInterface
             $model->password = Hash::make($request->password);
             $model->save();
 
-            $dataResponse['data'] = $request->all();
-            $dataResponse['message'] = 'Register success!';
-            return response()->json($dataResponse);
+            return $this->respSuccess(['data'=>$request->all()],'Register success!');
         } catch (Throwable $e) {
             report($e);
-            $dataResponse['status'] = false;
-            $dataResponse['message'] = 'Error: ' . $e->getMessage();
-            return response()->json($dataResponse);
+            return $this->respError(false,'Something wrong! '.$e->getMessage());
         }
     }
 
@@ -276,18 +209,10 @@ class UserRepository implements UserRepositoryInterface
             $userFollow->following_id = $following_id;
             $userFollow->save();
 
-            return response()->json([
-                'success' => true,
-                'data' => [],
-                'message' => 'Following success'
-            ]);
+            return $this->respSuccess(false,'Following success');
         } catch (Throwable $e) {
             report($e->getMessage());
-            return response()->json([
-                'success' => false,
-                'data' => [],
-                'message' => $e->getMessage()
-            ]);
+            return $this->respError(false,'Something error! '.$e->getMessage());
         }
     }
 
@@ -310,6 +235,7 @@ class UserRepository implements UserRepositoryInterface
         }
         return $list;
     }
+
     public function logout($request)
     {
         try {
@@ -329,30 +255,18 @@ class UserRepository implements UserRepositoryInterface
                 ->where('following_id', $following_id)->exists();
 
             if (!$followExist) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Not found user followed!'
-                ]);
+                return $this->respError(false,'Not found user followed!');
             }
 
             $delete = Follow::where('user_id', $user_id)
                 ->where('following_id', $following_id)->first()->delete();
             if ($delete) {
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Unfollow success!',
-                ]);
+                return $this->respSuccess(false,'Un follow success!');
             }
 
-            return response()->json([
-                'success' => false,
-                'message' => 'UnFollow error! Pls try again!',
-            ]);
+            return $this->respError(false,'Un follow error! Pls try again!');
         } catch (Throwable $er) {
-            return response()->json([
-                'success' => false,
-                'message' => 'UnFollow error! ' . $er->getMessage(),
-            ]);
+            return $this->respError(false,'UnFollow error! ' . $er->getMessage());
         }
     }
 
@@ -363,11 +277,7 @@ class UserRepository implements UserRepositoryInterface
     {
         try {
             if (!$request->hasFile('avatar')) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'File upload not exist!',
-                    'data' => []
-                ]);
+                return $this->respError(false,'File upload not exist!');
             }
 
             $filePath = fileUploader($request->file('avatar'), 'avatar', 'uploads/avatars');
@@ -384,25 +294,11 @@ class UserRepository implements UserRepositoryInterface
                 $user->avatar = $baseUrl . '/' . $filePath;
                 $user->save();
 
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Upload success!',
-                    'data' => [
-                        'avatar' => $user->avatar
-                    ]
-                ]);
+                return $this->respSuccess(['data'=>['avatar' => $user->avatar]],'Upload success!');
             }
-            return response()->json([
-                'success' => false,
-                'message' => 'Upload not success!',
-                'data' => []
-            ]);
+            return $this->respError(false,'Upload not success!');
         } catch (Throwable $er) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Upload not success! ' . $er->getMessage(),
-                'data' => []
-            ]);
+            return $this->respError(false,'Upload not success! '.$er->getMessage());
         }
     }
 
@@ -420,11 +316,7 @@ class UserRepository implements UserRepositoryInterface
 
             if(count($recommendedUsers)){
                 $users = User::whereIn('id', $recommendedUsers)->get();
-                return response()->json([
-                    'data' => $users,
-                    'message' => 'Recommended users to follow',
-                    'success' => true,
-                ]);
+                return $this->respSuccess(['data'=>$users],'get Recommended users to follow!');
             }
 
             // case many followers
@@ -432,18 +324,31 @@ class UserRepository implements UserRepositoryInterface
             // random
             $users = User::inRandomOrder()->whereNotIn('id',$followingList)
                             ->limit(10)->get();
-            return response()->json([
-                'data' => $users,
-                'message' => 'Recommended users to follow',
-                'success' => true,
-            ]);
+            return $this->respSuccess(['data'=>$users],'Get recommended users to follow!');
 
-        } catch (\Exception $e) {
-            return response()->json([
-                'data' => [],
-                'message' => 'An error occurred.',
-                'success' => false,
-            ]);
+        } catch (\Throwable $e) {
+            return $this->respSuccess(false,'An error occurred! '.$e->getMessage());
+        }
+    }
+
+    // update password
+    public function updatePassword($oldPassRequest,$newPassRequest)
+    {
+        try{
+            if(!$oldPassRequest || !$newPassRequest) return $this->respError(false,'Param required oldPass and newPass');
+
+            $user = User::find(auth()->id());
+
+            if(Hash::check($oldPassRequest,$user->password)){
+                //update pass
+                $user->password = bcrypt($newPassRequest);
+                $user->save();
+                return $this->respSuccess(false,'Update new password success!');
+            }
+
+            return $this->respError(false,'Old password fail!');
+        }catch(\Throwable $e){
+            return $this->respError(false,'Have an error when update password! '.$e->getMessage());
         }
     }
 }
