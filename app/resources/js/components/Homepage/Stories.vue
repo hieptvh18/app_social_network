@@ -28,6 +28,15 @@
                     </div>
                     <div class="story-name">thu_thao2</div>
                 </div>
+                <div class="story-headers__item mr-4">
+                    <div class="avatar active">
+                        <img
+                            src="https://kynguyenlamdep.com/wp-content/uploads/2022/06/anh-gai-xinh-cuc-dep.jpg"
+                            alt=""
+                        />
+                    </div>
+                    <div class="story-name">hiephaohan</div>
+                </div>
             </div>
             <ModalDynamic v-show="isShowModal" @close="closeModal">
                 <template v-slot:body>

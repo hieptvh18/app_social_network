@@ -66,9 +66,16 @@ class ChatRepository extends AbstractApi implements ChatRepositoryInterface
                 ->get();
 
             return $this->respSuccess(['list_message'=>$messages]);
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             report($e->getMessage());
-            return $this->respError();
+            return $this->respError(false,'Have an error when fetch message! '.$e->getMessage());
         }
+    }
+
+    /**
+     * Fetch friend chated, follow, guest-chat, sort order by send message
+     */
+    public function fetchListFriends(){
+
     }
 }

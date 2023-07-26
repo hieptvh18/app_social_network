@@ -41,7 +41,7 @@
                 </div>
                 <div class="item__content">
                     <div class="content-photos">
-                        <div class="photos__gallery" @click="showPostDetail(post.id)">
+                        <div class="photos__gallery">
                             <!--                    using swiper slider-->
                             <swiper
                                 :navigation="true"
@@ -52,6 +52,7 @@
                                     v-for="(image, keyImg) in post.images"
                                 >
                                     <img
+                                    @click="showPostDetail(post.id)"
                                         :style="{ width: '100%' }"
                                         :src="image.image"
                                         :alt="post.captions"

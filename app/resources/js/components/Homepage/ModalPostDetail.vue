@@ -25,7 +25,7 @@
                 <div class="post-detail-content__right">
                     <div class="post-top profile-items mb-3 font-weight-bold">{{ postData.author.username }}</div>
                     <div class="post-content list-comments">
-                        <div class="comment-item d-flex justify-content-between">
+                        <div class="comment-item">
                             <div class="comment-item__profile d-flex mb-4" v-if="comments.length" v-for="(comment,index) in comments" :key="index">
                                 <div class="profile-avatar mr-2">
                                     <img
@@ -144,6 +144,9 @@ export default {
 </script>
 
 <style scoped>
+.post-detail-content__right{
+    width:100% ;
+}
 button.btn-op-comment__item{
     background: none;
     border: none;
