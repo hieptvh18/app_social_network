@@ -35,7 +35,7 @@ class PostRepository extends AbstractApi implements PostRepositoryInterface
                         }
                     ]
                 )
-                ->withCount('comments')
+                ->withCount(['comments'])
                 ->get();
 
             if ($posts->isEmpty()) {

@@ -1,7 +1,7 @@
 <template>
-    <div>
-        <input type="checkbox" @change="toggleLike(post.id)" :checked="isLike" id="checkbox" />
-        <label for="checkbox">
+    <div class="mr-2">
+        <input type="checkbox" @change="toggleLike(post.id,$event)" :checked="isLike" :id="'checkbox'+post.id" />
+        <label :for="'checkbox'+post.id">
             <svg
                 id="heart-svg"
                 viewBox="467 392 58 57"
@@ -76,6 +76,7 @@
                 </g>
             </svg>
         </label>
+        <span v-if="countLike">{{ countLike }} likes</span>
     </div>
 </template>
 
@@ -86,13 +87,25 @@ export default {
     name: "btn-like",
     props: ["isLike","post"],
     data() {
-        return {};
+        return {
+            countLike:this.post.likes.length
+        };
     },
     methods: {
-        async toggleLike(id) {
+        async toggleLike(id,e) {
             const response = await likePost({
                 postId: id,
             });
+
+            if(response.data.success && e.target.checked == true){
+                this.countLike += 1;
+                return;
+            }
+
+            if(e.target.checked == false){
+                this.countLike -= 1;
+                return;
+            }
         },
     },
 };
@@ -131,11 +144,11 @@ svg {
     }
 }
 
-#checkbox {
+input {
     display: none;
 }
 
-#checkbox:checked + label svg {
+input:checked + label svg {
     #heart {
         transform: scale(0.2);
         fill: #e2264d;
