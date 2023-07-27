@@ -42,7 +42,7 @@
                 <div class="item__content">
                     <div class="content-photos">
                         <div class="photos__gallery">
-                            <!--                    using swiper slider-->
+                            <!-- using swiper slider-->
                             <swiper
                                 :navigation="true"
                                 :modules="modules"
@@ -60,27 +60,9 @@
                                 </swiper-slide>
                             </swiper>
                         </div>
-                        <div class="photos__content p-2">
+                        <div class="photos__content pb-2 pl-2 pr-2">
                             <div class="photos__icon d-flex align-items-center">
-                                <!-- <div
-                                    class="icon__likes mr-3"
-                                    @click="clickIconLike(post)"
-                                >
-                                    <i
-                                        :class="{
-                                            active:
-                                                checkLiked(post) || isLiked
-                                                    ? true
-                                                    : false,
-                                        }"
-                                        class="far fa-heart mr-2"
-                                    ></i>
-                                    <span v-if="post.likes.length"
-                                        >{{ post.likes.length }} likes</span
-                                    >
-                                </div> -->
-
-                                <ButtonLike v-if="post.id" :post="post"/>
+                                <ButtonLike v-if="post.id" :isLike="checkLiked(post)" :post="post"/>
 
                                 <div
                                     class="icon-comment"
@@ -126,7 +108,6 @@
 <script>
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Pagination, Navigation } from "swiper/modules";
-import { likePost } from "../../api/post";
 import { ref } from "vue";
 import FormComment from "./FormComment.vue";
 import ModalPostDetail from "./ModalPostDetail.vue";
@@ -176,24 +157,8 @@ export default {
             return result.length;
         };
 
-        const clickIconLike = async (post) => {
-            isLiked = !isLiked;
-
-            const response = await likePost({
-                userId: window.userLogginIn.id,
-                postId: post.id,
-            });
-
-            console.log(response);
-
-            if (response.data.success) {
-                console.log("liked");
-            }
-        };
-
         return {
             modules: [Navigation],
-            clickIconLike,
             checkLiked,
             isLiked,
             listMyComment,

@@ -16,10 +16,9 @@ Interface PostRepositoryInterface{
 
     /**
      * like post
-     * @param int $userId
      * @param int $postId
      */
-    public function likePost($userId,$postId);
+    public function likePost($postId);
 }
 
 ?>

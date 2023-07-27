@@ -10,6 +10,7 @@ use App\Repositories\Interfaces\PostRepositoryInterface;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\Response;
 
 class PostRepository extends AbstractApi implements PostRepositoryInterface
 {
@@ -47,7 +48,7 @@ class PostRepository extends AbstractApi implements PostRepositoryInterface
 
             return $this->respSuccess(['data'=>$posts],'Get posts success');
         }catch(\Throwable $e){
-            return $this->respError([],'Something went wrong when fetch posts of friend! '.$e->getMessage());
+            return $this->respError([],'Something went wrong when fetch posts of friend! '.$e->getMessage(),Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -75,7 +76,7 @@ class PostRepository extends AbstractApi implements PostRepositoryInterface
             return $this->respSuccess(['data'=>$post,'Create post success!']);
         } catch (\Throwable $th) {
             report($th);
-            return $this->respError([],'Something went wrong when save post! '.$th->getMessage());
+            return $this->respError([],'Something went wrong when save post! '.$th->getMessage(),Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -102,34 +103,34 @@ class PostRepository extends AbstractApi implements PostRepositoryInterface
             ];
             return $this->respSuccess(['data'=>$data],'Get post by id success!');
         } catch (\Throwable $e) {
-            return $this->respError([],'Something went wrong when get post by id! '.$e->getMessage());
+            return $this->respError([],'Something went wrong when get post by id! '.$e->getMessage(),Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
-    public function likePost($userId, $postId)
+    public function likePost($postId)
     {
         try {
-            $isLiked = LikePost::where('user_id', $userId)
+            $isLiked = LikePost::where('user_id', auth()->id())
                 ->where('post_id', $postId)
                 ->exists();
             if ($isLiked) {
                 // reset like
-                LikePost::where('user_id', $userId)
+                LikePost::where('user_id', auth()->id())
                     ->where('post_id', $postId)
                     ->delete();
 
-                $this->respSuccess([],'unLike');
+                return $this->respSuccess([],'unLike');
             }
 
             $likePost = new LikePost();
-            $likePost->user_id = $userId;
+            $likePost->user_id = auth()->id();
             $likePost->post_id = $postId;
             $likePost->save();
 
             return $this->respSuccess(['data'=>$likePost],'like');
         } catch (\Throwable $e) {
             report($e->getMessage());
-            return $this->respError([],'Something went wrong when like! '.$e->getMessage());
+            return $this->respError([],'Something went wrong when like! '.$e->getMessage(),Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

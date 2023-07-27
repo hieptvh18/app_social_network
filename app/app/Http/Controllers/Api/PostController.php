@@ -29,13 +29,13 @@ class PostController extends Controller
     }
 
     public function likePost(Request $request){
-        if(!$request->userId || !$request->postId){
+        if(!$request->postId){
             return response()->json([
                 'success'=>false,
                 'message'=>'Data param fail',
                 'data'=>[]
             ]);
         }
-        return $this->postRepository->likePost($request->userId,$request->postId);
+        return $this->postRepository->likePost($request->postId);
     }
 }
