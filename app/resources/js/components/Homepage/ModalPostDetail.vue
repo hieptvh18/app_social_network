@@ -40,9 +40,32 @@
                                     <span>{{ comment.message }}</span>
                                     <p class="time-comment">{{ comment.created_at }}</p>
                                 </div>
-                            </div>
-                            <div class="mr-2">
-                                <button class="btn-op-comment__item"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                                <!-- <div class="mr-2">
+                                    <button class="btn-op-comment__item"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                                </div> -->
+                                <div class="btn-group">
+                                    <button
+                                        type="button"
+                                        class="btn btn-light btn-sm rounded"
+                                        data-toggle="dropdown"
+                                        aria-haspopup="true"
+                                        aria-expanded="false"
+                                    >
+                                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                                    </button>
+                                    <div
+                                        class="dropdown-menu dropdown-menu-right"
+                                    >
+                                        <button
+                                            class="dropdown-item"
+                                            type="button"
+                                            @click="deleteComment(comment.id)"
+                                        >
+                                            <i class="mdi mdi-delete"></i>
+                                            Delete
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -65,7 +88,7 @@ import Modal from "../ModalDynamic/index.vue";
 import Loader from "../LoaderResult.vue";
 import { ref } from "vue";
 import { getPostById } from "../../api/post";
-import { fetchComments, saveComment } from "../../api/comment";
+import { fetchComments, saveComment,deleteComment } from "../../api/comment";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
@@ -105,7 +128,16 @@ export default {
                     this.comments.push(response.data.comment);
                     this.message = '';
                 }
+        },
+        async deleteComment(id){
+            const response = await deleteComment(id);
+            console.log('res delete comment');
+            console.log(response);
+
+            if(response.data.success){
+                this.loadComments();
             }
+        }
     },
     setup(props) {
         const input = ref("");

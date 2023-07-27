@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Events\PushNotifications;
 use App\Models\Notifications;
-use App\Models\Post;
+use Symfony\Component\HttpFoundation\Response;
 
 class CommentRepository extends AbstractApi implements CommentRepositoryInterface
 {
@@ -24,7 +24,7 @@ class CommentRepository extends AbstractApi implements CommentRepositoryInterfac
         } catch (Exception $e) {
             report($e->getMessage());
 
-            return $this->respError([], 'Fetch comments fail! ' . $e->getMessage());
+            return $this->respError([], 'Fetch comments fail! ' . $e->getMessage(),Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -47,7 +47,7 @@ class CommentRepository extends AbstractApi implements CommentRepositoryInterfac
             return $this->respSuccess(['comment' => $dataResp], 'Save comment success!');
         } catch (Exception $e) {
             report($e->getMessage());
-            return $this->respError([], 'save comment fail! ' . $e->getMessage());
+            return $this->respError([], 'save comment fail! ' . $e->getMessage(),Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -78,7 +78,7 @@ class CommentRepository extends AbstractApi implements CommentRepositoryInterfac
             return $this->respSuccess([], 'Delete success comment');
         } catch (\Throwable $e) {
             report($e->getMessage());
-            return $this->respError([], 'Delete comment fail! ' . $e->getMessage());
+            return $this->respError([], 'Delete comment fail! ' . $e->getMessage(),Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

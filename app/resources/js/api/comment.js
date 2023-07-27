@@ -11,7 +11,7 @@ export const fetchComments = async (postId) =>{
         data: {},
         url:baseURLApi+url
     }
-   
+
     return await axios(options);
 }
 
@@ -24,6 +24,19 @@ export const saveComment = async (data) =>{
         params: data,
         url:baseURLApi+url
     }
-   
+
+    return await axios(options);
+}
+
+// delete comment
+export const deleteComment = async (id) =>{
+    const url = '/comments/delete/'+id;
+    const options = {
+        method: 'DELETE',
+        headers: header,
+        params: {},
+        url:baseURLApi+url
+    }
+
     return await axios(options);
 }
