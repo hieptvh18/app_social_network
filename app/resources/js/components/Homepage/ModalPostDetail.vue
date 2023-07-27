@@ -40,9 +40,7 @@
                                     <span>{{ comment.message }}</span>
                                     <p class="time-comment">{{ comment.created_at }}</p>
                                 </div>
-                                <!-- <div class="mr-2">
-                                    <button class="btn-op-comment__item"><i class="fa-solid fa-ellipsis-vertical"></i></button>
-                                </div> -->
+
                                 <div class="btn-group">
                                     <button
                                         type="button"

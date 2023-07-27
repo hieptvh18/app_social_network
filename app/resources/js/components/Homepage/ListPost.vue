@@ -62,7 +62,7 @@
                         </div>
                         <div class="photos__content p-2">
                             <div class="photos__icon d-flex align-items-center">
-                                <div
+                                <!-- <div
                                     class="icon__likes mr-3"
                                     @click="clickIconLike(post)"
                                 >
@@ -78,7 +78,10 @@
                                     <span v-if="post.likes.length"
                                         >{{ post.likes.length }} likes</span
                                     >
-                                </div>
+                                </div> -->
+
+                                <ButtonLike v-if="post.id" :post="post"/>
+
                                 <div
                                     class="icon-comment"
                                     @click="showPostDetail(post.id)"
@@ -127,6 +130,7 @@ import { likePost } from "../../api/post";
 import { ref } from "vue";
 import FormComment from "./FormComment.vue";
 import ModalPostDetail from "./ModalPostDetail.vue";
+import ButtonLike from "./ButtonLike.vue";
 
 // Import Swiper styles
 import "swiper/css";
@@ -137,6 +141,7 @@ export default {
         SwiperSlide,
         FormComment,
         ModalPostDetail,
+        ButtonLike
     },
     data() {
         return {

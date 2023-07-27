@@ -22,9 +22,9 @@
                     <div class="gallery__modal-backdrop" style="display: none">
                         <div class="modal-backdrop__box">
                             <span class="mr-2"
-                                ><i class="far fa-heart"></i> 10</span
+                                ><i class="far fa-heart"></i> {{ post.likes_count }}</span
                             >
-                            <span><i class="fa-regular fa-comment"></i> 20</span>
+                            <span><i class="fa-regular fa-comment"></i> {{ post.comments_count }}</span>
                         </div>
                     </div>
                 </div>
@@ -153,7 +153,6 @@ export default {
         },
 
         showPostDetail(postId){
-            console.log(postId);
             this.isShowModalPost = true;
             this.postId = postId;
         },
@@ -291,6 +290,10 @@ export default {
             modules: [Pagination, Navigation]
         };
     },
+
+    beforeMount(){
+        console.log(this.posts);
+    }
 };
 </script>
 

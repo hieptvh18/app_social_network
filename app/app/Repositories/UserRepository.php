@@ -14,7 +14,7 @@ use Throwable;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Storage;
-use URL;
+use Symfony\Component\HttpFoundation\Response;
 
 class UserRepository extends AbstractApi implements UserRepositoryInterface
 {
@@ -35,11 +35,15 @@ class UserRepository extends AbstractApi implements UserRepositoryInterface
                 $posts = [];
                 if(count($user->posts)){
                     foreach($user->posts as $key=>$post){
-                        $p = Post::find($post->id);
+                        $p = Post::query()->where('id',$post->id)
+                                    ->withCount(['comments','likes'])->first();
+
                         $post = [
                             'captions'=>$p->captions,
                             'id'=>$p->id,
-                            'images' => $p->images
+                            'images' => $p->images,
+                            'comments_count'=>$p->comments_count,
+                            'likes_count'=>$p->likes_count
                         ];
                         array_push($posts,$post);
                     }
@@ -66,7 +70,7 @@ class UserRepository extends AbstractApi implements UserRepositoryInterface
 
             return $this->respError(false,'User not found!');
         } catch (Throwable $e) {
-            return $this->respError(false,'User user by username fail! '.$e->getMessage());
+            return $this->respError(false,'User user by username fail! '.$e->getMessage(),Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -84,7 +88,7 @@ class UserRepository extends AbstractApi implements UserRepositoryInterface
             return $this->respSuccess(['data'=>User::find($id)],'Get user by id success!');
         }catch(\Throwable $e){
             report($e->getMessage());
-            return $this->respError(false,'Something wrong when get user by id! '.$e->getMessage());
+            return $this->respError(false,'Something wrong when get user by id! '.$e->getMessage(),Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -120,7 +124,7 @@ class UserRepository extends AbstractApi implements UserRepositoryInterface
             return $this->respSuccess(['data'=>$users],'Get list user followed success!');
         }catch(\Exception $e){
             report($e->getMessage());
-            return $this->respError(false,'get list user followed fail->detail: '.$e->getMessage());
+            return $this->respError(false,'get list user followed fail->detail: '.$e->getMessage(),Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -145,7 +149,7 @@ class UserRepository extends AbstractApi implements UserRepositoryInterface
             return $this->respError(false,'Params id is invalid!');
         } catch (Throwable $e) {
             report($e->getMessage());
-            return $this->respError(false,'Something wrong when update profile! '.$e->getMessage());
+            return $this->respError(false,'Something wrong when update profile! '.$e->getMessage(),Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -164,7 +168,7 @@ class UserRepository extends AbstractApi implements UserRepositoryInterface
             return $this->respError(false,'User not found!');
         } catch (Throwable $e) {
             report($e->getMessage());
-            return $this->respError(false,'Something wrong when get user! '.$e->getMessage());
+            return $this->respError(false,'Something wrong when get user! '.$e->getMessage(),Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -196,7 +200,7 @@ class UserRepository extends AbstractApi implements UserRepositoryInterface
             return $this->respSuccess(['data'=>$request->all()],'Register success!');
         } catch (Throwable $e) {
             report($e);
-            return $this->respError(false,'Something wrong! '.$e->getMessage());
+            return $this->respError(false,'Something wrong! '.$e->getMessage(),Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -212,7 +216,7 @@ class UserRepository extends AbstractApi implements UserRepositoryInterface
             return $this->respSuccess(false,'Following success');
         } catch (Throwable $e) {
             report($e->getMessage());
-            return $this->respError(false,'Something error! '.$e->getMessage());
+            return $this->respError(false,'Something error! '.$e->getMessage(),Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -244,7 +248,7 @@ class UserRepository extends AbstractApi implements UserRepositoryInterface
             return response()->json(['status' => 'ok', 'message' => 'Logout success!']);
         } catch (Throwable $e) {
             report($e->getMessage());
-            return response()->json(['status' => 'fail', 'message' => 'Logout fail!']);
+            return response()->json(['status' => 'fail', 'message' => 'Logout fail!'],Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -266,7 +270,7 @@ class UserRepository extends AbstractApi implements UserRepositoryInterface
 
             return $this->respError(false,'Un follow error! Pls try again!');
         } catch (Throwable $er) {
-            return $this->respError(false,'UnFollow error! ' . $er->getMessage());
+            return $this->respError(false,'UnFollow error! ' . $er->getMessage(),Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -298,7 +302,7 @@ class UserRepository extends AbstractApi implements UserRepositoryInterface
             }
             return $this->respError(false,'Upload not success!');
         } catch (Throwable $er) {
-            return $this->respError(false,'Upload not success! '.$er->getMessage());
+            return $this->respError(false,'Upload not success! '.$er->getMessage(),Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -327,7 +331,7 @@ class UserRepository extends AbstractApi implements UserRepositoryInterface
             return $this->respSuccess(['data'=>$users],'Get recommended users to follow!');
 
         } catch (\Throwable $e) {
-            return $this->respSuccess(false,'An error occurred! '.$e->getMessage());
+            return $this->respSuccess(false,'An error occurred! '.$e->getMessage(),Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -348,7 +352,7 @@ class UserRepository extends AbstractApi implements UserRepositoryInterface
 
             return $this->respError(false,'Old password fail!');
         }catch(\Throwable $e){
-            return $this->respError(false,'Have an error when update password! '.$e->getMessage());
+            return $this->respError(false,'Have an error when update password! '.$e->getMessage(),Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

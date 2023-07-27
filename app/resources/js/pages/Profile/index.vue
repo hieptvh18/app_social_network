@@ -101,6 +101,7 @@
             <Stories :isMyProfile="myProfile" />
         </div>
 
+        <!-- list post -->
         <GalleryItems
             v-if="userDataFromParam.posts"
             :posts="userDataFromParam.posts"
@@ -112,7 +113,14 @@
     <ModalLoading v-if="loading" />
 </template>
 <style scoped src="./index.css"></style>
-
+<style>
+/* modal follow */
+.img-avatar{
+    min-width: 30px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+</style>
 <script setup>
 import { useRoute } from "vue-router";
 import { getUser } from "../../api/auth";

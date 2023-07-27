@@ -68,3 +68,21 @@ a:hover{
     /* z-index: 1100; */
     min-height: 100vh;
   }
+
+  /* ======== override swiper====== */
+  .swiper-button-next, .swiper-button-prev{
+    min-width: 30px !important;
+    min-height: 30px !important;
+    width: 30px !important;
+    height: 30px !important;
+    border-radius: 50%;
+    background: #d1c7c7;
+  }
+  .swiper-button-prev{
+
+  }
+  .swiper-button-next:after, .swiper-button-prev:after {
+    font-size: 18px !important;
+    color: #fff;
+  }
+

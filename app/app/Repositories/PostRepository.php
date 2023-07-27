@@ -19,7 +19,7 @@ class PostRepository extends AbstractApi implements PostRepositoryInterface
             $userId = Auth::id();
 
             $followingList = Follow::where('user_id', $userId)->get('following_id');
-    
+
             $posts = Post::query()
                 ->whereIn('user_id', $followingList)
                 ->orWhere('user_id', $userId)
@@ -36,15 +36,15 @@ class PostRepository extends AbstractApi implements PostRepositoryInterface
                 )
                 ->withCount('comments')
                 ->get();
-    
+
             if ($posts->isEmpty()) {
                 return $this->respError([],'No posts found from the users you are following.');
             }
-    
+
             foreach ($posts as $post) {
                 $post->likes;
             }
-    
+
             return $this->respSuccess(['data'=>$posts],'Get posts success');
         }catch(\Throwable $e){
             return $this->respError([],'Something went wrong when fetch posts of friend! '.$e->getMessage());
@@ -71,7 +71,7 @@ class PostRepository extends AbstractApi implements PostRepositoryInterface
                     $postImg->save();
                 }
             }
-           
+
             return $this->respSuccess(['data'=>$post,'Create post success!']);
         } catch (\Throwable $th) {
             report($th);
