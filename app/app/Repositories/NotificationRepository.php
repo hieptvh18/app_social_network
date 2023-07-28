@@ -7,6 +7,9 @@ use App\Repositories\Interfaces\NotificationRepositoryInterface;
 
 class NotificationRepository extends AbstractApi implements NotificationRepositoryInterface
 {
+
+    public const THIRTY_DAY_TIME = '';
+
     public function fetchNotifications($userId)
     {
         try{
@@ -58,6 +61,37 @@ class NotificationRepository extends AbstractApi implements NotificationReposito
         }catch(\Throwable $e){
             report($e->getMessage());
             return $this->respError(false,'Something wrong when get count notifi! '.$e->getMessage(),500);
+        }
+    }
+
+    /**
+     * Delete old notifi
+     */
+    public function cleanNotifi(){
+        try{
+            logger('==============start cron cleanning notification==================');
+
+            $notifications = Notifications::all(['id','created_at']);
+            if($notifications->count()){
+                foreach($notifications as $noti){
+                    $date1 = $noti->created_at->format('Y-m-d'); // created_at
+                    $date2 = \Carbon\Carbon::now()->format('Y-m-d'); // current date
+                    $datetime1 = date_create($date1);
+                    $datetime2 = date_create($date2);
+                    $interval = date_diff($datetime2, $datetime1);
+
+                    if($interval->days >= 30){
+                        logger('==============cron delete notification id = '.$noti->id.'==================');
+                        // delete
+                        $noti->delete();
+                    }
+                }
+            }
+
+            logger('==============finish success cron cleanning notification==================');
+        }catch(\Throwable $e){
+            logger('==============cron cleanning notification have error! '.$e->getMessage());
+            report($e->getMessage());
         }
     }
 }

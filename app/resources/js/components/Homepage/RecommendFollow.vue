@@ -18,7 +18,7 @@
 
 <script setup>
     import {ref} from 'vue';
-    import { getRecomendFollowing,followUser } from '../../api/user'; 
+    import { getRecomendFollowing,followUser } from '../../api/user';
 
     const recommendList = ref([]);
 
@@ -60,6 +60,7 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
+    font-size: 15px;
 }
 .following-list li a{
     display: flex;

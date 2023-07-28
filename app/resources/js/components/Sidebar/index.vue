@@ -5,9 +5,9 @@
         </div>
         <ul class="nav-menu">
           <li>
-                <router-link :to="{name:'homepage'}">
-                    <i class="fas fa-home-alt"></i>Home
-                </router-link>
+            <router-link :to="{name:'homepage'}">
+                <i class="fas fa-home-alt"></i>Home
+            </router-link>
         </li>
           <li><i class="fas fa-search"></i><ModalSearchUser/></li>
           <router-link :to="{name:'messagepage'}">
@@ -27,7 +27,7 @@
           <li>
             <router-link :to="{name:'profile',params:{username:userData.username}}">
                     <i class="fas fa-home-alt"></i>Profile
-                </router-link>
+            </router-link>
         </li>
         </ul>
       </aside>

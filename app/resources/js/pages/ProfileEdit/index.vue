@@ -20,7 +20,7 @@
             </div>
         </div>
         <form enctype="multipart/form-data" @submit.prevent="onSubmit">
-            <div class="username">
+            <div class="box-avatar-top">
                 <span class="font-weight-bold">tranvhh</span>
                 <br />
                 <a href="#" @click="openModalUpload">Change profile photo</a>

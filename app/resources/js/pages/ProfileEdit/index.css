@@ -10,7 +10,10 @@
     overflow: hidden;
     border-radius: 50%;
 }
-
+.box-avatar-top{
+    width: 189px;
+    text-align: center;
+}
 form.form-info{
     max-width: 65%;
 
@@ -31,6 +34,7 @@ input.form-control-sm{
 .tab button{
     padding: 5px 10px ;
     border: 1px solid #ccc;
+    outline: none;
 }
 .tab button.active{
     background: #007bff;

@@ -28,6 +28,11 @@ Interface NotificationRepositoryInterface
      * count
      */
     public function countNotifiUnread();
+
+    /**
+     * Clean notifi old
+     */
+    public function cleanNotifi();
 }
 
 ?>

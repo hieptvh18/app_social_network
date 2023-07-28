@@ -30,6 +30,7 @@ class NotificationController extends Controller
     }
 
     public function countUnread(){
+        // return $this->notifiRepository->countNotifiUnread();
         return $this->notifiRepository->countNotifiUnread();
     }
 }

@@ -1,5 +1,5 @@
 <template>
-    <div class="mr-2">
+    <div class="mr-2 d-flex align-items-center">
         <input type="checkbox" @change="toggleLike(post.id,$event)" :checked="isLike" :id="'checkbox'+post.id" />
         <label :for="'checkbox'+post.id">
             <svg
