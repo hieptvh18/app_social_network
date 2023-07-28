@@ -28,4 +28,8 @@ class NotificationController extends Controller
     public function delete($id){
         return $this->notifiRepository->delete($id);
     }
+
+    public function countUnread(){
+        return $this->notifiRepository->countNotifiUnread();
+    }
 }

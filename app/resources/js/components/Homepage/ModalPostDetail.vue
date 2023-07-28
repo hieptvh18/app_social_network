@@ -34,9 +34,9 @@
                                     />
                                 </div>
                                 <div class="">
-                                    <span class="font-weight-bold mr-2"
-                                        >{{ (comment.user ? comment.user.username : currentUser.username) }}</span
-                                    >
+                                    <router-link :to="{name:'profile',params:{username:comment.user.username}}">
+                                        <span class="font-weight-bold mr-2">{{ (comment.user ? comment.user.username : currentUser.username) }}</span>
+                                    </router-link>
                                     <span>{{ comment.message }}</span>
                                     <p class="time-comment">{{ comment.created_at }}</p>
                                 </div>

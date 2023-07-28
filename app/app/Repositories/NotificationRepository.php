@@ -37,7 +37,7 @@ class NotificationRepository extends AbstractApi implements NotificationReposito
 
     // update status noti is_read = true;
     public function updateStatus($id){
-        
+
     }
 
     public function delete($id){
@@ -47,6 +47,17 @@ class NotificationRepository extends AbstractApi implements NotificationReposito
         }catch(\Throwable $e){
             report($e->getMessage());
             return $this->respError(false,'Delete noti fail! '.$e->getMessage());
+        }
+    }
+
+    public function countNotifiUnread()
+    {
+        try{
+            $data = ['count'=>Notifications::where('is_read',0)->where('user_id',auth()->id())->count()];
+            return $this->respSuccess($data,'Success count!');
+        }catch(\Throwable $e){
+            report($e->getMessage());
+            return $this->respError(false,'Something wrong when get count notifi! '.$e->getMessage(),500);
         }
     }
 }

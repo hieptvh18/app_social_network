@@ -4,6 +4,9 @@ namespace App\Repositories;
 abstract class AbstractApi
 {
 
+    /**
+     * Response json type success
+     */
     public function respSuccess($dataParams,$message='',$statusCode = 200)
     {
         if(!$dataParams || !is_array($dataParams) || !count($dataParams)){
@@ -17,6 +20,9 @@ abstract class AbstractApi
         ],$statusCode);
     }
 
+    /**
+     * Response json type error
+     */
     public function respError($dataParams,$message='',$statusCode = 200){
         if(!$dataParams || !is_array($dataParams) || !count($dataParams)){
             $dataParams = ['data'=>[]];

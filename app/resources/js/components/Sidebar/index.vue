@@ -10,18 +10,17 @@
                 </router-link>
         </li>
           <li><i class="fas fa-search"></i><ModalSearchUser/></li>
-          <li><a href="">Explore</a></li>
           <router-link :to="{name:'messagepage'}">
             <li class="d-flex justify-content-between">
               <div class=""><i class="fab fa-facebook-messenger"></i>Message</div>
               <div class="count-noti messages">2</div>
             </li>
           </router-link>
-          
+
           <router-link :to="{name:'notificationpage'}">
             <li class="d-flex justify-content-between ">
               <div class=""><i class="far fa-heart"></i>Notification</div>
-              <div class="count-noti notifications">5</div>
+              <div class="count-noti notifications" v-if="countNoti">{{ countNoti }}</div>
             </li>
           </router-link>
 
@@ -38,6 +37,8 @@
 <script>
 import ModalSearchUser from '../ModalSearchUser/index.vue';
 import ModalDynamic from '../ModalDynamic/index.vue';
+import {fetchNotificationsUnread} from '../../api/notification';
+import { ref } from 'vue';
 
 export default {
   components:{ModalSearchUser,ModalDynamic},
@@ -57,8 +58,20 @@ export default {
     props:{
       userData: Object
     },
-    created(){
-      // fetch count noti
+    setup(){
+        var countNoti = ref(0);
+
+        const fetchCountNoti = async ()=>{
+            const res = await fetchNotificationsUnread();
+            if(res.data.success){
+                countNoti.value = res.data.count;
+            }
+        }
+        fetchCountNoti();
+
+        return {
+            countNoti
+        }
     }
 }
 </script>

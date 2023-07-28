@@ -78,6 +78,7 @@ Route::prefix('v1')->group(function () {
 
         // notifications
         Route::get('/notification/{userId}',[NotificationController::class,'fetchNotifications']);
+        Route::get('/fetch-notification/count-unread',[NotificationController::class,'countUnread']);
         Route::post('/notification/save',[NotificationController::class,'saveNotification']);
         Route::delete('/notification/delete/{id}',[NotificationController::class,'delete']);
 

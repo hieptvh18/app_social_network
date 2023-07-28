@@ -29,11 +29,9 @@
                             </div>
                             <div class="font-weight-bold mr-3">
                                 <div class="text-truncate">
-                                    
+
                                 </div>
-                                <div class="small" style="font-size: 16px !important;">
-                                    {{ val.message }}
-                                </div>
+                                <div class="small" style="font-size: 16px !important;" v-html="val.message"></div>
                             </div>
                             <span class="ml-auto mb-auto">
                                 <div class="btn-group">

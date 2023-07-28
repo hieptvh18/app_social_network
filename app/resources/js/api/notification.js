@@ -11,7 +11,20 @@ export const fetchNotifications = async (userId) =>{
         data: {},
         url:baseURLApi+url
     }
-   
+
+    return await axios(options);
+}
+
+// get count notification is_read = 0
+export const fetchNotificationsUnread = async () =>{
+    const url = '/fetch-notification/count-unread/';
+    const options = {
+        method: 'GET',
+        headers: header,
+        data: {},
+        url:baseURLApi+url
+    }
+
     return await axios(options);
 }
 
@@ -24,6 +37,6 @@ export const deleteNotification = async (id) =>{
         params: {},
         url:baseURLApi+url
     }
-   
+
     return await axios(options);
 }

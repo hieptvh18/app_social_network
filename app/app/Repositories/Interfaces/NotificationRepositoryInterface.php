@@ -8,7 +8,7 @@ Interface NotificationRepositoryInterface
 
     /**
      * Fetch notification
-     * @param $userId 
+     * @param $userId
      */
     public function fetchNotifications($userId);
 
@@ -23,6 +23,11 @@ Interface NotificationRepositoryInterface
      * @param $id
      */
     public function delete($id);
+
+    /**
+     * count
+     */
+    public function countNotifiUnread();
 }
 
 ?>
