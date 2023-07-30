@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Format time -> Time interval from created-at to now
+ */
 if(!function_exists('caculateDatetime')){
     function caculateDatetime($time){
         $currentTime = \Carbon\Carbon::now();
@@ -30,8 +33,6 @@ if(!function_exists('caculateDatetime')){
         }else{
             $result = $dateDiff->s .'s';
         }
-        
-        
 
         return $result.' ago';
     }
