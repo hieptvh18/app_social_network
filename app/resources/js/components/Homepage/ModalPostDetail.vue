@@ -4,7 +4,7 @@
         <template v-slot:header> {{ postData.contents.captions ? postData.contents.captions : '' }} </template>
         <template v-slot:body>
             <div class="post-detail d-flex">
-                <div class="slider-post-wrapper">
+                <div class="slider-post-wrapper col-8">
                     <swiper
                         :pagination="{
                             type: 'fraction',
@@ -33,15 +33,15 @@
                                         alt=""
                                     />
                                 </div>
-                                <div class="">
-                                    <router-link :to="{name:'profile',params:{username:comment.user.username}}">
-                                        <span class="font-weight-bold mr-2">{{ (comment.user ? comment.user.username : currentUser.username) }}</span>
-                                    </router-link>
-                                    <span>{{ comment.message }}</span>
-                                    <p class="time-comment">{{ comment.created_at }}</p>
-                                </div>
-
-                                <div class="btn-group">
+                                <div class="d-flex">
+                                    <div class="">
+                                        <router-link :to="{name:'profile',params:{username:comment.user ? comment.user.username : currentUser.username}}">
+                                            <span class="font-weight-bold mr-2">{{ (comment.user ? comment.user.username : currentUser.username) }}</span>
+                                        </router-link>
+                                        <span>{{ comment.message }}</span>
+                                        <p class="time-comment">{{ comment.created_at }}</p>
+                                    </div>
+                                    <div class="btn-group">
                                     <button
                                         type="button"
                                         class="btn btn-light btn-sm rounded"
@@ -63,6 +63,7 @@
                                             Delete
                                         </button>
                                     </div>
+                                </div>
                                 </div>
                             </div>
                         </div>

@@ -37,8 +37,13 @@ class Post extends Model
     }
 
     // format timestamp
-    protected $casts = [
-        'created_at' => 'datetime:Y M d H:i',
-        'updated_at' => 'datetime:Y M d H:i',
-    ];
+    public function getCreatedAtAttribute($timestamp)
+    {
+        return caculateDatetime($timestamp);
+    }
+
+    public function getUpdatedAtAttribute($timestamp)
+    {
+        return caculateDatetime($timestamp);
+    }
 }

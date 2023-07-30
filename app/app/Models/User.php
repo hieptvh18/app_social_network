@@ -49,8 +49,6 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'created_at' => 'datetime:Y-m-d',
-        'updated_at' => 'datetime:Y-m-d',
     ];
 
     //  relationships
@@ -68,5 +66,16 @@ class User extends Authenticatable
     public function follower(): HasMany
     {
         return $this->hasMany(Follow::class,'following_id');
+    }
+
+    // format timestamp
+    public function getCreatedAtAttribute($timestamp)
+    {
+        return caculateDatetime($timestamp);
+    }
+
+    public function getUpdatedAtAttribute($timestamp)
+    {
+        return caculateDatetime($timestamp);
     }
 }

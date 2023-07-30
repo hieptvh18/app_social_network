@@ -42,7 +42,7 @@ class CommentRepository extends AbstractApi implements CommentRepositoryInterfac
                 broadcast(new PushNotifications($comment->user_id, $notifi->message, $comment->post->author->avatar, $notifi->user_id, $notifi->id,$notifi->created_at))->toOthers();
             }
 
-            $dataResp = ['id' => $comment->id, 'message' => $comment->message, 'created_at' => date_format($comment->created_at, 'Y M d H:i')];
+            $dataResp = ['id' => $comment->id, 'message' => $comment->message, 'created_at' => $comment->created_at];
 
             return $this->respSuccess(['comment' => $dataResp], 'Save comment success!');
         } catch (Exception $e) {

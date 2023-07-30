@@ -8,8 +8,6 @@ use App\Repositories\Interfaces\NotificationRepositoryInterface;
 class NotificationRepository extends AbstractApi implements NotificationRepositoryInterface
 {
 
-    public const THIRTY_DAY_TIME = '';
-
     public function fetchNotifications($userId)
     {
         try{

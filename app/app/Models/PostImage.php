@@ -10,8 +10,13 @@ class PostImage extends Model
     use HasFactory;
 
 
-    protected $casts = [
-        'created_at' => 'datetime:Y-m-d',
-        'updated_at' => 'datetime:Y-m-d',
-    ];
+    public function getCreatedAtAttribute($timestamp)
+    {
+        return caculateDatetime($timestamp);
+    }
+
+    public function getUpdatedAtAttribute($timestamp)
+    {
+        return caculateDatetime($timestamp);
+    }
 }

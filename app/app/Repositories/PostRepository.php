@@ -92,8 +92,6 @@ class PostRepository extends AbstractApi implements PostRepositoryInterface
                 'contents' => [
                     'id' => $post->id,
                     'captions' => $post->captions,
-                    'created_at' => $post->created_at->format('Y-m-d'),
-                    'updated_at' => $post->updated_at->format('Y-m-d'),
                 ],
                 'author' => [
                     'username' => $post->author->name,
