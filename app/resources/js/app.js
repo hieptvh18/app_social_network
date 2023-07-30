@@ -1,5 +1,5 @@
 // app.js
-
+import { createPinia } from 'pinia';
 import {createApp} from 'vue';
 import * as Vue from 'vue';
 import('./bootstrap');
@@ -30,6 +30,8 @@ const firebaseConfig = {
   // Initialize Firebase
 initializeApp(firebaseConfig);
 
+// using pinia to
+app.use(createPinia())
 app.use(router);
 app.use(VueCookies);
 router.app = app;

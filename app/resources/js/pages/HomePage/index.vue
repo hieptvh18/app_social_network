@@ -3,7 +3,9 @@
   <div class="d-flex content" v-if="!loading">
     <section id="main" class="content__left justify-content-end col-9">
       <!--  Stories section  -->
-      <Stories/>
+      <!-- <Stories/> -->
+      <StoryIndex/>
+
       <!-- List post component -->
       <ListPost :postListing="postListing" />
     </section>
@@ -60,9 +62,10 @@
     import ListPost from '../../components/Homepage/ListPost.vue';
     import Stories from "../../components/Homepage/Stories.vue";
     import RecommendFollow from "../../components/Homepage/RecommendFollow.vue";
+    import StoryIndex from "../../components/Homepage/Story/Index.vue";
 
     export default {
-      components:{Stories, ModalLoading,ListPost,RecommendFollow},
+      components:{Stories,StoryIndex, ModalLoading,ListPost,RecommendFollow},
       props:['userDataLogin'],
       setup(props){
         const loading = ref(true);
