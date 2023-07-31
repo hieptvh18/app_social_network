@@ -12,7 +12,7 @@
 
     <swiper-slide
       class="stories-main-slider__item"
-      :style="{ backgroundColor: story.bg }"
+      :style="{ backgroundImage: 'url('+story.bg+')' }"
       v-for="(story, i) in stories.stories"
       :key="i"
       @click="slideTo(i, speed)"
@@ -229,6 +229,7 @@ defineExpose({
     transform: scale(0.6);
     transition: transform 0.3s ease;
     position: relative;
+    background-size: cover;
 
     &.swiper-slide-prev,
     &.swiper-slide-next {
@@ -276,9 +277,9 @@ defineExpose({
 
     &-btn {
       position: absolute;
-      top: -5rem;
+      top: 0;
       right: -5rem;
-      
+
       width: 5rem;
       height: 5rem;
 
@@ -370,8 +371,8 @@ defineExpose({
 
   &__btn {
     display: none;
-    
-    
+
+
     @include r($sm) {
       position: absolute;
       display: flex;

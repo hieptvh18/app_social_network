@@ -6,21 +6,21 @@ export const useStoriesStore = defineStore('stories', {
       stories: [
         {
           id: 1,
-          title: '#FF8787',
+          title: 'hieptvh',
           img: '',
-          bg: '#FF8787',
+          bg: 'https://images.pexels.com/photos/1229861/pexels-photo-1229861.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260',
           storiesGroup: [
             {
-              title: '#FF8787',
+              title: 'coding...',
               text: '',
               img: '',
-              bg: '##FF8787'
+              bg: 'https://www.parkersoftware.com/wp-content/uploads/2020/10/pankaj-patel-_SgRNwAVNKw-unsplash-scaled.jpg'
             },
             {
-              title: '#E5EBB2',
+              title: 'learning',
               text: '',
               img: '',
-              bg: '#E5EBB2'
+              bg: 'https://www.parkersoftware.com/wp-content/uploads/2020/10/pankaj-patel-_SgRNwAVNKw-unsplash-scaled.jpg'
             },
             {
               title: '#BCE29E',
@@ -58,25 +58,25 @@ export const useStoriesStore = defineStore('stories', {
           id: 2,
           title: '#B1B2FF',
           img: '',
-          bg: '#B1B2FF',
+          bg: 'https://th.bing.com/th/id/OIP.cCdSJ0mOqjQkm-soL5hlIwHaFj?pid=ImgDet&w=3353&h=2514&rs=1',
           storiesGroup: [
             {
               title: '#B1B2FF',
               text: '',
               img: '',
-              bg: '#B1B2FF'
+              bg: 'https://th.bing.com/th/id/OIP.cCdSJ0mOqjQkm-soL5hlIwHaFj?pid=ImgDet&w=3353&h=2514&rs=1'
             },
             {
               title: '#D2DAFF',
               text: '',
               img: '',
-              bg: '#D2DAFF'
+              bg: 'https://th.bing.com/th/id/OIP.cCdSJ0mOqjQkm-soL5hlIwHaFj?pid=ImgDet&w=3353&h=2514&rs=1'
             },
             {
               title: '#EEF1FF',
               text: '',
               img: '',
-              bg: '#EEF1FF'
+              bg: 'https://th.bing.com/th/id/OIP.cCdSJ0mOqjQkm-soL5hlIwHaFj?pid=ImgDet&w=3353&h=2514&rs=1'
             }
           ]
         },
@@ -84,7 +84,7 @@ export const useStoriesStore = defineStore('stories', {
           id: 3,
           title: '#D7C0AE',
           img: '',
-          bg: '#D7C0AE',
+          bg: 'https://th.bing.com/th/id/OIP.cCdSJ0mOqjQkm-soL5hlIwHaFj?pid=ImgDet&w=3353&h=2514&rs=1',
           storiesGroup: [
             {
               title: '#D7C0AE',
@@ -98,7 +98,7 @@ export const useStoriesStore = defineStore('stories', {
           id: 4,
           title: '#FFB3B3',
           img: '',
-          bg: '#FFB3B3',
+          bg: 'https://th.bing.com/th/id/OIP.cCdSJ0mOqjQkm-soL5hlIwHaFj?pid=ImgDet&w=3353&h=2514&rs=1',
           storiesGroup: [
             {
               title: '#FFB3B3',
@@ -124,7 +124,7 @@ export const useStoriesStore = defineStore('stories', {
           id: 5,
           title: '#C4DFAA',
           img: '',
-          bg: '#C4DFAA',
+          bg: 'https://th.bing.com/th/id/OIP.cCdSJ0mOqjQkm-soL5hlIwHaFj?pid=ImgDet&w=3353&h=2514&rs=1',
           storiesGroup: [
             {
               title: '#C4DFAA',
@@ -150,7 +150,7 @@ export const useStoriesStore = defineStore('stories', {
           id: 6,
           title: '#F2D7D9',
           img: '',
-          bg: '#F2D7D9',
+          bg: 'https://th.bing.com/th/id/OIP.cCdSJ0mOqjQkm-soL5hlIwHaFj?pid=ImgDet&w=3353&h=2514&rs=1',
           storiesGroup: [
             {
               title: '#F2D7D9',
@@ -176,7 +176,7 @@ export const useStoriesStore = defineStore('stories', {
           id: 7,
           title: '#9ADCFF',
           img: '',
-          bg: '#9ADCFF',
+          bg: 'https://th.bing.com/th/id/OIP.cCdSJ0mOqjQkm-soL5hlIwHaFj?pid=ImgDet&w=3353&h=2514&rs=1',
           storiesGroup: [
             {
               title: '#9ADCFF',

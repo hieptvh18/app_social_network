@@ -13,7 +13,6 @@
     },
     "dependencies": {
         "@vitejs/plugin-vue": "^4.2.1",
-        "ant-design-vue": "^3.2.20",
         "firebase": "^9.23.0",
         "laravel-echo": "^1.15.1",
         "swiper": "^10.0.3",

@@ -3,15 +3,23 @@
     class="stories-menu-slider"
     :slides-per-view="swiperOptions.slidesPerView"
   >
+  <swiper-slide
+      class="stories-menu-slider__item"
+      :key="'11111'"
+      :style="{ backgroundColor: white }"
+      @click="openCreate()"
+    >
+        <div class="title-create">Create+</div>
+    </swiper-slide>
     <swiper-slide
       class="stories-menu-slider__item"
       v-for="(story, index) in stories.stories"
       :key="story.id"
-      :style="{ backgroundColor: story.bg }"
+      :style="{ backgroundImage: 'url(' + story.bg + ')' }"
       @click="openStory(index)"
     >
       <div class="stories-menu-slider__item-title">
-        {{ story.title }}
+        <!-- {{ story.title }} -->
       </div>
     </swiper-slide>
   </swiper>
@@ -34,18 +42,25 @@ const openStory = (index) => {
   stories.isStoriesActive = true;
 }
 
+const openCreate = ()=>{
+    console.log('open modal create story');
+}
+
 </script>
 
 <style lang="scss" scoped>
 .stories-menu-slider {
   overflow: visible;
+  margin: 10px 0;
 
   &__item {
     padding: 0.5rem;
-    width: 25rem;
-    height: 25rem;
-    border-radius: 0.75rem;
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    border: 2px solid orange;
     cursor: pointer;
+    background-size: cover;
 
     @include r($md) {
       width: 35rem;

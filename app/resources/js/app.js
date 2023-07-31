@@ -6,11 +6,7 @@ import('./bootstrap');
 import router from './routes';
 // use vue cookie
 import * as VueCookies from 'vue-cookies';
-// using antdesign ui lib
-import Antd from 'ant-design-vue';
-// import 'ant-design-vue/dist/antd.css';
 import { initializeApp } from "firebase/app";
-
 import App from './App.vue';
 
 
@@ -26,7 +22,7 @@ const firebaseConfig = {
     messagingSenderId: "687245698859",
     appId: "1:687245698859:web:8b7ec64f45b9ce519b876e"
   };
-  
+
   // Initialize Firebase
 initializeApp(firebaseConfig);
 
@@ -35,7 +31,6 @@ app.use(createPinia())
 app.use(router);
 app.use(VueCookies);
 router.app = app;
-// app.use(Antd);
 
 app.mount('#app');
 
