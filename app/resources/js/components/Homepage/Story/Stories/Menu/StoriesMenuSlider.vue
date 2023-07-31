@@ -18,8 +18,8 @@
       :style="{ backgroundImage: 'url(' + story.bg + ')' }"
       @click="openStory(index)"
     >
-      <div class="stories-menu-slider__item-title">
-        <!-- {{ story.title }} -->
+      <div class="stories-menu-slider__item-author">
+        {{ story.username }}
       </div>
     </swiper-slide>
   </swiper>
@@ -51,7 +51,7 @@ const openCreate = ()=>{
 <style lang="scss" scoped>
 .stories-menu-slider {
   overflow: visible;
-  margin: 10px 0;
+  margin: 20px 0 30px 0;
 
   &__item {
     padding: 0.5rem;
@@ -78,6 +78,10 @@ const openCreate = ()=>{
 
     &-img {
       flex: 1;
+    }
+    &-author{
+        margin-top: 70px;
+        text-align: center;
     }
     &-title {
       @include text20;

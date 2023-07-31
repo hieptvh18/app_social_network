@@ -30,6 +30,9 @@
       >
         <IconClose />
       </button>
+      <div class="stories-main-slider__item-author">
+        <router-link :to="{name:'profile',params:{username:story.username}}">{{ story.username }}</router-link>
+      </div>
 
     </swiper-slide>
 
@@ -273,6 +276,14 @@ defineExpose({
         opacity: 1;
         visibility: visible;
       }
+    }
+
+    &-author{
+        position: absolute;
+      top: 8px;
+      left  : 20px;
+      text-shadow: 1px 2px #ccc;
+      z-index: 99999;
     }
 
     &-btn {
