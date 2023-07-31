@@ -278,10 +278,10 @@ defineExpose({
     &-btn {
       position: absolute;
       top: 0;
-      right: -5rem;
+      right: 0;
 
-      width: 5rem;
-      height: 5rem;
+      width: 35px;
+      height: 35px;
 
       opacity: 0;
       visibility: hidden;
@@ -289,6 +289,11 @@ defineExpose({
       display: flex;
       align-items: center;
       justify-content: center;
+
+      z-index: 9999;
+      border: none;
+      outline: none;
+      background: none;
 
       :deep(svg) {
         width: 3rem;
@@ -323,8 +328,8 @@ defineExpose({
     &-prev,
     &-next {
       padding: 0.5rem;
-      width: 5rem;
-      height: 5rem;
+      width: 40px;
+      height: 40px;
       background-color: #fff;
       border-radius: 100%;
 
