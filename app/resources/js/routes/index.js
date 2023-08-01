@@ -7,9 +7,10 @@ import auth from "./auth";
 import message from './message';
 import notifications from './notification';
 import {getUser} from '../api/auth';
+import story from "./story";
 
 //init routing
-const routes = [...home,...profile,...auth,...error,...message,...notifications];
+const routes = [...home,...profile,...auth,...error,...message,...notifications,...story];
 
 const router = createRouter({
     history:createWebHistory(),
