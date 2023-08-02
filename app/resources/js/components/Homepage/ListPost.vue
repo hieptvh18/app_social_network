@@ -1,5 +1,5 @@
 <template>
-    <div class="list-post">
+    <div class="list-post" v-if="postListing.length">
         <!-- <div v-for="(post, key) in postListing" class="list-post__items"> -->
             <!-- <div class="item mb-2" v-bind:key="key"> -->
             <!-- loading data with layzyload -->

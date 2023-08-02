@@ -16,6 +16,9 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('content')->nullable()->comment('content text of story');
+            $table->string('photo')->nullable()->comment('image of story');
+            $table->string('background',255)->nullable()->comment('store background css of story text');
+            $table->tinyInteger('is_active')->default(1)->comment('status of story 0 is experid');
             $table->timestamps();
         });
     }

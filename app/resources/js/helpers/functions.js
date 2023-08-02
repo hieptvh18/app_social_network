@@ -1,3 +1,11 @@
+import {
+    getStorage,
+    ref as refFirebase,
+    uploadBytes,
+    getDownloadURL,
+} from "firebase/storage";
+
+
 export const validateUsername = (username) => {
     if(!username) return false;
 
@@ -31,3 +39,23 @@ export const validatePhoneNumber = (phone)=>{
     return true;
 }
 
+// upload image to firebase storage
+export const uploadingToCloud = (file) => {
+    const storage = getStorage();
+    const storageRef = refFirebase(storage, "stories/" + file.name);
+    const uploadTask2 = uploadBytes(storageRef, file);
+
+    return new Promise((resolve, reject) => {
+        uploadTask2.then((snapshot) => {
+            getDownloadURL(snapshot.ref).then((downloadURL) => {
+                let imageUrl = downloadURL;
+                // save success-> re load component page
+                resolve(imageUrl);
+            });
+        })
+        .catch(er=>{
+            console.log('error when uploading to firebase storage');
+            reject(er);
+        });
+    });
+}

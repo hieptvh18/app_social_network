@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\ChatController;
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Api\StoryController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -81,6 +82,13 @@ Route::prefix('v1')->group(function () {
         Route::get('/fetch-notification/count-unread',[NotificationController::class,'countUnread']);
         Route::post('/notification/save',[NotificationController::class,'saveNotification']);
         Route::delete('/notification/delete/{id}',[NotificationController::class,'delete']);
+
+        // story
+        Route::get('/story/{id}',[StoryController::class,'findStory']);
+        Route::get('/fetch-my-story',[StoryController::class,'fetchMyStories']);
+        Route::post('/story/save',[StoryController::class,'storeStory']);
+        Route::delete('/story/soft-delete/{id}',[StoryController::class,'softDeleteStory']);
+        Route::delete('/story/force-delete/{id}',[StoryController::class,'forceDeleteStory']);
 
     });
 });

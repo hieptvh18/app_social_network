@@ -21,6 +21,8 @@ class RepositoryServiceProvider extends ServiceProvider
          $this->app->bind(\App\Repositories\Interfaces\CommentRepositoryInterface::class,\App\Repositories\CommentRepository::class);
          // notification repository
          $this->app->bind(\App\Repositories\Interfaces\NotificationRepositoryInterface::class,\App\Repositories\NotificationRepository::class);
+          // story repository
+          $this->app->bind(\App\Repositories\Interfaces\StoryRepositoryInterface::class,\App\Repositories\StoryRepository::class);
     }
 
     /**

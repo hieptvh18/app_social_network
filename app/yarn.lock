@@ -1216,6 +1216,11 @@ laravel-vite-plugin@^0.7.2:
     picocolors "^1.0.0"
     vite-plugin-full-reload "^1.0.5"
 
+lazy-load-list@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.npmjs.org/lazy-load-list/-/lazy-load-list-1.2.3.tgz"
+  integrity sha512-omwxO41TQsSdxqAHpOKjMqP5NiKgdzPNkQzQMlEyZDeZMzXc3auohe8rBMr+FIQrkoL0bofsajye7XgSE4NIzA==
+
 loader-runner@^4.2.0:
   version "4.3.0"
   resolved "https://registry.npmjs.org/loader-runner/-/loader-runner-4.3.0.tgz"
