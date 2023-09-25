@@ -40,7 +40,7 @@ export const validatePhoneNumber = (phone)=>{
 }
 
 // upload image to firebase storage
-export const uploadingToCloud = (file) => {
+export const uploadingToCloud = (file,folderStorage) => {
     const storage = getStorage();
     const storageRef = refFirebase(storage, "stories/" + file.name);
     const uploadTask2 = uploadBytes(storageRef, file);

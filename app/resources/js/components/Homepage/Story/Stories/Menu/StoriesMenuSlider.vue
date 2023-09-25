@@ -23,23 +23,17 @@
                 </div>
             </swiper-slide>
         </swiper>
-        <ModalDynamic v-show="isShowModal" @close="closeCreate">
-                <template v-slot:body>
-                    Create new story
-                </template>
-            </ModalDynamic>
+        
     </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { useStoriesStore } from "../../stories";
+import { ref,onBeforeMount } from "vue";
+import { useStoriesStore } from "../../../../../store/stories";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/css";
-import ModalDynamic from "../../../../ModalDynamic/index.vue";
 
 const stories = useStoriesStore();
-var isShowModal = ref(false);
 
 const swiperOptions = ref({
     slidesPerView: "auto",
@@ -50,16 +44,11 @@ const openStory = (index) => {
     stories.isStoriesActive = true;
 };
 
-const openCreate = () => {
-  isShowModal.value = true;
-    console.log("open modal create story");
-};
-
-const closeCreate = ()=>{
-  isShowModal.value = false;
-} 
 
 
+onBeforeMount(() => {
+    // stories.fetchMyStories();
+})
 </script>
 
 <style lang="scss" scoped>

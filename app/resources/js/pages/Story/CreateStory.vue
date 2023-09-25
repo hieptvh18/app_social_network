@@ -39,18 +39,15 @@
             </div>
         </div>
 
+        <div class="messages">
+                <div class="alert alert-success" v-if="messages.success">{{ messages.success }}</div>
+            </div>
         <!-- preview story when choose photo story  -->
         <div class="preview-image" v-if="isShowPreview" :style="cssStory">
                 <div class="preview-content" :style="fontCssStory">{{ contents }}</div>
                 <img ref="image" alt="">
             </div>
-            <div class="messages">
-                <div class="alert alert-success" v-if="messages.success">{{ messages.success }}</div>
-            </div>
         <div class="story-bottom mt-5" v-if="isShowPreview">
-            <div class="messages">
-                <div class="alert alert-success" v-if="messages.success">{{ messages.success }}</div>
-            </div>
             <div class="story-bottom__title">Preview Story</div>
             <div class="story-bottom__content">
                 <!-- content -->
@@ -200,12 +197,16 @@ export default{
             if(!this.contents && !this.image) return;
 
             // save img to cloud
-            const imageUrlFirebase = await uploadingToCloud(this.image);
+            let imageUrlFirebase = '';
+            if(this.image){
+                 imageUrlFirebase = await uploadingToCloud(this.image);
+            }
 
             const res = await storeStory({
                 user_id:window.userLogginIn.id,
                 content:this.contents,
-                photo:imageUrlFirebase
+                photo:imageUrlFirebase,
+                css:this.cssStory
             });
 
             if(res.data.success){

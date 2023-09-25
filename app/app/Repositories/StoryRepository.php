@@ -2,12 +2,15 @@
 
 namespace App\Repositories;
 
+use App\Models\Follow;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\Interfaces\StoryRepositoryInterface;
 use App\Models\Stories;
+use App\Models\User;
 
 class StoryRepository extends AbstractApi implements StoryRepositoryInterface
 {
+
     public function store($request)
     {
         try{
@@ -26,16 +29,48 @@ class StoryRepository extends AbstractApi implements StoryRepositoryInterface
         return Stories::find($id);
     }
 
-    public function fetchStoryByFriend()
+    public function fetchListStoryIsActive()
     {
-        
+        $followingIds = Follow::where('user_id',auth()->id())
+                            ->pluck('following_id')->toArray();
+        array_unshift($followingIds,auth()->id());
+
+        $stories = Stories::whereIn('user_id',$followingIds)
+                            ->get();
+
+       
+        $result = array();
+        foreach($stories as $key=>$story){
+            $story->storiesGroup = [];
+
+            if(!checkIsAvailable24h($story->created_at)) continue;
+
+            if(!count($result)){
+                array_push($result, $story);
+            }
+
+            // cheeck if 1 account have many story-> format to group story
+            $storyGroups = [];
+            foreach($result as $keyRs=>$rs){
+                if($rs->user_id == $story->user_id){
+
+                    $rs->storiesGroup = [$story];
+                }else{
+                    array_push($result, $story);
+                }
+            }
+        }   
+
+        return $result;
     }
 
     public function fetchMyStories()
     {
         try{
-            $stories = Stories::where('user_id',auth()->id())
-                                ->with(['author'])
+            $stories = Stories::query()->where('user_id',auth()->id())
+                                ->with(['author'=>function($q){
+                                    $q->select('id','username','avatar');
+                                }])
                                 ->get();
             return $this->respSuccess(['stories'=>$stories]);
         }catch(\Throwable $e){

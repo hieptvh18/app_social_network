@@ -84,6 +84,7 @@ Route::prefix('v1')->group(function () {
         Route::delete('/notification/delete/{id}',[NotificationController::class,'delete']);
 
         // story
+        Route::get('/list-story-active',[StoryController::class,'fetchListStoryIsActive']);
         Route::get('/story/{id}',[StoryController::class,'findStory']);
         Route::get('/fetch-my-story',[StoryController::class,'fetchMyStories']);
         Route::post('/story/save',[StoryController::class,'storeStory']);

@@ -68,7 +68,7 @@
 
 <script setup>
 import { ref, computed } from 'vue';
-import { useStoriesStore } from '../../stories';
+import { useStoriesStore } from '../../../../../store/stories';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 
 import StoriesGroupSlider from '../Group/StoriesGroupSlider.vue';

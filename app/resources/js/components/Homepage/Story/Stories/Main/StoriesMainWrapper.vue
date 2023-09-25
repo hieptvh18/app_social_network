@@ -16,7 +16,7 @@
 <script setup>
 import { ref } from 'vue';
 import StoriesMainSlider from './StoriesMainSlider.vue';
-import { useStoriesStore } from '../../stories';
+import { useStoriesStore } from '../../../../../store/stories';
 
 const stories = useStoriesStore();
 const wrapperContent = ref(null);

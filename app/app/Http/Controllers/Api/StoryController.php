@@ -39,4 +39,9 @@ class StoryController extends Controller
     public function softDeleteStory($id){
         return $this->storyRepository->softDelete($id);
     }
+
+    // fetch story of friend and my story is active
+    public function fetchListStoryIsActive(){
+        return $this->storyRepository->fetchListStoryIsActive();
+    }
 }

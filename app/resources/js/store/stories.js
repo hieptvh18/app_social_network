@@ -1,5 +1,6 @@
 // data fake
 import { defineStore } from 'pinia';
+import {fetchMyStories} from '../api/story.js';
 
 export const useStoriesStore = defineStore('stories', {
   state: () => {
@@ -137,6 +138,13 @@ export const useStoriesStore = defineStore('stories', {
   actions: {
     showStory(boolean) {
       this.isStoriesActive = boolean;
+    },
+
+    // my stories
+    async fetchMyStories (){
+      const response = await fetchMyStories();
+      // console.log(response);
+      // this.stories = response.data.stories;
     }
   }
 

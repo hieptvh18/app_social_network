@@ -37,3 +37,15 @@ if(!function_exists('caculateDatetime')){
         return $result.' ago';
     }
 };
+
+if(!function_exists('checkIsAvailable24h')){
+    function checkIsAvailable24h($time){
+        $currentTime = \Carbon\Carbon::now();
+        $timeCal = date_create($time);
+        $dateNow = date_create($currentTime);
+
+        $dateDiff = date_diff($dateNow,$timeCal);
+
+        return $dateDiff->days >= 1 ? false : true;
+    }
+}

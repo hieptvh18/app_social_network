@@ -11,9 +11,9 @@ Interface StoryRepositoryInterface{
     public function store(Request $request);
 
     /**
-     * get all story by friend
+     * get all story by friend and me when story is active(24h)
      */
-    public function fetchStoryByFriend();
+    public function fetchListStoryIsActive();
 
     /**
      * get story by id
@@ -21,7 +21,7 @@ Interface StoryRepositoryInterface{
     public function findStory($id);
 
     /**
-     * get list my story
+     * get all my story
      */
     public function fetchMyStories();
 
