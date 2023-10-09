@@ -4,7 +4,7 @@ namespace Modules\Notification\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class NotificationUpdateRequest extends FormRequest
+class PushNotificationRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -14,7 +14,11 @@ class NotificationUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'user_ids'=>['nullable','array'],
+            'topic' => ['required', 'string'],
+            'title' => ['required', 'string'],
+            'body' => ['required', 'string'],
+            'custom_data' => ['nullable','array']
         ];
     }
 

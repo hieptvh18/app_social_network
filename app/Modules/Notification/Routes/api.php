@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use Modules\Notification\Http\Controllers\NotificationController;
+use Modules\Notification\Http\Controllers\Admin\DeviceTokenAdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,19 +16,22 @@ use Illuminate\Http\Request;
 |
 */
 
-// Route::middleware('auth:api')->get('/notification', function (Request $request) {
-//     return $request->user();
-// });
+Route::group(
+    ['prefix' => 'v1/public'],
+    function () {
+        Route::controller(NotificationController::class)->group(function () {
+            Route::post('save-token', 'saveToken')->name('notification.public.saveToken');
+            Route::post('push-notification', 'pushNotification')->name('notification.public.send');
+        });
+    }
+
+);
 
 Route::group([
-    'prefix'=>'v1',
-    'name'=>'notification'
-],function(){
-    Route::group([
-        'middleware'=>'auth:sanctum'
-    ],function(){
-
-
-        
+    'prefix' => 'v1/admin',
+    'middleware' => 'auth:sanctum'
+], function () {
+    Route::controller(DeviceTokenAdminController::class)->group(function () {
+        Route::get('device-tokens', 'index')->name('notification.deviceToken.index');
     });
 });

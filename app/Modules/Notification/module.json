@@ -1,7 +1,7 @@
 {
     "name": "Notification",
     "alias": "notification",
-    "description": "Module api push notification with firebase",
+    "description": "module push notification api with firebase",
     "keywords": [],
     "priority": 0,
     "providers": [

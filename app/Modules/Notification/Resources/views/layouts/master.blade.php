@@ -4,16 +4,16 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Module Notification</title>
+        <title>Module </title>
 
-       {{-- Laravel Vite - CSS File --}}
-       {{-- {{ module_vite('build-notification', 'Resources/assets/sass/app.scss') }} --}}
+       {{-- Laravel Mix - CSS File --}}
+       {{-- <link rel="stylesheet" href="{{ mix('css/notification.css') }}"> --}}
 
     </head>
     <body>
         @yield('content')
 
-        {{-- Laravel Vite - JS File --}}
-        {{-- {{ module_vite('build-notification', 'Resources/assets/js/app.js') }} --}}
+        {{-- Laravel Mix - JS File --}}
+        {{-- <script src="{{ mix('js/notification.js') }}"></script> --}}
     </body>
 </html>

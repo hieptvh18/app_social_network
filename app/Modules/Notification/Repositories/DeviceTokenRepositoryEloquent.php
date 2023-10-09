@@ -4,16 +4,16 @@ namespace Modules\Notification\Repositories;
 
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-use Modules\Notification\Repositories\NotificationRepository;
-use Modules\Notification\Entities\Notification;
-use Modules\Notification\Validators\NotificationValidator;
+use Modules\Notification\Repositories\DeviceTokenRepository;
+use Modules\Notification\Models\DeviceToken;
+use Modules\Notification\Validators\DeviceTokenValidator;
 
 /**
- * Class NotificationRepositoryEloquent.
+ * Class DeviceTokenRepositoryEloquent.
  *
  * @package namespace Modules\Notification\Repositories;
  */
-class NotificationRepositoryEloquent extends BaseRepository implements NotificationRepository
+class DeviceTokenRepositoryEloquent extends BaseRepository implements DeviceTokenRepository
 {
     /**
      * Specify Model class name
@@ -22,10 +22,10 @@ class NotificationRepositoryEloquent extends BaseRepository implements Notificat
      */
     public function model()
     {
-        return Notification::class;
+        return DeviceToken::class;
     }
 
-    
+
 
     /**
      * Boot up the repository, pushing criteria
@@ -34,5 +34,4 @@ class NotificationRepositoryEloquent extends BaseRepository implements Notificat
     {
         $this->pushCriteria(app(RequestCriteria::class));
     }
-    
 }

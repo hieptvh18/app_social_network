@@ -5,11 +5,11 @@ namespace Modules\Notification\Repositories;
 use Prettus\Repository\Contracts\RepositoryInterface;
 
 /**
- * Interface NotificationRepository.
+ * Interface DeviceTokenRepository.
  *
  * @package namespace Modules\Notification\Repositories;
  */
-interface NotificationRepository extends RepositoryInterface
+interface DeviceTokenRepository extends RepositoryInterface
 {
     //
 }

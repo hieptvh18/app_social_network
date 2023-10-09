@@ -25,4 +25,15 @@ class RepositoryServiceProvider extends ServiceProvider
     {
         return [];
     }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function boot()
+    {
+        $this->app->bind(\Modules\Notification\Repositories\DeviceTokenRepository::class, \Modules\Notification\Repositories\DeviceTokenRepositoryEloquent::class);
+        //:end-bindings::end-bindings:
+    }
 }

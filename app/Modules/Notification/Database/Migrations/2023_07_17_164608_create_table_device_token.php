@@ -13,9 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('device_token', function (Blueprint $table) {
+        Schema::create('notification_device_tokens', function (Blueprint $table) {
             $table->id();
-
+            $table->text('token');
+            $table->bigInteger('user_id')->nullable();
+            $table->string('bizapp_alias')->nullable();
+            $table->string('ip_address')->nullable();
+            $table->string('user_agent')->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('device_token');
+        Schema::dropIfExists('notification_device_tokens');
     }
 };

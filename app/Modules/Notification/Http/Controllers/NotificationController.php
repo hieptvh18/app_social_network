@@ -2,78 +2,65 @@
 
 namespace Modules\Notification\Http\Controllers;
 
+use App\Http\Controllers\ApiController;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Notification\Http\Requests\PushNotificationRequest;
+use Modules\Notification\Http\Requests\SaveTokenRequest;
+use Modules\Notification\Jobs\PushNotificationJob;
+use Modules\Notification\Services\FcmService;
 
-class NotificationController extends Controller
+/**
+ * @group Module Notification
+ *
+ * APIs for managing token
+ *
+ * @subgroup FCM token
+ * @subgroupDescription AuthController
+ */
+class NotificationController extends ApiController
 {
+
+    protected $fcmService;
+
     /**
-     * Display a listing of the resource.
-     * @return Renderable
+     * Class constructor.
      */
-    public function index()
+    public function __construct(FcmService $fcmService)
     {
-        return view('notification::index');
+        $this->fcmService = $fcmService;
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Save public device token
+     *
+     *
+     * @param SaveTokenRequest $request
+     * @return void
      */
-    public function create()
+    public function saveToken(SaveTokenRequest $request)
     {
-        return view('notification::create');
+        $item = $this->fcmService->saveToken($request);
+        return $this->json(['data' => $item]);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Push notification
+     *
+     *
      * @param Request $request
-     * @return Renderable
+     * @return void
      */
-    public function store(Request $request)
+    public function pushNotification(PushNotificationRequest $request)
     {
-        //
-    }
-
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function show($id)
-    {
-        return view('notification::show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function edit($id)
-    {
-        return view('notification::edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Renderable
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Renderable
-     */
-    public function destroy($id)
-    {
-        //
+        $tokens = $request->input('tokens', []);
+        // $data = $request->input('data');
+        PushNotificationJob::dispatch('sendBatchNotification', [
+            $tokens,
+            $request->all()
+        ]);
+        // $msg = $this->fcmService->send($token, $data);
+        return $this->json(['success' => true]);
     }
 }
