@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use App\Repositories\NotificationRepository;
+use App\Repositories\NotificationService;
 
 class CleanningNotification implements ShouldQueue
 {
@@ -22,7 +22,7 @@ class CleanningNotification implements ShouldQueue
      */
     public function __construct()
     {
-        $this->notificationRepository = new NotificationRepository();
+        $this->notificationRepository = new NotificationService();
     }
 
     /**

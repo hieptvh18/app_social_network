@@ -27,11 +27,3 @@ Route::group(
 
 );
 
-Route::group([
-    'prefix' => 'v1/admin',
-    'middleware' => 'auth:sanctum'
-], function () {
-    Route::controller(DeviceTokenAdminController::class)->group(function () {
-        Route::get('device-tokens', 'index')->name('notification.deviceToken.index');
-    });
-});
