@@ -8,7 +8,6 @@ use App\Http\Controllers\Backend\AdminController;
 Route::get('/admin/dashboard/', [AdminController::class,'dashboard']);
 
 // route any
-
 Route::get('/{any}', function () {
   return view('layouts.app');
-})->where('any', '.*');
+})->where('any', '^(?!api.*$).*'); // match all route not start = api

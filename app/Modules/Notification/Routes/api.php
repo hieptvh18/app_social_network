@@ -17,7 +17,7 @@ use Modules\Notification\Http\Controllers\Admin\DeviceTokenAdminController;
 */
 
 Route::group(
-    ['prefix' => 'v1/public'],
+    ['prefix' => 'v1'],
     function () {
         Route::controller(NotificationController::class)->group(function () {
             Route::post('save-token', 'saveToken')->name('notification.public.saveToken');

@@ -2,7 +2,7 @@
 
 namespace Modules\Notification\Http\Controllers;
 
-use App\Http\Controllers\ApiController;
+use App\Http\Controllers\Api\AbstractApi;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -19,7 +19,7 @@ use Modules\Notification\Services\FcmService;
  * @subgroup FCM token
  * @subgroupDescription AuthController
  */
-class NotificationController extends ApiController
+class NotificationController extends AbstractApi
 {
 
     protected $fcmService;

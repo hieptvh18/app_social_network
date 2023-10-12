@@ -21,7 +21,6 @@ use Modules\SocialNetwork\Http\Controllers\StoryController;
 |
 */
 
-
 Route::group(
     [
         'prefix' => 'v1'

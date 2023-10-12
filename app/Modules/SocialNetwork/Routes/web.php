@@ -11,6 +11,6 @@
 |
 */
 
-Route::prefix('socialnetwork')->group(function() {
-    Route::get('/', 'SocialNetworkController@index');
-});
+//Route::prefix('socialnetwork')->group(function() {
+//    Route::get('/', 'SocialNetworkController@index');
+//});

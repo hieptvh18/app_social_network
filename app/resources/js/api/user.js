@@ -1,7 +1,7 @@
 import Instance from "./instance";
 import axios from "axios";
 
-const baseURLApi = 'http://127.0.0.1:8000/api/v1';
+import {baseURLApi} from './instance';
 
  // get token login -> parse logout api
 const token = window.localStorage.getItem('tokenLogin');
