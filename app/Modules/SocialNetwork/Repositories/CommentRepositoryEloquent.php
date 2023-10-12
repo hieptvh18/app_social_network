@@ -11,7 +11,7 @@ use Modules\SocialNetwork\Validators\CommentValidator;
 /**
  * Class CommentRepositoryEloquent.
  *
- * @package namespace Modules\SocialNetwork\Repositories;
+ * @package namespace Modules\SocialNetwork\Services;
  */
 class CommentRepositoryEloquent extends BaseRepository implements CommentRepository
 {
@@ -25,7 +25,7 @@ class CommentRepositoryEloquent extends BaseRepository implements CommentReposit
         return Comment::class;
     }
 
-    
+
 
     /**
      * Boot up the repository, pushing criteria
@@ -34,5 +34,5 @@ class CommentRepositoryEloquent extends BaseRepository implements CommentReposit
     {
         $this->pushCriteria(app(RequestCriteria::class));
     }
-    
+
 }

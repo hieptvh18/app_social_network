@@ -1,10 +1,8 @@
 <?php
 
-namespace App\Events;
+namespace Modules\SocialNetwork\Events;
 
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -21,13 +19,13 @@ class PushNotifications implements ShouldBroadcast
     protected $notifiOfUserId;
 
     protected $message;
-    
+
     protected $id;
 
     protected $created_at;
 
     public function __construct($currentUserId,$message, $avatar,$notifiOfUserId,$id,$created_at)
-    {   
+    {
         $this->currentUserId = $currentUserId;
         $this->notifiOfUserId = $notifiOfUserId;
         $this->message = $message;

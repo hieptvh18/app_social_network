@@ -11,7 +11,7 @@ use Modules\SocialNetwork\Validators\PostValidator;
 /**
  * Class PostRepositoryEloquent.
  *
- * @package namespace Modules\SocialNetwork\Repositories;
+ * @package namespace Modules\SocialNetwork\Services;
  */
 class PostRepositoryEloquent extends BaseRepository implements PostRepository
 {
@@ -25,7 +25,7 @@ class PostRepositoryEloquent extends BaseRepository implements PostRepository
         return Post::class;
     }
 
-    
+
 
     /**
      * Boot up the repository, pushing criteria
@@ -34,5 +34,5 @@ class PostRepositoryEloquent extends BaseRepository implements PostRepository
     {
         $this->pushCriteria(app(RequestCriteria::class));
     }
-    
+
 }

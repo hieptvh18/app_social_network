@@ -7,7 +7,7 @@ use Prettus\Repository\Contracts\RepositoryInterface;
 /**
  * Interface DeviceTokenRepository.
  *
- * @package namespace Modules\Notification\Repositories;
+ * @package namespace Modules\Notification\Services;
  */
 interface DeviceTokenRepository extends RepositoryInterface
 {

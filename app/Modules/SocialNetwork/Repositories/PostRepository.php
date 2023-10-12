@@ -7,7 +7,7 @@ use Prettus\Repository\Contracts\RepositoryInterface;
 /**
  * Interface PostRepository.
  *
- * @package namespace Modules\SocialNetwork\Repositories;
+ * @package namespace Modules\SocialNetwork\Services;
  */
 interface PostRepository extends RepositoryInterface
 {

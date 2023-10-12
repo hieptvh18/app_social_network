@@ -11,7 +11,7 @@ use Modules\SocialNetwork\Validators\NotificationValidator;
 /**
  * Class NotificationRepositoryEloquent.
  *
- * @package namespace Modules\SocialNetwork\Repositories;
+ * @package namespace Modules\SocialNetwork\Services;
  */
 class NotificationRepositoryEloquent extends BaseRepository implements NotificationRepository
 {
@@ -25,7 +25,7 @@ class NotificationRepositoryEloquent extends BaseRepository implements Notificat
         return Notification::class;
     }
 
-    
+
 
     /**
      * Boot up the repository, pushing criteria
@@ -34,5 +34,5 @@ class NotificationRepositoryEloquent extends BaseRepository implements Notificat
     {
         $this->pushCriteria(app(RequestCriteria::class));
     }
-    
+
 }

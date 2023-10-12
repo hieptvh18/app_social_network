@@ -7,7 +7,7 @@ use Prettus\Repository\Contracts\RepositoryInterface;
 /**
  * Interface NotificationRepository.
  *
- * @package namespace Modules\SocialNetwork\Repositories;
+ * @package namespace Modules\SocialNetwork\Services;
  */
 interface NotificationRepository extends RepositoryInterface
 {

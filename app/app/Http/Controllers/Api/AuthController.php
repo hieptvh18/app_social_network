@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Services\AuthService;
 use Illuminate\Http\Request;
 use Throwable;
 use Illuminate\Support\Facades\Auth;
@@ -10,19 +11,22 @@ use Illuminate\Support\Facades\Cookie;
 use Symfony\Component\HttpFoundation\Response;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Requests\UserRequest;
+use App\Http\Requests\UserRegisterRequest;
 
 class AuthController extends Controller
 {
+    protected $authService;
 
-    protected $userRepository;
-
-    public function __construct(UserRepositoryInterface $userRepository)
+    public function __construct(AuthService $authService)
     {
-        $this->userRepository = $userRepository;
+        $this->authService = $authService;
     }
 
-    // login with username && password
+    /**
+     * login with username && password
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function loginUsername(Request $request)
     {
         try {
@@ -30,7 +34,6 @@ class AuthController extends Controller
             if (!Auth::attempt($credentials)) {
                 return response()->json(['status' => 'fail', 'message' => 'Username or password invalid!', 'data' => []], Response::HTTP_UNAUTHORIZED);
             }
-
             // ok
             $user = Auth::user();
 
@@ -52,16 +55,21 @@ class AuthController extends Controller
         }
     }
 
-    // login with google
-
-
-    // register post
-    public function registerPost(UserRequest $request)
+    /**
+     * register post
+     * @param UserRegisterRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function registerPost(UserRegisterRequest $request)
     {
-        return $this->userRepository->create($request);
+        return $this->authService->create($request);
     }
 
-    // get info user logginIn
+    /**
+     * get info user logginIn
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getUser(Request $request)
     {
         try {
@@ -81,9 +89,13 @@ class AuthController extends Controller
         }
     }
 
-    // logout
+    /**
+     * logout
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function logout(Request $request)
     {
-        return $this->userRepository->logout($request);
+        return $this->authService->logout($request);
     }
 }

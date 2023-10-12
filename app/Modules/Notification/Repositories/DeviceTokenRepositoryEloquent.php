@@ -11,7 +11,7 @@ use Modules\Notification\Validators\DeviceTokenValidator;
 /**
  * Class DeviceTokenRepositoryEloquent.
  *
- * @package namespace Modules\Notification\Repositories;
+ * @package namespace Modules\Notification\Services;
  */
 class DeviceTokenRepositoryEloquent extends BaseRepository implements DeviceTokenRepository
 {

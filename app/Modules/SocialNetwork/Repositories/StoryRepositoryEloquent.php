@@ -11,7 +11,7 @@ use Modules\SocialNetwork\Validators\StoryValidator;
 /**
  * Class StoryRepositoryEloquent.
  *
- * @package namespace Modules\SocialNetwork\Repositories;
+ * @package namespace Modules\SocialNetwork\Services;
  */
 class StoryRepositoryEloquent extends BaseRepository implements StoryRepository
 {
@@ -25,7 +25,7 @@ class StoryRepositoryEloquent extends BaseRepository implements StoryRepository
         return Story::class;
     }
 
-    
+
 
     /**
      * Boot up the repository, pushing criteria
@@ -34,5 +34,5 @@ class StoryRepositoryEloquent extends BaseRepository implements StoryRepository
     {
         $this->pushCriteria(app(RequestCriteria::class));
     }
-    
+
 }

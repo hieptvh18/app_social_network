@@ -4,14 +4,14 @@ import { header,baseURLApi } from "./instance";
 
 // get data current user login
 export const getListPostByFollowing = async () =>{
-    const url = '/posts/get_by_following';
+    const url = '/posts/get-by-following';
     const options = {
         method: 'GET',
         headers: header,
         data: {},
         url:baseURLApi+url
     }
-   
+
     return await axios(options);
 }
 
@@ -24,7 +24,7 @@ export const savePostData = async (data) =>{
         params: data,
         url:baseURLApi+url
     }
-   
+
     return await axios(options);
 }
 
@@ -37,7 +37,7 @@ export const getPostById = async (id) =>{
         params: {},
         url:baseURLApi+url
     }
-   
+
     return await axios(options);
 }
 
@@ -50,7 +50,7 @@ export const likePost = async (data) =>{
         params: data,
         url:baseURLApi+url
     }
-   
+
     return await axios(options);
 }
 

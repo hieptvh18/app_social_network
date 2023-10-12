@@ -11,7 +11,7 @@ use Modules\SocialNetwork\Validators\ChatValidator;
 /**
  * Class ChatRepositoryEloquent.
  *
- * @package namespace Modules\SocialNetwork\Repositories;
+ * @package namespace Modules\SocialNetwork\Services;
  */
 class ChatRepositoryEloquent extends BaseRepository implements ChatRepository
 {
@@ -25,7 +25,7 @@ class ChatRepositoryEloquent extends BaseRepository implements ChatRepository
         return Chat::class;
     }
 
-    
+
 
     /**
      * Boot up the repository, pushing criteria
@@ -34,5 +34,5 @@ class ChatRepositoryEloquent extends BaseRepository implements ChatRepository
     {
         $this->pushCriteria(app(RequestCriteria::class));
     }
-    
+
 }

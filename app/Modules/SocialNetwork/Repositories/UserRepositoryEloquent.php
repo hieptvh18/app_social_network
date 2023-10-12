@@ -11,7 +11,7 @@ use Modules\SocialNetwork\Validators\UserValidator;
 /**
  * Class UserRepositoryEloquent.
  *
- * @package namespace Modules\SocialNetwork\Repositories;
+ * @package namespace Modules\SocialNetwork\Services;
  */
 class UserRepositoryEloquent extends BaseRepository implements UserRepository
 {
@@ -25,7 +25,7 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
         return User::class;
     }
 
-    
+
 
     /**
      * Boot up the repository, pushing criteria
@@ -34,5 +34,5 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
     {
         $this->pushCriteria(app(RequestCriteria::class));
     }
-    
+
 }

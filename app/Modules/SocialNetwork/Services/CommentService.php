@@ -2,13 +2,11 @@
 
 namespace Modules\SocialNetwork\Services;
 
-use App\Models\Comment;
 use App\Http\Controllers\Api\AbstractApi;
-use Exception;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Events\PushNotifications;
+use App\Models\Comment;
 use App\Models\Notifications;
+use Exception;
+use Modules\SocialNetwork\Events\PushNotifications;
 use Symfony\Component\HttpFoundation\Response;
 
 class CommentService extends AbstractApi

@@ -11,7 +11,10 @@ class PostController extends Controller
 {
     protected $postService;
 
-    public function __construct(PostService $postService){
+    public function __construct(PostService $postService)
+    {
+        dd('controller');
+
        $this->postService = $postService;
     }
 

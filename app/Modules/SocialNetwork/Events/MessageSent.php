@@ -1,16 +1,14 @@
 <?php
 
-namespace App\Events;
+namespace Modules\SocialNetwork\Events;
 
-use Illuminate\Broadcasting\Channel;
+use App\Models\Message;
+use App\Models\User;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use App\Models\Message;
-use App\Models\User;
 
 class MessageSent implements ShouldBroadcast
 {
