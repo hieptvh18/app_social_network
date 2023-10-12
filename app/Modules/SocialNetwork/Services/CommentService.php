@@ -3,9 +3,9 @@
 namespace Modules\SocialNetwork\Services;
 
 use App\Http\Controllers\Api\AbstractApi;
-use App\Models\Comment;
-use App\Models\Notifications;
 use Exception;
+use Modules\SocialNetwork\Entities\Comment;
+use Modules\SocialNetwork\Entities\Notifications;
 use Modules\SocialNetwork\Events\PushNotifications;
 use Symfony\Component\HttpFoundation\Response;
 

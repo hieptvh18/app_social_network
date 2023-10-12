@@ -2,19 +2,17 @@
 
 namespace Modules\SocialNetwork\Services;
 
-use App\Models\Follow;
-use App\Models\Post;
-use App\Models\Room;
 use App\Http\Controllers\Api\AbstractApi;
 use App\Models\User;
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Throwable;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
+use Modules\SocialNetwork\Entities\Follow;
+use Modules\SocialNetwork\Entities\Post;
+use Modules\SocialNetwork\Entities\Room;
 use Symfony\Component\HttpFoundation\Response;
+use Throwable;
 
 class UserService extends AbstractApi
 {

@@ -2,22 +2,16 @@
 
 namespace Modules\SocialNetwork\Entities;
 
-use Illuminate\Database\Eloquent\Model;
-use Prettus\Repository\Contracts\Transformable;
-use Prettus\Repository\Traits\TransformableTrait;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class Comment.
- *
- * @package namespace Modules\SocialNetwork\Entities;
- */
-class Comment extends Model implements Transformable
+class Comment extends Model
 {
-    use TransformableTrait,HasFactory;
+    use HasFactory;
 
     protected $fillable = ['user_id','message','post_id'];
-    
+
     public $timestamps = true;
 
     public function user(){
@@ -38,5 +32,4 @@ class Comment extends Model implements Transformable
     {
         return caculateDatetime($timestamp);
     }
-
 }

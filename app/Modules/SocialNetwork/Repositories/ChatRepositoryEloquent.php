@@ -2,10 +2,10 @@
 
 namespace Modules\SocialNetwork\Repositories;
 
+use Modules\SocialNetwork\Entities\Message;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Modules\SocialNetwork\Repositories\ChatRepository;
-use Modules\SocialNetwork\Entities\Chat;
 use Modules\SocialNetwork\Validators\ChatValidator;
 
 /**
@@ -22,7 +22,7 @@ class ChatRepositoryEloquent extends BaseRepository implements ChatRepository
      */
     public function model()
     {
-        return Chat::class;
+        return Message::class;
     }
 
 

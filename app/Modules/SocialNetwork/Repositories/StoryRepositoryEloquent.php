@@ -5,7 +5,7 @@ namespace Modules\SocialNetwork\Repositories;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Modules\SocialNetwork\Repositories\StoryRepository;
-use Modules\SocialNetwork\Entities\Story;
+use Modules\SocialNetwork\Entities\Stories;
 use Modules\SocialNetwork\Validators\StoryValidator;
 
 /**
@@ -22,7 +22,7 @@ class StoryRepositoryEloquent extends BaseRepository implements StoryRepository
      */
     public function model()
     {
-        return Story::class;
+        return Stories::class;
     }
 
 

@@ -5,7 +5,7 @@ namespace Modules\SocialNetwork\Repositories;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Modules\SocialNetwork\Repositories\NotificationRepository;
-use Modules\SocialNetwork\Entities\Notification;
+use Modules\SocialNetwork\Entities\Notifications;
 use Modules\SocialNetwork\Validators\NotificationValidator;
 
 /**
@@ -22,7 +22,7 @@ class NotificationRepositoryEloquent extends BaseRepository implements Notificat
      */
     public function model()
     {
-        return Notification::class;
+        return Notifications::class;
     }
 
 

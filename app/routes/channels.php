@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Broadcast;
-use App\Models\Post;
+
 /*
 |--------------------------------------------------------------------------
 | Broadcast Channels

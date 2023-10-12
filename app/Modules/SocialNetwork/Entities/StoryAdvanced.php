@@ -1,20 +1,17 @@
 <?php
 
-namespace App\Models;
+namespace Modules\SocialNetwork\Entities;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Notifications extends Model
+class StoryAdvanced extends Model
 {
     use HasFactory;
 
-    public $timestamps = true;
-
-    protected $fillable = ['user_id', 'message', 'is_read'];
+    protected $fillable = ['story_id', 'viewer_id','liker_id'];
 
     // format timestamp
-
     public function getCreatedAtAttribute($timestamp)
     {
         return caculateDatetime($timestamp);

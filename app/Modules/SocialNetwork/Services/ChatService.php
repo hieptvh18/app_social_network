@@ -3,11 +3,11 @@
 namespace Modules\SocialNetwork\Services;
 
 use App\Http\Controllers\Api\AbstractApi;
-use App\Models\Message;
-use App\Models\Room;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Modules\SocialNetwork\Entities\Message;
+use Modules\SocialNetwork\Entities\Room;
 use Modules\SocialNetwork\Events\MessageSent;
 
 class ChatService extends AbstractApi

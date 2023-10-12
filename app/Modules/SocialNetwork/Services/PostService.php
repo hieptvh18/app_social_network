@@ -2,14 +2,12 @@
 
 namespace Modules\SocialNetwork\Services;
 
-use App\Models\Follow;
-use App\Models\Post;
-use App\Models\PostImage;
-use App\Models\LikePost;
 use App\Http\Controllers\Api\AbstractApi;
-use Exception;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use Modules\SocialNetwork\Entities\Follow;
+use Modules\SocialNetwork\Entities\LikePost;
+use Modules\SocialNetwork\Entities\Post;
+use Modules\SocialNetwork\Entities\PostImage;
 use Symfony\Component\HttpFoundation\Response;
 
 class PostService extends AbstractApi

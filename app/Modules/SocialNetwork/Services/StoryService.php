@@ -2,11 +2,9 @@
 
 namespace Modules\SocialNetwork\Services;
 
-use App\Models\Follow;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Api\AbstractApi;
-use App\Models\Stories;
-use App\Models\User;
+use Modules\SocialNetwork\Entities\Follow;
+use Modules\SocialNetwork\Entities\Stories;
 
 class StoryService extends AbstractApi
 {

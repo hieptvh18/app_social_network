@@ -2,10 +2,10 @@
 
 namespace Modules\SocialNetwork\Services;
 
-use App\Models\Notifications;
 use App\Http\Controllers\Api\AbstractApi;
+use Modules\SocialNetwork\Entities\Notifications;
 
-class NotificationService extends AbstractApi 
+class NotificationService extends AbstractApi
 {
 
     public function fetchNotifications($userId)

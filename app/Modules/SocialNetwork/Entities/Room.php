@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Models;
+namespace Modules\SocialNetwork\Entities;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Message extends Model
+class Room extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['message','from','to','room_id'];
+    protected $fillable = ['from','to'];
 
     // sender
     public function from(){
