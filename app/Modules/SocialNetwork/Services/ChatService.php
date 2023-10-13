@@ -6,8 +6,8 @@ use App\Http\Controllers\Api\AbstractApi;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Modules\SocialNetwork\Entities\Message;
-use Modules\SocialNetwork\Entities\Room;
+use Modules\SocialNetwork\Models\Message;
+use Modules\SocialNetwork\Models\Room;
 use Modules\SocialNetwork\Events\MessageSent;
 
 class ChatService extends AbstractApi

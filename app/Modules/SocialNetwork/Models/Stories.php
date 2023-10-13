@@ -1,14 +1,15 @@
 <?php
 
-namespace Modules\SocialNetwork\Entities;
+namespace Modules\SocialNetwork\Models;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Overtrue\LaravelLike\Traits\Likeable;
 
 class Stories extends Model
 {
-    use HasFactory;
+    use HasFactory,Likeable;
 
     protected $fillable = ['content', 'user_id','photo','css','is_active'];
 

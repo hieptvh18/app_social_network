@@ -15,7 +15,7 @@ return [
     |
     */
     'pagination' => [
-        'limit' => 15
+        'limit' => 12
     ],
 
     /*
@@ -52,7 +52,7 @@ return [
          | Enable or disable cache
          |
          */
-        'enabled'    => false,
+        'enabled'    => true,
 
         /*
          |--------------------------------------------------------------------------
@@ -138,7 +138,7 @@ return [
        | 'except'  =>['find'],
        */
         'allowed'    => [
-            'only'   => null,
+            'only'   => ['all', 'paginate'],
             'except' => null
         ]
     ],
@@ -232,9 +232,9 @@ return [
         'rootNamespace' => 'App\\',
         'stubsOverridePath' => app()->path(),
         'paths'         => [
-            'models'       => 'Entities',
-            'repositories' => 'Services',
-            'interfaces'   => 'Services',
+            'models'       => 'Models',
+            'repositories' => 'Repositories',
+            'interfaces'   => 'Repositories',
             'transformers' => 'Transformers',
             'presenters'   => 'Presenters',
             'validators'   => 'Validators',

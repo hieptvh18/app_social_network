@@ -5,7 +5,7 @@ namespace Modules\SocialNetwork\Repositories;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Modules\SocialNetwork\Repositories\UserRepository;
-use Modules\SocialNetwork\Entities\User;
+use Modules\SocialNetwork\Models\User;
 use Modules\SocialNetwork\Validators\UserValidator;
 
 /**

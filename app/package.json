@@ -12,7 +12,7 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
-        "@vitejs/plugin-vue": "^4.2.1",
+        "@vitejs/plugin-vue": "^4.4.0",
         "firebase": "^9.23.0",
         "laravel-echo": "^1.15.1",
         "lazy-load-list": "^1.2.3",

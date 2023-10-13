@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\SocialNetwork\Entities;
+namespace Modules\SocialNetwork\Models;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

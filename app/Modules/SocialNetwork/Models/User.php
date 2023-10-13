@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\SocialNetwork\Entities;
+namespace Modules\SocialNetwork\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -8,12 +8,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Modules\SocialNetwork\Entities\Follow;
-use Modules\SocialNetwork\Entities\Post;
+use Modules\SocialNetwork\Models\Follow;
+use Modules\SocialNetwork\Models\Post;
+use Overtrue\LaravelLike\Traits\Liker;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, Liker;
 
     /**
      * The attributes that are mass assignable.

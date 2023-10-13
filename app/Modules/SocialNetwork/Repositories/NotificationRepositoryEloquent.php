@@ -5,7 +5,7 @@ namespace Modules\SocialNetwork\Repositories;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Modules\SocialNetwork\Repositories\NotificationRepository;
-use Modules\SocialNetwork\Entities\Notifications;
+use Modules\SocialNetwork\Models\Notifications;
 use Modules\SocialNetwork\Validators\NotificationValidator;
 
 /**

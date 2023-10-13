@@ -3,8 +3,8 @@
 namespace Modules\SocialNetwork\Services;
 
 use App\Http\Controllers\Api\AbstractApi;
-use Modules\SocialNetwork\Entities\Follow;
-use Modules\SocialNetwork\Entities\Stories;
+use Modules\SocialNetwork\Models\Follow;
+use Modules\SocialNetwork\Models\Stories;
 
 class StoryService extends AbstractApi
 {

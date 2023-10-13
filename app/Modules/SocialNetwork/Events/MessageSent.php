@@ -8,7 +8,7 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Modules\SocialNetwork\Entities\Message;
+use Modules\SocialNetwork\Models\Message;
 
 class MessageSent implements ShouldBroadcast
 {

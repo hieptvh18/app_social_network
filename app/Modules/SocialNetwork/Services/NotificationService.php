@@ -3,7 +3,7 @@
 namespace Modules\SocialNetwork\Services;
 
 use App\Http\Controllers\Api\AbstractApi;
-use Modules\SocialNetwork\Entities\Notifications;
+use Modules\SocialNetwork\Models\Notifications;
 
 class NotificationService extends AbstractApi
 {

@@ -2,7 +2,7 @@
 
 namespace Modules\SocialNetwork\Repositories;
 
-use Modules\SocialNetwork\Entities\Message;
+use Modules\SocialNetwork\Models\Message;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Modules\SocialNetwork\Repositories\ChatRepository;

@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Modules\SocialNetwork\Entities\Follow;
-use Modules\SocialNetwork\Entities\Post;
+use Modules\SocialNetwork\Models\Follow;
+use Modules\SocialNetwork\Models\Post;
 
 class User extends Authenticatable
 {

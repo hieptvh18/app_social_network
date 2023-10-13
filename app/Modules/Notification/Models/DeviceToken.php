@@ -9,7 +9,7 @@ use Prettus\Repository\Traits\TransformableTrait;
 /**
  * Class DeviceToken.
  *
- * @package namespace Modules\Notification\Entities;
+ * @package namespace Modules\Notification\Models;
  */
 class DeviceToken extends Model implements Transformable
 {

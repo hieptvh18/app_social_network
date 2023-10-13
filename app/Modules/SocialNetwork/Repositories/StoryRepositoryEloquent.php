@@ -5,7 +5,7 @@ namespace Modules\SocialNetwork\Repositories;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Modules\SocialNetwork\Repositories\StoryRepository;
-use Modules\SocialNetwork\Entities\Stories;
+use Modules\SocialNetwork\Models\Stories;
 use Modules\SocialNetwork\Validators\StoryValidator;
 
 /**
