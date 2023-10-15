@@ -4,14 +4,22 @@ namespace Modules\SocialNetwork\Services;
 
 use App\Http\Controllers\Api\AbstractApi;
 use Illuminate\Support\Facades\Auth;
-use Modules\SocialNetwork\Entities\Follow;
-use Modules\SocialNetwork\Entities\LikePost;
-use Modules\SocialNetwork\Entities\Post;
-use Modules\SocialNetwork\Entities\PostImage;
+use Modules\SocialNetwork\Models\Follow;
+use Modules\SocialNetwork\Models\LikePost;
+use Modules\SocialNetwork\Models\Post;
+use Modules\SocialNetwork\Models\PostImage;
+use Modules\SocialNetwork\Repositories\PostRepository;
 use Symfony\Component\HttpFoundation\Response;
 
 class PostService extends AbstractApi
 {
+    protected $postRepository;
+
+    public function __construct(PostRepository $postRepository)
+    {
+        $this->postRepository = $postRepository;
+    }
+
     public function getPostByFollowingId()
     {
         try{

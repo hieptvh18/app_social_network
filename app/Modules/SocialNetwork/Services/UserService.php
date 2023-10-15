@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
-use Modules\SocialNetwork\Entities\Follow;
-use Modules\SocialNetwork\Entities\Post;
-use Modules\SocialNetwork\Entities\Room;
+use Modules\SocialNetwork\Models\Follow;
+use Modules\SocialNetwork\Models\Post;
+use Modules\SocialNetwork\Models\Room;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 

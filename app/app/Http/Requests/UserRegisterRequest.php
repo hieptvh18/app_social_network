@@ -27,7 +27,7 @@ class UserRegisterRequest extends FormRequest
             'name'=>'required|min:6|max:30',
             'username'=>'required|unique:users|min:6|max:14|regex:/^\w{4,14}$/',
             'email'=>'required|email|unique:users',
-            'password'=>''
+            'password'=>'required|max:16'
         ];
     }
 

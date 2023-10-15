@@ -81,7 +81,7 @@ export default {
           await register(formData)
           .then(response=>{
             console.log(response);
-            if(response.data.status){
+            if(response.data.success){
                 delete this.errors['server'];
                 this.messageSuccess = response.data.message;
             }else{
@@ -89,7 +89,8 @@ export default {
             }
           }).
           catch(error=>{
-            console.log(error);
+              this.messageSuccess = '';
+              this.errors.server = error.response.data.message;
           })
         }
       },

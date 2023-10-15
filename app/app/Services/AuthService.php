@@ -7,6 +7,8 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Modules\SocialNetwork\Events\EventUserRegisterAccount;
 use Throwable;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cookie;
@@ -19,7 +21,7 @@ class AuthService extends AbstractApi
         if (!$request->username || !$request->name || !$request->email || !$request->password) {
             return $this->respError(['data'=>$request->all()],'Data is not valid!');
         }
-
+        DB::beginTransaction();
         try {
             $userExistEmail = User::where('email', $request->email)->first();
             $userExistUsername = User::where('username', $request->username)->first();
@@ -37,8 +39,12 @@ class AuthService extends AbstractApi
             $model->password = Hash::make($request->password);
             $model->save();
 
+            DB::commit();
+            event(new EventUserRegisterAccount($model));
+
             return $this->respSuccess(['data'=>$request->all()],'Register success!');
         } catch (Throwable $e) {
+            DB::rollBack();
             report($e);
             return $this->respError(false,'Something wrong! '.$e->getMessage(),Response::HTTP_INTERNAL_SERVER_ERROR);
         }
