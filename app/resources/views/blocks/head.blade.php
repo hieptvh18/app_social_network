@@ -1,6 +1,14 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Hiep Hoang Tran">
+    <meta name="description" content="Website mạng xã hội demo của Hoàng Hiệp">
+    <meta property="og:url" content="#" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Website mạng xã hội demo của Hoàng Hiệp🤍" />
+    <meta property="og:description" content="Weo com tu my website" />
+    <meta property="og:image" content="https://ict-imgs.vgcloud.vn/2020/09/01/19/huong-dan-tao-facebook-avatar.jpg" />
+
     <title>Instagram</title>
 
     <!-- bootstrap cnd css -->

@@ -117,5 +117,8 @@ export default {
                 </div>
             </div>
         </div>
+        <footer class="text-center">
+            @contact to <a href = "mailto: hipbu18@gmail.com">hipbu18@gmail.com</a> for work!
+        </footer>
     </div>
 </template>

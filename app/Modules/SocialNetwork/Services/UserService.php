@@ -29,19 +29,19 @@ class UserService extends AbstractApi
                 $listFollower = $this->getInfobyId($listFollowerId);
                 $listFollowing = $this->getInfobyId($listFollowingId);
 
-                // hdnale get list post
+                // handle get list post
                 $posts = [];
                 if(count($user->posts)){
                     foreach($user->posts as $key=>$post){
                         $p = Post::query()->where('id',$post->id)
-                                    ->withCount(['comments','likes'])->first();
+                                    ->withCount(['comments','likers'])->first();
 
                         $post = [
                             'captions'=>$p->captions,
                             'id'=>$p->id,
                             'images' => $p->images,
                             'comments_count'=>$p->comments_count,
-                            'likes_count'=>$p->likes_count
+                            'likes_count'=>count($p->likers)
                         ];
                         array_push($posts,$post);
                     }

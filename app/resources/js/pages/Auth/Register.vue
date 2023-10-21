@@ -54,6 +54,9 @@
           <button type="button"><i class="fab fa-apple"></i> App Store</button>
           <button type="button"><i class="fab fa-google-play"></i> Google Play</button>
         </div> -->
+        <footer class="text-center">
+            @contact to <a href = "mailto: hipbu18@gmail.com">hipbu18@gmail.com</a> for work!
+        </footer>
       </main>
 </template>
 

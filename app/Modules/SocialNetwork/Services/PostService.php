@@ -48,10 +48,6 @@ class PostService extends AbstractApi
                 return $this->respError([],'No posts found from the users you are following.');
             }
 
-            foreach ($posts as $post) {
-                $post->likes;
-            }
-
             return $this->respSuccess(['data'=>$posts],'Get posts success');
         }catch(\Throwable $e){
             return $this->respError([],'Something went wrong when fetch posts of friend! '.$e->getMessage(),Response::HTTP_INTERNAL_SERVER_ERROR);
