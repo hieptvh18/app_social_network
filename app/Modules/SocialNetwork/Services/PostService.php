@@ -5,7 +5,6 @@ namespace Modules\SocialNetwork\Services;
 use App\Http\Controllers\Api\AbstractApi;
 use Illuminate\Support\Facades\Auth;
 use Modules\SocialNetwork\Models\Follow;
-use Modules\SocialNetwork\Models\LikePost;
 use Modules\SocialNetwork\Models\Post;
 use Modules\SocialNetwork\Models\PostImage;
 use Modules\SocialNetwork\Repositories\PostRepository;
