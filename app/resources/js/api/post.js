@@ -42,12 +42,12 @@ export const getPostById = async (id) =>{
 }
 
 // like post action
-export const likePost = async (data) =>{
-    const url = '/post/like';
+export const likePost = async (id) =>{
+    const url = '/post/'+id+'/like';
     const options = {
         method: 'POST',
         headers: header,
-        params: data,
+        params: {},
         url:baseURLApi+url
     }
 

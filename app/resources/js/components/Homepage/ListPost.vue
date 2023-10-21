@@ -172,8 +172,8 @@ export default {
         // check liked
         const checkLiked = (post) => {
             let currenUserId = window.userLogginIn.id;
-            let result = post.likes.filter(
-                (val) => val.user_id == currenUserId
+            let result = post.likers.filter(
+                (val) => val.id == currenUserId
             );
 
             result.length ? (isLiked = true) : (isLiked = false);

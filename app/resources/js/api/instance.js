@@ -12,7 +12,8 @@ export default Instance;
  const token = window.localStorage.getItem('tokenLogin');
  const headers = {
      'Authorization':'Bearer '+token,
-     'X-Requested-With':'XMLHttpRequest'
+     'X-Requested-With':'XMLHttpRequest',
+     'Accept':'application/json'
    };
 
  export const header = headers;

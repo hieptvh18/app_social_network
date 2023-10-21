@@ -30,9 +30,9 @@ class Post extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function likes(){
-        return $this->hasMany(LikePost::class,'post_id','id')->select('user_id');
-    }
+    // public function likes(){
+    //     return $this->hasMany(LikePost::class,'post_id','id')->select('user_id');
+    // }
 
     public function comments(){
         return $this->hasMany(Comment::class,'post_id','id')->select(['id','message','created_at']);

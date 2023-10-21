@@ -40,17 +40,10 @@ class PostController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function likePost(Request $request){
-        if(!$request->postId){
-            return response()->json([
-                'success'=>false,
-                'message'=>'Data param fail',
-                'data'=>[]
-            ]);
-        }
-        return $this->postService->likePost($request->postId);
+    public function likePost($id){
+        return $this->postService->likePost($id);
     }
 }

@@ -38,7 +38,8 @@ class PostService extends AbstractApi
                         },
                         'author' => function ($query) {
                             $query->select('id', 'username', 'avatar');
-                        }
+                        },
+                        'likers'
                     ]
                 )
                 ->withCount(['comments'])
@@ -114,24 +115,11 @@ class PostService extends AbstractApi
     public function likePost($postId)
     {
         try {
-            $isLiked = LikePost::where('user_id', auth()->id())
-                ->where('post_id', $postId)
-                ->exists();
-            if ($isLiked) {
-                // reset like
-                LikePost::where('user_id', auth()->id())
-                    ->where('post_id', $postId)
-                    ->delete();
+            $user = auth()->user();
+            $post = $this->postRepository->find($postId);
+            $user->toggleLike($post);
 
-                return $this->respSuccess([],'unLike');
-            }
-
-            $likePost = new LikePost();
-            $likePost->user_id = auth()->id();
-            $likePost->post_id = $postId;
-            $likePost->save();
-
-            return $this->respSuccess(['data'=>$likePost],'like');
+            return $this->respSuccess(['data'=>'data'],'like');
         } catch (\Throwable $e) {
             report($e->getMessage());
             return $this->respError([],'Something went wrong when like! '.$e->getMessage(),Response::HTTP_INTERNAL_SERVER_ERROR);

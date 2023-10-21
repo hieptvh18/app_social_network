@@ -88,14 +88,12 @@ export default {
     props: ["isLike","post"],
     data() {
         return {
-            countLike:this.post.likes.length
+            countLike:this.post.likers.length
         };
     },
     methods: {
         async toggleLike(id,e) {
-            const response = await likePost({
-                postId: id,
-            });
+            const response = await likePost(id);
 
             if(response.data.success && e.target.checked == true){
                 this.countLike += 1;

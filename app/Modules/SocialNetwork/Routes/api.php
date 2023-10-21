@@ -55,7 +55,7 @@ Route::group(
             // get post by id
             Route::get('/posts/{id}', [PostController::class, 'getById'])->name('getById');
             // action like post
-            Route::post('/post/like', [PostController::class, 'likePost'])->name('likePost');
+            Route::post('/post/{id}/like', [PostController::class, 'likePost'])->name('likePost');
 
             // comment api
             Route::get('/comments/post/{id}', [CommentController::class, 'fetchComments']);

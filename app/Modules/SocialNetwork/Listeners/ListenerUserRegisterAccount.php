@@ -8,7 +8,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Modules\SocialNetwork\Notifications\NotificationUserRegisterAccount;
 
-class ListenerUserRegisterAccount
+class ListenerUserRegisterAccount implements ShouldQueue
 {
     /**
      * Create the event listener.
