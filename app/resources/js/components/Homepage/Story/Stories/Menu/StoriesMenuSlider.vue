@@ -12,18 +12,19 @@
                 <router-link :to="{name:'storycreate'}">New</router-link>
             </swiper-slide>
             <swiper-slide
+                v-if="stories.stories"
                 class="stories-menu-slider__item"
                 v-for="(story, index) in stories.stories"
                 :key="story.id"
-                :style="{ backgroundImage: 'url(' + story.bg + ')' }"
+                :style="{ backgroundImage: 'url(' + story.author.avatar + ')' }"
                 @click="openStory(index)"
             >
                 <div class="stories-menu-slider__item-author">
-                    {{ story.username }}
+                    {{ story.author.username }}
                 </div>
             </swiper-slide>
         </swiper>
-        
+
     </div>
 </template>
 
@@ -34,6 +35,8 @@ import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/css";
 
 const stories = useStoriesStore();
+
+console.log(stories.stories);
 
 const swiperOptions = ref({
     slidesPerView: "auto",
@@ -47,7 +50,7 @@ const openStory = (index) => {
 
 
 onBeforeMount(() => {
-    // stories.fetchMyStories();
+    stories.fetchStoriesHomepage();
 })
 </script>
 

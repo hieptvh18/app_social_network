@@ -60,7 +60,7 @@ class StoryController extends Controller
     }
 
     /**
-     * @return array
+     * @return \Illuminate\Http\JsonResponse
      */
     public function fetchListStoryIsActive(){
         return $this->storyService->fetchListStoryIsActive();

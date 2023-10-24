@@ -27,15 +27,22 @@ class StoryService extends AbstractApi
         return Stories::find($id);
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function fetchListStoryIsActive()
     {
+        // @codingStandardsIgnoreStart
+
         $followingIds = Follow::where('user_id',auth()->id())
                             ->pluck('following_id')->toArray();
         array_unshift($followingIds,auth()->id());
 
         $stories = Stories::whereIn('user_id',$followingIds)
+                            ->with(['author'=>function($q){
+                                $q->select('id','username','avatar');
+                            }])
                             ->get();
-
 
         $result = array();
         foreach($stories as $key=>$story){
@@ -44,22 +51,28 @@ class StoryService extends AbstractApi
             if(!checkIsAvailable24h($story->created_at)) continue;
 
             if(!count($result)){
-                array_push($result, $story);
+                $result[] = $story;
             }
 
             // cheeck if 1 account have many story-> format to group story
-            $storyGroups = [];
+            $keyUnset = '';
             foreach($result as $keyRs=>$rs){
                 if($rs->user_id == $story->user_id){
 
                     $rs->storiesGroup = [$story];
+                   if($key != 0){
+                       $keyUnset = $key;
+                   }
                 }else{
-                    array_push($result, $story);
+                    $result[] = $story;
                 }
             }
+
+            if($keyUnset) unset($result[$keyUnset]);
         }
 
-        return $result;
+        return $this->respSuccess(['stories'=>$result]);
+        // @codingStandardsIgnoreEnd
     }
 
     public function fetchMyStories()

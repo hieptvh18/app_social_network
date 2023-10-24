@@ -1,9 +1,10 @@
 <template>
   <swiper class="stories-group-slider" :modules="swiperOptions.modules" :pagination="swiperOptions.pagination">
-    <swiper-slide class="stories-group-slider__item" :style="{ backgroundColor: story.bg }"
+    <swiper-slide
+        class="stories-group-slider__item" :style="{ backgroundColor: story.photo }"
       v-for="(story, i) in mainStory.storiesGroup" :key="i">
       <div class="stories-group-slider__item-body">
-        {{ story.title }}
+        {{ story.content }}
       </div>
     </swiper-slide>
 

@@ -12,7 +12,9 @@
 
     <swiper-slide
       class="stories-main-slider__item"
-      :style="{ backgroundImage: 'url('+story.bg+')' }"
+      :style="{
+            backgroundImage: story.photo ? 'url('+story.photo+')' : ''
+    }"
       v-for="(story, i) in stories.stories"
       :key="i"
       @click="slideTo(i, speed)"
@@ -31,7 +33,7 @@
         <IconClose />
       </button>
       <div class="stories-main-slider__item-author">
-        <router-link :to="{name:'profile',params:{username:story.username}}">{{ story.username }}</router-link>
+        <router-link :to="{name:'profile',params:{username:story.author.username}}">{{ story.author.username }}</router-link>
       </div>
 
     </swiper-slide>

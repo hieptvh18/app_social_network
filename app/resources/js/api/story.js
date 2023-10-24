@@ -12,7 +12,7 @@ export const storeStory = async (data) =>{
         data: data,
         url:baseURLApi+url
     }
-   
+
     return await axios(options);
 }
 
@@ -24,7 +24,7 @@ export const findStory = async (id) =>{
         data: {},
         url:baseURLApi+url
     }
-   
+
     return await axios(options);
 }
 
@@ -36,7 +36,19 @@ export const fetchMyStories = async () =>{
         data: {},
         url:baseURLApi+url
     }
-   
+
+    return await axios(options);
+}
+
+export const fetchStoriesHomepage = async () =>{
+    const url = '/list-story-active';
+    const options = {
+        method: 'GET',
+        headers: headers,
+        data: {},
+        url:baseURLApi+url
+    }
+
     return await axios(options);
 }
 
@@ -48,7 +60,7 @@ export const softDeleteStory = async (id) =>{
         data: {},
         url:baseURLApi+url
     }
-   
+
     return await axios(options);
 }
 
@@ -60,6 +72,6 @@ export const forceDeleteStory = async (id) =>{
         data: {},
         url:baseURLApi+url
     }
-   
+
     return await axios(options);
 }
