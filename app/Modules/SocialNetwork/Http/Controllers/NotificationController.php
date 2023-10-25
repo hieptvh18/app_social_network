@@ -5,6 +5,7 @@ namespace Modules\SocialNetwork\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Modules\SocialNetwork\Http\Requests\NotificationUpdateRequest;
 use Modules\SocialNetwork\Services\NotificationService;
 
 class NotificationController extends Controller
@@ -19,11 +20,10 @@ class NotificationController extends Controller
     }
 
     /**
-     * @param $userId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function fetchNotifications($userId){
-        return $this->notificationService->fetchNotifications($userId);
+    public function fetchNotifications(){
+        return $this->notificationService->fetchNotifications();
     }
 
     /**
@@ -32,6 +32,15 @@ class NotificationController extends Controller
      */
     public function saveNotification(Request $request){
         return $this->notificationService->saveNotification($request);
+    }
+
+    /**
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateNotification($id,NotificationUpdateRequest $request){
+        return $this->notificationService->updateIsRead($id,$request);
     }
 
     /**

@@ -5,6 +5,9 @@
 .search-result{
 	padding: 20px;
 }
+.search-result li{
+    list-style: none;
+}
 .modal-search-box{
 	transition: all ease-in-out .5s;
 }
@@ -21,4 +24,15 @@
     left: 0;
     box-shadow: 3px 2px 10px #ccc;
 	transition: all ease-in-out .5s;
+}
+
+.result-search__item{
+    display: flex;
+    column-gap: 20px;
+}
+.result-search__item img{
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+    border-radius: 50%;
 }

@@ -70,7 +70,8 @@ Route::group(
             Route::post('/chat/save',[ChatController::class,'saveMessage']);
 
             // notifications
-            Route::get('/notification/{userId}',[NotificationController::class,'fetchNotifications']);
+            Route::get('/notifications',[NotificationController::class,'fetchNotifications']);
+            Route::put('/notifications/{id}',[NotificationController::class,'updateNotification']);
             Route::get('/fetch-notification/count-unread',[NotificationController::class,'countUnread']);
             Route::post('/notification/save',[NotificationController::class,'saveNotification']);
             Route::delete('/notification/delete/{id}',[NotificationController::class,'delete']);

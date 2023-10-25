@@ -4,14 +4,21 @@ namespace Modules\SocialNetwork\Services;
 
 use App\Http\Controllers\Api\AbstractApi;
 use Modules\SocialNetwork\Models\Notifications;
+use Modules\SocialNetwork\Repositories\NotificationRepository;
 
 class NotificationService extends AbstractApi
 {
+    protected $baseRepository;
 
-    public function fetchNotifications($userId)
+    public function __construct(NotificationRepository $notificationRepository)
+    {
+        $this->baseRepository = $notificationRepository;
+    }
+
+    public function fetchNotifications()
     {
         try{
-            $data  = Notifications::where('user_id',$userId)
+            $data  = Notifications::where('user_id',auth()->id())
                         ->orderByDesc('created_at')
                         ->get();
 
@@ -36,9 +43,16 @@ class NotificationService extends AbstractApi
         }
     }
 
-    // update status noti is_read = true;
-    public function updateStatus($id){
+    public function updateIsRead($id,$request)
+    {
+        try{
+            $notfi = $this->baseRepository->update($request->all(),$id);
 
+            return $this->respSuccess(['notification'=>$notfi],'Save notifi success!');
+        }catch(\Throwable $e){
+            report($e->getMessage());
+            return $this->respError(['data'=>[]],'Have an error when save notification! '.$e->getMessage());
+        }
     }
 
     public function delete($id){

@@ -24,4 +24,6 @@ class Notifications extends Model
     {
         return caculateDatetime($timestamp);
     }
+
+    protected $casts = ['is_read'=>'boolean'];
 }

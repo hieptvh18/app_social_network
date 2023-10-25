@@ -1,9 +1,11 @@
 <template>
-    <div class="list-post" v-if="postListing.length">
+    <div class="list-post" >
         <!-- <div v-for="(post, key) in postListing" class="list-post__items"> -->
             <!-- <div class="item mb-2" v-bind:key="key"> -->
             <!-- loading data with layzyload -->
+            <div v-if="!postListing.length" class="news-feed__empty text-secondary">Make friends with people to explore their posts.</div>
             <LazyList
+                v-if="postListing.length"
                 :data="postListing"
                 :itemsPerRender="15"
                 containerClasses="list-post__items"

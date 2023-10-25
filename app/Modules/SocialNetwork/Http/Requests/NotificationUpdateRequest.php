@@ -14,7 +14,9 @@ class NotificationUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'message'=>'required|string|max:255',
+            'user_id'=>'exists:users,id',
+            'is_read'=>'boolean'
         ];
     }
 

@@ -17,7 +17,19 @@
                 </div>
                 <LoaderResult v-if="loading"/>
                <ul class="search-result" v-if="!loading && resultSearch">
-                    <li v-for="(user,index) in resultSearch" class="result-search__item" v-bind:key="index"><router-link :to="{name:'profile',params:{username:user.username}}">{{ user.name }}</router-link></li>
+                    <li v-for="(user,index) in resultSearch" class="result-search__items mb-2" v-bind:key="index">
+                        <router-link :to="{name:'profile',params:{username:user.username}}">
+                            <div class="result-search__item">
+                                <div>
+                                    <img :src="user.avatar" :alt="user.name"/>
+                                </div>
+                                <div>
+                                    <b>{{user.username}}</b>
+                                    <div class="text-secondary">{{user.name}}</div>
+                                </div>
+                            </div>
+                        </router-link>
+                    </li>
                </ul>
                <div v-if="!loading && !resultSearch" class="search-result__blank">Nothing result!</div>
             </div>

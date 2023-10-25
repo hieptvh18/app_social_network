@@ -19,6 +19,7 @@
                             v-if="notifications.length"
                             v-for="(val,index) in notifications"
                             :key="index"
+                            style="cursor: pointer"
                         >
                             <div class="dropdown-list-image mr-3">
                                 <img
@@ -58,10 +59,9 @@
                                         <button
                                             class="dropdown-item"
                                             type="button"
-                                            @click="updateStatus"
+                                            @click="updateUnread(val.id,val)"
                                         >
-                                            <i class="mdi mdi-close"></i> Turn
-                                            Off
+                                            <i class="mdi mdi-close"></i> Mark as unread
                                         </button>
                                     </div>
                                 </div>
@@ -134,7 +134,7 @@
 </template>
 <style scoped src="./style.css"></style>
 <script>
-import {fetchNotifications,deleteNotification} from '../../api/notification';
+import {fetchNotifications,deleteNotification,updateNotification} from '../../api/notification';
 
 export default {
     data() {
@@ -145,7 +145,7 @@ export default {
     },
     methods: {
         async fetchNotifications(){
-             const response = await fetchNotifications(this.currentUser.id);
+             const response = await fetchNotifications();
              console.log(response);
              if(response.data.success){
                 this.notifications = response.data.notifications;
@@ -159,9 +159,24 @@ export default {
                 this.fetchNotifications();
             }
         },
-        updateStatus(){
-            console.log('update status notification');
-        }
+        async updateUnread(id,data){
+            let body = {
+                'message':data.message,
+                'is_read':false,
+                'user_id':data.user_id
+            };
+            const response = await updateNotification(id,body);
+            console.log(response);
+        },
+        async updateIsread(id,data){
+            let body = {
+                'message':data.message,
+                'is_read':true,
+                'user_id':data.user_id
+            };
+            const response = await updateNotification(id,body);
+            console.log(response);
+        },
     },
     created() {
         const self = this;

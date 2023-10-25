@@ -1,101 +1,119 @@
 <template>
     <div class="content-gallery">
-        <div class="gallery__header">
-            <h5>Posts</h5>
-            <button
-                v-if="isMyProfile"
-                class="btn btn-primary mb-3"
-                @click="showModal"
-            >
-                Create posts
-            </button>
+        <div class="tab-button">
+            <button @click="tabActive(true)" :class="{'active':tabPost}">Posts</button>
+            <button v-if="isMyProfile" @click="tabActive(false)" :class="{'active':!tabPost}">Stories</button>
         </div>
-        <!-- list post -->
-        <div class="gallery__items d-flex" v-if="posts.length">
-            <div
-                class="gallery__item"
-                v-for="(post, key) in posts"
-                v-bind:key="key"
-            >
-                <div v-if="post.images.length" @click="showPostDetail(post.id)">
-                    <img :src="post.images[0].image" alt="" />
-                    <div class="gallery__modal-backdrop" style="display: none">
-                        <div class="modal-backdrop__box">
+        <div class="tab-posts" v-if="tabPost">
+            <div class="gallery__header mt-3">
+                <button
+                    v-if="isMyProfile"
+                    class="btn btn-primary mb-3"
+                    @click="showModal"
+                >
+                    Create posts
+                </button>
+            </div>
+            <!-- list post -->
+            <div class="gallery__items d-flex" v-if="posts.length">
+                <div
+                    class="gallery__item"
+                    v-for="(post, key) in posts"
+                    v-bind:key="key"
+                >
+                    <div v-if="post.images.length" @click="showPostDetail(post.id)">
+                        <img :src="post.images[0].image" alt="" />
+                        <div class="gallery__modal-backdrop" style="display: none">
+                            <div class="modal-backdrop__box">
                             <span class="mr-2"
-                                ><i class="far fa-heart"></i> {{ post.likes_count }}</span
+                            ><i class="far fa-heart"></i> {{ post.likes_count }}</span
                             >
-                            <span><i class="fa-regular fa-comment"></i> {{ post.comments_count }}</span>
+                                <span><i class="fa-regular fa-comment"></i> {{ post.comments_count }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- modal create post -->
-        <Modal v-if="isModalVisible" @close="closeModal">
-            <template v-slot:header> Create new posts </template>
-            <template v-slot:body>
-                <!-- caption -->
-                <div class="create-post__captions mb-3">
-                    <EmojiPicker
-                        picker-type="textarea"
-                        @update:text="changeCaption"
-                        @placeholder="'hihi'"
-                        @select="onSelectEmoji"
-                    />
-                </div>
-                {{ labelUpload }}
-                <div id="uploading">
-                    <button
-                        class="btn btn-secondary"
-                        @click="triggerClickInptUpload"
-                    >
-                        Choose Files...
-                    </button>
-                    <input
-                        type="file"
-                        name="photos"
-                        multiple
-                        accept="image/*"
-                        @change="previewImgPhotos"
-                        ref="inputUploadPhotos"
-                        style="display: none"
-                    />
-                    <div class="create-posts__preview-items">
-                        <div
-                            v-for="(image, key) in images"
-                            :key="key"
-                            class="uploading-preview__item"
+            <!-- modal create post -->
+            <Modal v-if="isModalVisible" @close="closeModal">
+                <template v-slot:header> Create new posts </template>
+                <template v-slot:body>
+                    <!-- caption -->
+                    <div class="create-post__captions mb-3">
+                        <EmojiPicker
+                            picker-type="textarea"
+                            @update:text="changeCaption"
+                            @placeholder="'hihi'"
+                            @select="onSelectEmoji"
+                        />
+                    </div>
+                    {{ labelUpload }}
+                    <div id="uploading">
+                        <button
+                            class="btn btn-secondary"
+                            @click="triggerClickInptUpload"
                         >
+                            Choose Files...
+                        </button>
+                        <input
+                            type="file"
+                            name="photos"
+                            multiple
+                            accept="image/*"
+                            @change="previewImgPhotos"
+                            ref="inputUploadPhotos"
+                            style="display: none"
+                        />
+                        <div class="create-posts__preview-items">
+                            <div
+                                v-for="(image, key) in images"
+                                :key="key"
+                                class="uploading-preview__item"
+                            >
                             <span
                                 class="removeImg"
                                 title="Remove"
                                 @click="removePhoto(image, key)"
-                                ><i class="fa-solid fa-xmark"></i
+                            ><i class="fa-solid fa-xmark"></i
                             ></span>
-                            <img class="preview-img" :ref="'image'" />
+                                <img class="preview-img" :ref="'image'" />
+                            </div>
                         </div>
                     </div>
-                </div>
-            </template>
-            <template v-slot:footer>
-                <Loader v-if="isLoader" />
-                <div class="message">
-                    <div class="" :class="{'text-danger':messages.error,'text-success':messages.success}" v-if="messages.success || messages.error">{{ messages.success || messages.error }}</div>
-                </div>
-                <button
-                    :disabled="isDisableBtnCreate"
-                    class="btn btn-success"
-                    style="width: 100%"
-                    @click="onUpload"
-                >
-                    Create
-                </button>
-            </template>
-        </Modal>
+                </template>
+                <template v-slot:footer>
+                    <Loader v-if="isLoader" />
+                    <div class="message">
+                        <div class="" :class="{'text-danger':messages.error,'text-success':messages.success}" v-if="messages.success || messages.error">{{ messages.success || messages.error }}</div>
+                    </div>
+                    <button
+                        :disabled="isDisableBtnCreate"
+                        class="btn btn-success"
+                        style="width: 100%"
+                        @click="onUpload"
+                    >
+                        Create
+                    </button>
+                </template>
+            </Modal>
 
-        <!-- modal show post detail -->
-        <ModalPostDetail v-if="postId && isShowModalPost" @closeModal="closeModal" :postId="postId" :isShowModalPost="isShowModalPost"/>
+            <!-- modal show post detail -->
+            <ModalPostDetail v-if="postId && isShowModalPost" @closeModal="closeModal" :postId="postId" :isShowModalPost="isShowModalPost"/>
+        </div>
+        <div class="tab-stories" v-if="!tabPost">
+            <div class="stories-title mt-3 mb-3 text-secondary">
+                Only you can see your archived stories unless you choose to share them.
+            </div>
+            <div class="stories-items">
+                <div class="stories-items__item" v-if="stories.length" v-for="(story,index) in stories">
+                    <div class="story-publish">
+                        24 Jul
+                    </div>
+                    <img :src="story.photo" :alt="story.content" />
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -113,6 +131,7 @@ import EmojiPicker from "vue3-emoji-picker";
 import "vue3-emoji-picker/css";
 import { ref } from "vue";
 import {savePostData} from "../../api/post";
+import {fetchMyStories} from "@/api/story";
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Pagination, Navigation } from 'swiper/modules';
 import 'swiper/css';
@@ -138,7 +157,8 @@ export default {
             imageData: [], // image url param call api save posts;
             caption:'',
             postId:'',
-            postDetailKey:0
+            postDetailKey:0,
+            tabPost:ref(true)
         };
     },
     props: ["posts", "isMyProfile"],
@@ -275,10 +295,28 @@ export default {
         },
         reloadComponent(){
             this.$emit('reloadComponent');
-        }
+        },
     },
     setup() {
         const input = ref("");
+        const stories = ref([]);
+        const tabPost = ref(true);
+
+        const myStories = async ()=>{
+            const response = await fetchMyStories();
+            if(response.data.success){
+                stories.value = response.data.stories;
+            }
+        }
+
+        // tab active
+        const tabActive = (value) => {
+            tabPost.value = value;
+            if(!tabPost.value){
+                myStories()
+            };
+        }
+
 
         function onSelectEmoji(emoji) {
             input.value += emoji.i;
@@ -287,7 +325,10 @@ export default {
         return {
             input,
             onSelectEmoji,
-            modules: [Pagination, Navigation]
+            modules: [Pagination, Navigation],
+            stories,
+            tabActive,
+            tabPost
         };
     },
 
