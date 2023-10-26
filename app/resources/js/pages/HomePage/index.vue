@@ -1,7 +1,7 @@
 
 <template>
   <div class="d-flex content" v-if="!loading">
-    <section id="main" class="content__left justify-content-end col-9">
+    <section id="main" class="content__left justify-content-end col-12 col-sm-12 col-md-9">
       <!--  Stories section  -->
       <!-- <Stories/> -->
       <StoryIndex/>
@@ -47,13 +47,12 @@
       </div>
       <!-- list suggest following -->
       <RecommendFollow/>
-      <div class="copy-right text-secondary">© 2023 INSTAGRAM FROM META</div>
     </section>
   </div>
   <ModalLoading v-if="loading" />
 </template>
 
-<style scoped src="./index.css"></style>
+<style src="./index.scss"></style>
 <script>
     import {logout,getUser} from '../../api/auth';
     import {getListPostByFollowing} from "../../api/post";

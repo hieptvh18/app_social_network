@@ -20,6 +20,8 @@
       @click="slideTo(i, speed)"
     >
 
+        <div class="caption">{{story.caption}}</div>
+
       <StoriesGroupSlider
         :mainStory="story"
         @swiper="setGroupSlider"
@@ -235,6 +237,13 @@ defineExpose({
     transition: transform 0.3s ease;
     position: relative;
     background-size: cover;
+
+      .caption{
+          position: absolute;
+          top: 50px;
+          left: 20px;
+          text-shadow: 2px 2px #bbff00;
+      }
 
     &.swiper-slide-prev,
     &.swiper-slide-next {

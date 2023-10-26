@@ -24,6 +24,5 @@ Route::group(
             Route::post('push-notification', 'pushNotification')->name('notification.public.send');
         });
     }
-
 );
 

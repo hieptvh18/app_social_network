@@ -13,6 +13,7 @@
                 <span class="following-btn" @click="follow($event,val.id)">Follow +</span>
             </li>
         </ul>
+      <div class="copy-right text-secondary">© 2023 INSTAGRAM FROM META</div>
       </div>
 </template>
 

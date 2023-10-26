@@ -4,7 +4,7 @@
         <Sidebar v-if="userDataLogin" :userData="userDataLogin" />
         <!-- main content insta -->
         <main
-            class="page-content col-9"
+            class="page-content col-12 col-sm-12 col-md-9"
             style="position: absolute; right: 0; top: 0"
         >
             <router-view v-if="userDataLogin" :userData="userDataLogin"></router-view>

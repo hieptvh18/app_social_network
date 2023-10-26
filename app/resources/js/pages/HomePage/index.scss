@@ -1,0 +1,48 @@
+body{
+    /* background-color: red !important; */
+}
+
+
+/* responsive */
+
+
+@media only screen and (max-width: 600px) {
+    body {
+      font-size: 14px;
+    }
+
+    aside.sidebar-menu{
+      display: none;
+    }
+
+    .stories-menu-slider__item{
+      width: 60px !important;
+      height: 60px !important;
+      margin-right: 10px !important;
+
+      .stories-menu-slider__item-author{
+        margin-top: 50px;
+      }
+    }
+
+    #content__right{
+      display: none;
+    }
+    #main{
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+    main.page-content{
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+
+      .photos__gallery{
+        height: 390px;
+      }
+      .profile-avatar{
+        min-width: 35px;
+        min-height: 35px;
+      }
+    }
+    
+  }
