@@ -21,6 +21,12 @@ export const loginUsername = (formData)=>{
     return Instance.post(url,formData);
 }
 
+// login with social
+export const loginSocial = (provider)=>{
+    let url = '/auth/'+provider+'/redirect' ;
+    return Instance.get(url);
+}
+
 export const register = (formData) =>{
     let url = 'accounts/register';
     return Instance.post(url,formData);

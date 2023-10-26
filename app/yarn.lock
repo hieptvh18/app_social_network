@@ -1125,7 +1125,7 @@ glob-to-regexp@^0.4.1:
   resolved "https://registry.npmjs.org/glob-to-regexp/-/glob-to-regexp-0.4.1.tgz"
   integrity sha512-lkX1HJXwyMcprw/5YUZc2s7DrpAiHB21/V+E1rHUrVNokkvB6bqMzT0VfV6/86ZNabt1k14YOIaT7nDvOX3Iiw==
 
-graceful-fs@^4.1.2, graceful-fs@^4.2.4, graceful-fs@^4.2.9:
+graceful-fs@^4.1.15, graceful-fs@^4.1.2, graceful-fs@^4.2.4, graceful-fs@^4.2.9:
   version "4.2.11"
   resolved "https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.2.11.tgz"
   integrity sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==
@@ -1578,6 +1578,13 @@ vue-router@^4.1.6:
   integrity sha512-9PISkmaCO02OzPVOMq2w82ilty6+xJmQrarYZDkjZBfl4RvYAlt4PKnEX21oW4KTtWfa9OuO/b3qk1Od3AEdCQ==
   dependencies:
     "@vue/devtools-api" "^6.5.0"
+
+vue-social-auth@^1.4.9:
+  version "1.4.9"
+  resolved "https://registry.npmjs.org/vue-social-auth/-/vue-social-auth-1.4.9.tgz"
+  integrity sha512-LRyfLG09xzeqCAtCmy1PX1psJBhqqQt6MEhL5drp5TTdbmCpHGg5PPyWMNItNjBGLcUncxHA8P13vWE5k95hig==
+  dependencies:
+    graceful-fs "^4.1.15"
 
 "vue@^2.6.14 || ^3.3.0", "vue@^3.0.0 || ^2.0.0", "vue@^3.0.0-0 || ^2.6.0", vue@^3.2.0, vue@^3.2.23, vue@^3.2.25, vue@^3.3.4, vue@3.3.4:
   version "3.3.4"

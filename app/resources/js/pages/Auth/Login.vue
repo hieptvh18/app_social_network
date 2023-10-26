@@ -1,7 +1,7 @@
 <style scoped src="./login.css"></style>
 <script>
 import { ref } from "vue";
-import { getUser, loginUsername } from "../../api/auth";
+import { getUser, loginSocial, loginUsername } from "../../api/auth";
 
 export default {
     data() {
@@ -60,6 +60,11 @@ export default {
                     }
                 });
         },
+
+        loginSocial(provider){
+            const resp = loginSocial(provider);
+            console.log(resp);
+        }
     },
 };
 </script>
@@ -105,6 +110,10 @@ export default {
                         }}</small>
                         <div class="error text-danger">{{ message }}</div>
                         <input type="submit" value="Log in" class="btn" />
+                        <div class="login-social mt-3 d-flex justify-content-between">
+                            <button type="button" @click="loginSocial('github')"><i class="fab fa-github-square"></i> Github Login</button>
+                            <button type="button" @click="loginSocial('google')"><i class="fa-brands fa-google"></i> Google Login</button>
+                        </div>
                     </form>
                 </div>
             </div>

@@ -4,13 +4,14 @@ import home from "./home";
 import profile from "./profile";
 import error from "./error-page";
 import auth from "./auth";
+import authSocial from "./auth-social";
 import message from './message';
 import notifications from './notification';
 import {getUser} from '../api/auth';
 import story from "./story";
 
 //init routing
-const routes = [...home,...profile,...auth,...error,...message,...notifications,...story];
+const routes = [...home,...profile,...auth,...error,...message,...notifications,...story,...authSocial];
 
 const router = createRouter({
     history:createWebHistory(),

@@ -32,6 +32,10 @@ Route::prefix('v1')->group(function () {
     Route::post('accounts/register', [AuthController::class, 'registerPost'])->middleware('guest')->name('register');
     Route::post('accounts/login', [AuthController::class, 'loginUsername'])->middleware('guest')->name('login');
 
+    // social auth
+    Route::get('auth/{provider}/redirect', [\App\Http\Controllers\Api\SocialAuthController::class, 'redirectToProvider'])->middleware('guest')->name('login.google.redirect');
+    Route::get('auth/{provider}/callback', [\App\Http\Controllers\Api\SocialAuthController::class, 'handleProviderCallback'])->middleware('guest')->name('login.google.handle.callback');
+
     Route::middleware('auth:sanctum')->group(function () {
         // get user data
         Route::get('/accounts/user', [AuthController::class, 'getUser'])->name('getUser');

@@ -7,8 +7,8 @@
               </div>
               <p>Sign up to see photos and videos from your friends.</p>
               <div class="login-social d-flex justify-content-between">
-                <button><i class="fab fa-facebook-square"></i> Facebook Login</button>
-                <button><i class="fa-brands fa-google"></i> Google Login</button>
+                <a href=""><i class="fab fa-github-square"></i> Github Login</a>
+                <a href=""><i class="fa-brands fa-google"></i> Google Login</a>
               </div>
               <div>
                 <hr>

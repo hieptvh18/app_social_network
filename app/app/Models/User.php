@@ -80,4 +80,8 @@ class User extends Authenticatable
     {
         return caculateDatetime($timestamp);
     }
+
+    public function socialAccounts(){
+        return $this->hasMany(SocialAccount::class,'user_id');
+    }
 }
