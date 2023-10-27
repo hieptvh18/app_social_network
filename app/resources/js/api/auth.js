@@ -22,9 +22,16 @@ export const loginUsername = (formData)=>{
 }
 
 // login with social
-export const loginSocial = (provider)=>{
-    let url = '/auth/'+provider+'/redirect' ;
-    return Instance.get(url);
+export const loginSocial = async (provider,params)=>{
+    let url = '/auth/'+provider+'/callback' ;
+    const options = {
+        method: 'GET',
+        headers: headers,
+        params: params,
+        url:baseURLApi+url
+    }
+   
+    return await axios(options);
 }
 
 export const register = (formData) =>{

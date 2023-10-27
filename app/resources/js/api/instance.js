@@ -13,7 +13,10 @@ export default Instance;
  const headers = {
      'Authorization':'Bearer '+token,
      'X-Requested-With':'XMLHttpRequest',
-     'Accept':'application/json'
+     'Accept':'application/json',
+     'Access-Control-Allow-Origin':'*',
+     'Access-Control-Allow-Methods':'GET, POST, PUT, DELETE',
+     'Access-Control-Allow-Headers':'Content-Type'
    };
 
  export const header = headers;

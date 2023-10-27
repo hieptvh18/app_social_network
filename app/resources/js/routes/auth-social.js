@@ -4,7 +4,7 @@ const authSocial = [
 
         children: [
             {
-                path: "/api/v1/auth/github/callback", 
+                path: "/auth/:provider/callback", 
                 name: "login_social",
                 component: () => import("../pages/Auth/LoginSocial.vue")
             },

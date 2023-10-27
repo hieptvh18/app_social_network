@@ -21,7 +21,7 @@ const router = createRouter({
 // check middleware
 
 function isRouteAuth(href){
-    if(href.indexOf('/accounts/login') != -1 || href.indexOf('accounts/register') != -1 ){
+    if(href.indexOf('/accounts/login') != -1 || href.indexOf('accounts/register') != -1 || href.indexOf('auth/github/callback') != -1 ){
         return true;
     }
     return false;

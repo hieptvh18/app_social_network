@@ -2,6 +2,7 @@
 <script>
 import { ref } from "vue";
 import { getUser, loginSocial, loginUsername } from "../../api/auth";
+import { baseURLApi } from "../../api/instance";
 
 export default {
     data() {
@@ -62,8 +63,8 @@ export default {
         },
 
         loginSocial(provider){
-            const resp = loginSocial(provider);
-            console.log(resp);
+            // const resp = loginSocial(provider);
+            window.location.href = baseURLApi+`/auth/${provider}/redirect`
         }
     },
 };
