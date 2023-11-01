@@ -106,8 +106,15 @@
       background-color: yellow;
   }
 
+  .login-social button{
+    border: none;
+    outline: none;
+    padding: 3px;
+  }
 
-
+  .login-social button:hover{
+    background: #ccc;
+  }
 
 
 

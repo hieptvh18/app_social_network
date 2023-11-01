@@ -6,10 +6,7 @@
                 <router-link :to="{name:'homepage'}"><img :src="'../../../../assets/images/in.png'" /></router-link>
               </div>
               <p>Sign up to see photos and videos from your friends.</p>
-              <div class="login-social d-flex justify-content-between">
-                <a href=""><i class="fab fa-github-square"></i> Github Login</a>
-                <a href=""><i class="fa-brands fa-google"></i> Google Login</a>
-              </div>
+            
               <div>
                 <hr>
                 <p>OR</p>

@@ -60,11 +60,13 @@
                             width="40"
                             height="40"
                         />
-                        <div class="text-muted small text-nowrap mt-2">2:33 am</div>
                     </div>
                     <div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
                         <div class="font-weight-bold mb-1">{{ message.from.id != user.id ? 'You' : message.from.name }}</div>
-                        {{ message.message }}
+                        <div class="message-text">
+                            {{ message.message }}
+                        </div>
+                        <div class="text-muted small text-nowrap mt-2">{{ formatDateString(message.created_at) }}</div>
                     </div>
             </div>
         </div>
@@ -79,6 +81,7 @@
 </template>
 
 <style src="../../../pages/Message/index.css"></style>
+<style src="./style.css"></style>
 <style scoped>
 .v3-input-emoji-picker{
     width: 90%;
@@ -161,6 +164,7 @@ export default {
             try{
                 const response = await fetchMessagePrivate(this.receiverId);
                 if(response.data.success){
+                    console.log(response.data.list_message);
                     this.list_messages = response.data.list_message;
                     this.roomId = response.data.list_message[0].room_id;
                     this.scrollToBottom();
@@ -182,6 +186,18 @@ export default {
         },
         blockMessage(){
             console.log('block')
+        },
+        formatDateString(date){
+            const dateFormat = new Date(date);
+            const dateString =
+                dateFormat.getFullYear() + "/" +
+                ("0" + (dateFormat.getMonth()+1)).slice(-2) + "/" +
+                ("0" + dateFormat.getDate()).slice(-2) + " " +
+                ("0" + dateFormat.getHours()).slice(-2) + ":" +
+                ("0" + dateFormat.getMinutes()).slice(-2) + ":" +
+                ("0" + dateFormat.getSeconds()).slice(-2);
+            
+                return dateString;
         }
         
     },

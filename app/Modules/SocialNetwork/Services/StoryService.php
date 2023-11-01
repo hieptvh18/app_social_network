@@ -5,16 +5,22 @@ namespace Modules\SocialNetwork\Services;
 use App\Http\Controllers\Api\AbstractApi;
 use Modules\SocialNetwork\Models\Follow;
 use Modules\SocialNetwork\Models\Stories;
+use Modules\SocialNetwork\Repositories\StoryRepository;
 
 class StoryService extends AbstractApi
 {
 
+    protected $baseRepository;
+
+    public function __construct(StoryRepository $baseRepository)
+    {
+        $this->baseRepository = $baseRepository;
+    }
+
     public function store($request)
     {
         try{
-            $story = new Stories();
-            $story->fill($request->all());
-            $story->save();
+            $story = $this->baseRepository->create($request->all());
 
             return  $this->respSuccess(['story'=>$story],'Save success');
         }catch(\Throwable $e){
@@ -38,7 +44,7 @@ class StoryService extends AbstractApi
                             ->pluck('following_id')->toArray();
         array_unshift($followingIds,auth()->id());
 
-        $stories = Stories::whereIn('user_id',$followingIds)
+        $stories = $this->baseRepository->whereIn('user_id',$followingIds)
                             ->with(['author'=>function($q){
                                 $q->select('id','username','avatar');
                             }])
@@ -78,7 +84,7 @@ class StoryService extends AbstractApi
     public function fetchMyStories()
     {
         try{
-            $stories = Stories::query()->where('user_id',auth()->id())
+            $stories = $this->baseRepository->where('user_id',auth()->id())
                                 ->with(['author'=>function($q){
                                     $q->select('id','username','avatar');
                                 }])
@@ -93,7 +99,7 @@ class StoryService extends AbstractApi
     public function softDelete($id)
     {
         try{
-            $story = Stories::find($id);
+            $story = $this->baseRepository->find($id);
             if(!$story){
                 return $this->respError(false,'Not found story!');
             }

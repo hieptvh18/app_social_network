@@ -10,7 +10,7 @@ class Message extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['message','from','to','room_id'];
+    protected $fillable = ['message','from','to','room_id','is_featured'];
 
     // sender
     public function from(){
@@ -21,4 +21,6 @@ class Message extends Model
     public function to(){
         return $this->belongsTo(User::class,'to','id');
     }
+
+    protected $casts = ['is_featured' => 'boolean'];
 }
