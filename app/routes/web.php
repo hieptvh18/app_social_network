@@ -5,7 +5,7 @@ use App\Http\Controllers\Backend\AdminController;
 
 
 // view admin
-Route::get('/admin/dashboard/', [AdminController::class,'dashboard']);
+// Route::get('/admin/dashboard/', [AdminController::class,'dashboard']);
 
 // route any
 Route::get('/{any}', function () {
