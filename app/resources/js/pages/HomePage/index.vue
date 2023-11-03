@@ -7,7 +7,7 @@
       <StoryIndex/>
 
       <!-- List post component -->
-      <ListPost :postListing="postListing" />
+      <ListPost :postListing="postListing" :currentUserLogin="userLoginData" />
     </section>
     <!-- my profile user login -->
     <section id="content__right" class="content__right col-3 p-2">

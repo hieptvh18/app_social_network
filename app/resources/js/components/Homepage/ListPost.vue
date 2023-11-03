@@ -49,7 +49,20 @@
                                     >
                                 </div>
                             </div>
-                            <div class="bars">...</div>
+                            <div class="bars">
+                                <div class="dropdown">
+                                    <button class="btn-bars" type="button" title="More" data-toggle="dropdown" aria-expanded="false">
+                                        ...
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="#">Not interested</a>
+                                        <a
+                                         v-if="currentUserLogin != undefined && item.author.id == currentUserLogin.id" class="dropdown-item" href="#" @click="softDeletePost(item.id,$event)">
+                                         Move to trash
+                                        </a>
+                                    </div>
+                                    </div>
+                            </div>
                         </div>
                     </div>
                     <div class="item__content">
@@ -137,6 +150,7 @@ import FormComment from "./FormComment.vue";
 import ModalPostDetail from "./ModalPostDetail.vue";
 import ButtonLike from "./ButtonLike.vue";
 import LazyList from "lazy-load-list/vue";
+import { moveToTrash } from "../../api/post";
 
 // Import Swiper styles
 import "swiper/css";
@@ -165,8 +179,16 @@ export default {
         closeModal() {
             this.isShowModalPost = false;
         },
+        async softDeletePost(postId,event)
+        {
+            event.preventDefault();
+            const resp = await moveToTrash(postId);
+            if(resp.data.status == 200){
+                alert('delete success');
+            }
+        }
     },
-    props: ["postListing"],
+    props: ["postListing","currentUserLogin"],
     setup(props) {
         let isLiked = false;
         const listMyComment = [];
@@ -243,5 +265,9 @@ export default {
 
 .swiper-button-prev {
     background: #e7e7e7;
+}
+button.btn-bars{
+    background: none;
+    border: none;
 }
 </style>

@@ -52,6 +52,7 @@ Route::group(
             Route::get('/posts/get-by-following', [PostController::class, 'getPostByFollowingId'])->name('getPost');
             // save post
             Route::post('/posts/save', [PostController::class, 'savePost'])->name('savePost');
+            Route::delete('/posts/{id}', [PostController::class, 'delete'])->name('deletePost');
             // get post by id
             Route::get('/posts/{id}', [PostController::class, 'getById'])->name('getById');
             // action like post

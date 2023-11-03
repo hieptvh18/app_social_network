@@ -6,11 +6,12 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Overtrue\LaravelLike\Traits\Likeable;
 
 class Post extends Model
 {
-    use HasFactory,Likeable;
+    use HasFactory,Likeable,SoftDeletes;
 
     protected $fillable = [
         "user_id",
