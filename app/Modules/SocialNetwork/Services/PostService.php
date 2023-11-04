@@ -12,11 +12,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class PostService extends AbstractApi
 {
-    protected $postRepository;
+    protected $baseRepository;
 
-    public function __construct(PostRepository $postRepository)
+    public function __construct(PostRepository $baseRepository)
     {
-        $this->postRepository = $postRepository;
+        $this->baseRepository = $baseRepository;
     }
 
     public function getPostByFollowingId()
@@ -89,8 +89,16 @@ class PostService extends AbstractApi
                 return $this->respError([],'Missing param postId!');
             }
 
-            $post = Post::find($postId);
-            $data = [
+            $post = $this->baseRepository->with(['likers','comments'=>function($q){
+                                $q->with('user');
+                            }])
+                    ->where('id',$postId)->first();
+
+                    $data = [
+                'id'=>$post->id,
+                'caption'=>$post->captions,
+                'comments'=> $post->comments,
+                'likers'=> $post->likers,
                 'contents' => [
                     'id' => $post->id,
                     'captions' => $post->captions,
@@ -99,7 +107,8 @@ class PostService extends AbstractApi
                     'username' => $post->author->name,
                     'avatar' => $post->author->avatar,
                 ],
-                'images' => $post->images
+                'images' => $post->images,
+                'created_at'=>$post->created_at
             ];
             return $this->respSuccess(['data'=>$data],'Get post by id success!');
         } catch (\Throwable $e) {
@@ -111,7 +120,7 @@ class PostService extends AbstractApi
     {
         try {
             $user = auth()->user();
-            $post = $this->postRepository->find($postId);
+            $post = $this->baseRepository->find($postId);
             $user->toggleLike($post);
 
             return $this->respSuccess(['data'=>'data'],'like');

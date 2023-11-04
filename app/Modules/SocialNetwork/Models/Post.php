@@ -36,7 +36,7 @@ class Post extends Model
     // }
 
     public function comments(){
-        return $this->hasMany(Comment::class,'post_id','id')->select(['id','message','created_at']);
+        return $this->hasMany(Comment::class,'post_id','id');
     }
 
     // format timestamp

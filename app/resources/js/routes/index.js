@@ -9,9 +9,10 @@ import message from './message';
 import notifications from './notification';
 import {getUser} from '../api/auth';
 import story from "./story";
+import post from "./post";
 
 //init routing
-const routes = [...home,...profile,...auth,...error,...message,...notifications,...story,...authSocial];
+const routes = [...home,...profile,...auth,...error,...message,...notifications,...story,...authSocial,...post];
 
 const router = createRouter({
     history:createWebHistory(),

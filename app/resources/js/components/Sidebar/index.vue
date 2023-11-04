@@ -1,5 +1,5 @@
 <template>
-    <aside class="sidebar-menu col-3 bg-light">
+    <aside class="sidebar-menu col-xs-1 col-md-3 bg-light">
         <div class="logo">
           <router-link :to="{name:'homepage'}">Instagram</router-link>
         </div>

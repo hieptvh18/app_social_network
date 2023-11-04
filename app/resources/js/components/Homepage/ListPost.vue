@@ -56,6 +56,11 @@
                                     </button>
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item" href="#">Not interested</a>
+                                        <router-link class="dropdown-item" :to="{
+                                            name:'post.detail',
+                                            params: {
+                                            id:item.id
+                                        }}">Go to post</router-link>
                                         <a
                                          v-if="currentUserLogin != undefined && item.author.id == currentUserLogin.id" class="dropdown-item" href="#" @click="softDeletePost(item.id,$event)">
                                          Move to trash
