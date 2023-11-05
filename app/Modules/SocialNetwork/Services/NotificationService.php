@@ -19,6 +19,7 @@ class NotificationService extends AbstractApi
     {
         try{
             $data  = Notifications::where('user_id',auth()->id())
+                        ->with(['user'])
                         ->orderByDesc('created_at')
                         ->get();
 

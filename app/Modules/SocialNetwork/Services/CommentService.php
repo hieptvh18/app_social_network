@@ -57,9 +57,13 @@ class CommentService extends AbstractApi
                 return false;
             }
 
+            $postDetailUrl = env('APP_FULL_URL').'/post/'.$comment->post->id;
+
             $notifi = new Notifications();
             $notifi->user_id = $comment->post->user_id;
-            $notifi->message = $comment->user->name . ' commented to your post - <a href="#">View detail</a> - ' . '"' . substr($comment->post->captions, 0, 30) . '"';
+            $message = '<a href="'.$postDetailUrl.'">'.$comment->user->name . ' commented to your post - ' . '"<b>' . substr($comment->post->captions, 0, 30) . '</b>"'.'</a>';
+            $notifi->message = $message;
+
             $notifi->save();
 
             return $notifi;

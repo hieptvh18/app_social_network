@@ -15,16 +15,17 @@
                     </div>
                     <div class="box-body p-0">
                         <div
-                            class="p-3 d-flex align-items-center bg-light border-bottom osahan-post-header"
                             v-if="notifications.length"
                             v-for="(val,index) in notifications"
                             :key="index"
                             style="cursor: pointer"
+                            class="p-3 d-flex align-items-center border-bottom osahan-post-header"
+                            :class="val.is_read == false ? 'bg-light' : ''"
                         >
                             <div class="dropdown-list-image mr-3">
                                 <img
                                     class="rounded-circle"
-                                    src="https://bootdey.com/img/Content/avatar/avatar3.png"
+                                    :src="val.user.avatar"
                                     alt=""
                                 />
                             </div>
@@ -32,7 +33,7 @@
                                 <div class="text-truncate">
 
                                 </div>
-                                <div class="small" style="font-size: 16px !important;" v-html="val.message"></div>
+                                <div @click="handleViewNotification(val,$event)" class="small" style="font-size: 16px !important;" v-html="val.message"></div>
                             </div>
                             <span class="ml-auto mb-auto">
                                 <div class="btn-group">
@@ -59,7 +60,7 @@
                                         <button
                                             class="dropdown-item"
                                             type="button"
-                                            @click="updateUnread(val.id,val)"
+                                            @click="updateUnread(val)"
                                         >
                                             <i class="mdi mdi-close"></i> Mark as unread
                                         </button>
@@ -159,24 +160,32 @@ export default {
                 this.fetchNotifications();
             }
         },
-        async updateUnread(id,data){
+        async updateUnread(notification){
             let body = {
-                'message':data.message,
+                'message':notification.message,
                 'is_read':false,
-                'user_id':data.user_id
+                'user_id':notification.user_id
             };
-            const response = await updateNotification(id,body);
+            const response = await updateNotification(notification.id,body);
             console.log(response);
+            if(response.data.success){
+                this.fetchNotifications();
+            }
         },
-        async updateIsread(id,data){
+        async handleViewNotification(notification,e){
+            e.preventDefault();
+            
+            const url = e.target.getAttribute('href');
+
+            // set is read
             let body = {
-                'message':data.message,
+                'message':notification.message,
                 'is_read':true,
-                'user_id':data.user_id
+                'user_id':notification.user_id
             };
-            const response = await updateNotification(id,body);
-            console.log(response);
-        },
+            const resp = await updateNotification(notification.id,body);
+            window.location.href = url;
+        }
     },
     created() {
         const self = this;

@@ -25,5 +25,9 @@ class Notifications extends Model
         return caculateDatetime($timestamp);
     }
 
+    public function user(){
+        return $this->belongsTo(User::class,'user_id');
+    }
+
     protected $casts = ['is_read'=>'boolean'];
 }

@@ -70,7 +70,7 @@
                     </div>
                     <div class="post-bottom">
                         <!-- form comment- reply comment -->
-                        <div class="created_at mb-2">Posted at {{ postData.contents.created_at }}</div>
+                        <div class="created_at mb-2">Posted at {{ postData.created_at }}</div>
                         <form @submit.prevent="postComment" class="d-flex">
                             <input required v-model="message" class="form-control" type="text" placeholder="Add a comment" />
                             <button class="btn btn-light"><i class="fa-regular fa-paper-plane"></i></button>
