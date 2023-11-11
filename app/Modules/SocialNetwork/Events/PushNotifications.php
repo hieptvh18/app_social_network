@@ -57,4 +57,8 @@ class PushNotifications implements ShouldBroadcast
             'created_at'=>$this->created_at
         ];
     }
+
+    public function broadcastAs(){
+        return 'PushNotifications';
+    }
 }

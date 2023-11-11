@@ -174,7 +174,7 @@ export default {
         },
         async handleViewNotification(notification,e){
             e.preventDefault();
-            
+
             const url = e.target.getAttribute('href');
 
             // set is read
@@ -192,11 +192,8 @@ export default {
         this.fetchNotifications();
         // init realtime notifi
         Echo.private("notifications").listen(
-            "PushNotifications",
+            ".PushNotifications",
             (data) => {
-                console.log("listen event notifi when comment post==========");
-                console.log(data);
-                console.log(this.notifications);
                 this.notifications.unshift(data);
             }
         );

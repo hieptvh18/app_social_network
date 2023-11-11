@@ -35,4 +35,8 @@ class MessageSent implements ShouldBroadcast
             new PrivateChannel('chatroom.'.$this->roomId),
         ];
     }
+
+    public function broadcastAs(){
+        return 'MessageSent';
+    }
 }

@@ -46,7 +46,7 @@
 
     <div class="position-relative">
         <div class="chat-messages p-4" ref="chat_messages">
-            
+
             <div
                 v-if="list_messages.length" v-for="(message,index) in list_messages"
                 :key="index"
@@ -148,11 +148,11 @@ export default {
         async sendMessages(){
             try{
                 const response = await sendMessage({receiver:this.receiverId,message:this.input});
-             
+
                 if(response.data.success){
                     this.input = '';
                     this.list_messages.push(response.data.message);
-                    
+
                     this.scrollToBottom();
                     document.querySelector('input.v3-emoji-picker-input').value = '';
                 }
@@ -196,23 +196,27 @@ export default {
                 ("0" + dateFormat.getHours()).slice(-2) + ":" +
                 ("0" + dateFormat.getMinutes()).slice(-2) + ":" +
                 ("0" + dateFormat.getSeconds()).slice(-2);
-            
+
                 return dateString;
         }
-        
+
     },
     async created(){
         await this.loadMessage();
         // init realtime
-        Echo.private('chatroom.' + this.roomId)
-            .listen('MessageSent', (data) => {
-                let message = data.message
-                message.from = data.from
-                this.list_messages.push(message);
-                this.scrollToBottom()
-            })
+        try {
+            Echo.private('chatroom.' + this.roomId)
+                .listen('.MessageSent', (data) => {
+                    let message = data.message
+                    message.from = data.from
+                    this.list_messages.push(message);
+                    this.scrollToBottom()
+                })
+        }catch (er){
+            console.log(er)
+        }
     },
-   
+
     beforeUnmount(){
          // leave channel chat
         try{
