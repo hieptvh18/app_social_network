@@ -60,6 +60,7 @@ export default {
     },
     setup(){
         var countNoti = ref(0);
+        const currentUserId = window.userLogginIn.id;
 
         const fetchCountNoti = async ()=>{
             const res = await fetchNotificationsUnread();
@@ -69,8 +70,28 @@ export default {
         }
         fetchCountNoti();
 
+        // init realtime notifi
+        try{
+            Echo.private("notifications." + currentUserId)
+                .listen(".PushNotifications",
+                    (data) => {
+                        countNoti.value += 1;
+                    }
+                );
+        }catch (er){
+            console.log(er)
+        }
+
         return {
             countNoti
+        }
+    },
+    beforeUnmount() {
+        //  leave channel notifi
+        try{
+            Echo.leave('notifications.'+window.userLogginIn.id)
+        }catch(er){
+            console.log('leave channel notifi err is: '+ er);
         }
     }
 }

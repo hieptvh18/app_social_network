@@ -42,7 +42,7 @@ class PushNotifications implements ShouldBroadcast
     {
         // get current channel = current user login ID
         return [
-            new PrivateChannel('notifications'),
+            new PrivateChannel('notifications.'.$this->notifiOfUserId),
         ];
     }
 
@@ -58,7 +58,8 @@ class PushNotifications implements ShouldBroadcast
         ];
     }
 
-    public function broadcastAs(){
+    public function broadcastAs(): string
+    {
         return 'PushNotifications';
     }
 }

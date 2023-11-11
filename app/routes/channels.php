@@ -23,7 +23,7 @@ Broadcast::channel('chatroom.{id}', function ($user, $id) {
 });
 
 // channel notifi
-Broadcast::channel('notifications', function ($user) {
+Broadcast::channel('notifications.{id}', function ($user,$id) {
     //  check if current user comment your post -> not authen
     // if(Post::where('user_id',auth()->id())
     //         ->where('post_id',$postId)->exists()){

@@ -20,12 +20,12 @@
                             :key="index"
                             style="cursor: pointer"
                             class="p-3 d-flex align-items-center border-bottom osahan-post-header"
-                            :class="val.is_read == false ? 'bg-light' : ''"
+                            :class="!val.is_read ? 'bg-light' : ''"
                         >
                             <div class="dropdown-list-image mr-3">
                                 <img
                                     class="rounded-circle"
-                                    :src="val.user.avatar"
+                                    :src="val.user ? val.user.avatar : val.avatar"
                                     alt=""
                                 />
                             </div>
@@ -154,7 +154,6 @@ export default {
         },
         async deleteNoti(id){
             const response = await deleteNotification(id);
-            console.log(response);
             if(response.data.success){
                 console.log('delete noti id = '+id);
                 this.fetchNotifications();
@@ -167,7 +166,6 @@ export default {
                 'user_id':notification.user_id
             };
             const response = await updateNotification(notification.id,body);
-            console.log(response);
             if(response.data.success){
                 this.fetchNotifications();
             }
@@ -188,20 +186,25 @@ export default {
         }
     },
     created() {
-        const self = this;
         this.fetchNotifications();
+        const currentUserId = window.userLogginIn.id;
         // init realtime notifi
-        Echo.private("notifications").listen(
-            ".PushNotifications",
-            (data) => {
-                this.notifications.unshift(data);
-            }
-        );
+        try{
+            Echo.private("notifications." + currentUserId)
+                .listen(".PushNotifications",
+                (data) => {
+                    console.log(data);
+                    this.notifications.unshift(data);
+                }
+            );
+        }catch (er){
+            console.log(er)
+        }
     },
     beforeUnmount() {
         //  leave channel notifi
         try{
-            Echo.leave('notifications')
+            Echo.leave('notifications.'+window.userLogginIn.id)
         }catch(er){
             console.log('leave channel notifi err is: '+ er);
         }
