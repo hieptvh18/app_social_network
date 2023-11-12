@@ -38,7 +38,7 @@ Route::group(
             // get user by id
             Route::get('/user/{id}', [UserController::class, 'getUserById'])->name('getUserById');
             // get list user followed
-            Route::get('/list-friend-user', [UserController::class, 'getFriendsUser'])->name('getFriendsUser');
+            Route::get('/message/users', [UserController::class, 'getFriendsUser'])->name('getFriendsUser');
             // update profile user
             Route::put('/user/update', [UserController::class, 'update'])->name('updateUser');
             // following user

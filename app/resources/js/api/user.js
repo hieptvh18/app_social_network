@@ -43,7 +43,7 @@ export const getUserById = async (id) =>{
 
 // get List friend
 export const getListFriend = async () =>{
-    const url = '/list-friend-user';
+    const url = '/message/users';
     const options = {
         method: 'GET',
         headers: headers,

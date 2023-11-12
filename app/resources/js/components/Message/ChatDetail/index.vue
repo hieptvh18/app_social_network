@@ -14,7 +14,7 @@
                 <router-link v-if="user.username" :to="{name:'profile',params:{username:user.username}}">
                     <strong>{{user.name}}</strong>
                 </router-link>
-                <div class="text-muted small"><em>Typing...</em></div>
+                <div class="text-muted small" v-if="typing"><em>Typing...</em></div>
             </div>
             <div>
                 <div class="btn-group dropleft">
@@ -74,7 +74,7 @@
 
     <div class="flex-grow-0 pb-4 border-top bg-light" style="position: absolute; bottom: 0;right: 0;left: 0;">
         <form @submit.prevent="sendMessages" class="input-group d-flex">
-            <EmojiPicker picker-type="input" @update:text="changeMessage" @select="onSelectEmoji" />
+            <EmojiPicker picker-type="input" @keyup="isTyping" @update:text="changeMessage" @select="onSelectEmoji" />
             <button class="btn btn-primary">Send</button>
         </form>
     </div>
@@ -135,7 +135,8 @@ export default {
             input:'', //message
             user: window.userLogginIn,
             roomId:false,
-            receiverId: useRoute().params.id
+            receiverId: useRoute().params.id,
+            typing:false
         }
     },
     methods:{
@@ -198,11 +199,25 @@ export default {
                 ("0" + dateFormat.getSeconds()).slice(-2);
 
                 return dateString;
+        },
+        isTyping(){
+            let channel = Echo.private('chatroom.' + this.roomId);
+
+            setTimeout(function() {
+                if(!this.typing){
+                    channel.whisper('typing', {
+                        user: window.userLogginIn,
+                        typing: true
+                    });
+                }
+            }, 300);
         }
 
     },
     async created(){
         await this.loadMessage();
+        const self = this;
+
         // init realtime
         try {
             Echo.private('chatroom.' + this.roomId)
@@ -212,6 +227,16 @@ export default {
                     this.list_messages.push(message);
                     this.scrollToBottom()
                 })
+                .listenForWhisper('typing', (e) => {
+                    console.log(e)
+                    self.typing = e.typing;
+
+                    // remove is typing indicator after 2s
+                    setTimeout(function () {
+                        self.typing = false
+                    }, 2000);
+                });
+
         }catch (er){
             console.log(er)
         }
