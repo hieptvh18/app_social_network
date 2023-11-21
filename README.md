@@ -1,6 +1,7 @@
 # socialnetwork
 # Tech: laravel 10, vue3, firebase storage, redis server, socket.io...
 # Clone and setup:
+* install redis server on enviroment: sudo apt install redis-server
 1. composer instal and update
 2. npm or yarn install
 3. php artisan migrate
