@@ -1,4 +1,4 @@
-# instagram_clone
+# socialnetwork
 # Tech: laravel 10, vue3, firebase storage, redis server, socket.io...
 # Clone and setup:
 1. composer instal and update
