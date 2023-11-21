@@ -65,7 +65,7 @@ class StoryService extends AbstractApi
             foreach($result as $keyRs=>$rs){
                 if($rs->user_id == $story->user_id){
 
-//                    $rs->storiesGroup = [$story];
+                    $rs->storiesGroup = [$story];
                    if($key != 0){
                        $keyUnset = $key;
                    }

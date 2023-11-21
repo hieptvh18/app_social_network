@@ -12,15 +12,14 @@
 
     <swiper-slide
       class="stories-main-slider__item"
-      :style="{
+      :style="story.css ? story.css : {
             backgroundImage: story.photo ? 'url('+story.photo+')' : ''
     }"
       v-for="(story, i) in stories.stories"
       :key="i"
       @click="slideTo(i, speed)"
     >
-
-        <div class="caption">{{story.caption}}</div>
+        <div class="caption">{{story.content}}</div>
 
       <StoriesGroupSlider
         :mainStory="story"

@@ -12,6 +12,10 @@ class Room extends Model
 
     protected $fillable = ['from','to'];
 
+    public function messages(){
+        return $this->hasMany(Message::class,'room_id')->orderByDesc('created_at');
+    }
+
     // sender
     public function from(){
         return $this->belongsTo(User::class,'from','id');
